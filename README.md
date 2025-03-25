@@ -21,13 +21,13 @@ Dette projekt er et digitalt bestillingssystem udviklet til Olsker Cupcakes, en 
 Projektet er designet med en **3. normalform (3NF) database** for at sikre optimal dataintegritet. Systemet er opdelt i følgende databasetabeller:
 
 ### **Hovedtabeller:**
-- `User` (Gemmer brugere, både kunder og administratorer)
+- `Admin` (Gemmer administratorer)
 - `Customer` (Kun kunder, med balance til betaling)
 - `Order` (Indeholder hovedoplysninger om ordrer)
 
 ### **Junction Tables:**
-- `OrderLine` (Forbinder ordrer med specifikke cupcakes)
-- `CupcakeComposition` (Forbinder bunde og toppe til færdige cupcakes)
+- `CupcakesOrderLines` (Forbinder ordrer med specifikke cupcakes)
+
 
 ### **Refererede tabeller:**
 - `CupcakeBase` (Forskellige typer bunde)
@@ -37,7 +37,6 @@ Projektet er designet med en **3. normalform (3NF) database** for at sikre optim
 - **Backend:** Java med Javalin framework
 - **Frontend:** Thymeleaf, HTML, CSS
 - **Database:** PostgreSQL
-- **Hosting:** Azure Cloud Services
 
 ## Installation & Opsætning
 1. **Klon repository:**
