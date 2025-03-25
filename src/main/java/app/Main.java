@@ -1,6 +1,6 @@
 package app;
 
-import app.Controllers.RoutingController;
+import app.controllers.RoutingController;
 import app.config.SessionConfig;
 import app.config.ThymeleafConfig;
 import app.persistence.ConnectionPool;

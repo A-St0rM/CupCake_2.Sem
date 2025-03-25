@@ -1,4 +1,4 @@
-package app.Controllers;
+package app.controllers;
 
 import app.persistence.ConnectionPool;
 import io.javalin.Javalin;
