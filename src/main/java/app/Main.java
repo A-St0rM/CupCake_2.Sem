@@ -1,5 +1,6 @@
 package app;
 
+import app.controllers.CustomerController;
 import app.controllers.RoutingController;
 import app.config.SessionConfig;
 import app.config.ThymeleafConfig;
@@ -29,6 +30,7 @@ public class Main {
 
 
         RoutingController.startRouting(app, connectionPool);
+        CustomerController.addRoutes(app, connectionPool);
 
     }
 }
