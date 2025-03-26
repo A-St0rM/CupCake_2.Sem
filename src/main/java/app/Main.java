@@ -30,7 +30,6 @@ public class Main {
 
 
         RoutingController.startRouting(app, connectionPool);
-        CustomerController.addRoutes(app, connectionPool);
 
     }
 }

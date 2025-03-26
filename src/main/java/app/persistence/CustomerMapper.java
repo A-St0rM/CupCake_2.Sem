@@ -65,7 +65,7 @@ public class CustomerMapper {
 
     public static void deleteCustomerById(int userId, ConnectionPool connectionPool) throws DatabaseException
     {
-        String sql = "delete from Customers where user_id = ?";
+        String sql = "delete from Customers where customer_id = ?";
 
         try (
                 Connection connection = connectionPool.getConnection();

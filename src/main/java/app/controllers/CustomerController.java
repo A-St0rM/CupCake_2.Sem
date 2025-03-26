@@ -12,12 +12,6 @@ import java.sql.SQLException;
 
 public class CustomerController {
 
-    public static void addRoutes(Javalin app, ConnectionPool connectionPool) {
-        app.post("login", ctx -> login(ctx, connectionPool));
-        app.get("logout", ctx -> logout(ctx));
-        app.get("createcustomer", ctx -> ctx.render("createcustomer"));
-        app.post("createcustomer", ctx -> createcustomer(ctx, connectionPool));
-    }
 
     public static void logout(@NotNull Context ctx) {
         ctx.req().getSession().invalidate();
