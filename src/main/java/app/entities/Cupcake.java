@@ -11,7 +11,11 @@ public class Cupcake {
         this.cupcake_top_id = cupcake_top_id;
         this.cupcake_bottom_id = cupcake_bottom_id;
         this.price = price;
-
+    }
+    public Cupcake(int cupcake_top_id, int cupcake_bottom_id, double price) {
+        this.cupcake_top_id = cupcake_top_id;
+        this.cupcake_bottom_id = cupcake_bottom_id;
+        this.price = price;
     }
 
     public int getCupcake_id() {

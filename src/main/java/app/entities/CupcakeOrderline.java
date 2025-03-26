@@ -13,6 +13,11 @@ public class CupcakeOrderline {
         this.orderline_id = orderline_id;
         this.cupcake_price = cupcake_price;
     }
+    public CupcakeOrderline(int cupcake_id, int orderline_id, double cupcake_price) {
+        this.cupcake_id = cupcake_id;
+        this.orderline_id = orderline_id;
+        this.cupcake_price = cupcake_price;
+    }
 
     public int getCupcake_orderline_id() {
         return cupcake_orderline_id;

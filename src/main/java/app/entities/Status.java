@@ -3,10 +3,13 @@ package app.entities;
 public class Status {
 
     private int status_id;
-    private boolean is_paid = false;
+    private boolean is_paid;
 
     public Status(int status_id, boolean is_paid) {
         this.status_id = status_id;
+        this.is_paid = is_paid;
+    }
+    public Status( boolean is_paid) {
         this.is_paid = is_paid;
     }
 

@@ -8,10 +8,15 @@ public class Cupcake_top {
     private double price;
 
     public Cupcake_top(int customer_id, int cupcake_top_id, String cupcake_top_name, double price) {
-        this.customer_id = 0;
-        this.cupcake_top_id = 0;
-        this.cupcake_top_name = "";
-        this.price = 0;
+        this.customer_id = customer_id;
+        this.cupcake_top_id = cupcake_top_id;
+        this.cupcake_top_name = cupcake_top_name;
+        this.price = price;
+    }
+    public Cupcake_top(int cupcake_top_id, String cupcake_top_name, double price) {
+        this.cupcake_top_id = cupcake_top_id;
+        this.cupcake_top_name = cupcake_top_name;
+        this.price = price;
     }
 
     public int getCustomer_id() {

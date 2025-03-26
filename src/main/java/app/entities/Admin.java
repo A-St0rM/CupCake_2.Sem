@@ -10,6 +10,11 @@ public class Admin {
         this.email = email;
         this.password = password;
     }
+    public Admin( String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
+
 
     public int getUser_id() {
         return user_id;

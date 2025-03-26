@@ -17,6 +17,13 @@ public class Orderline {
         this.initial_price = initial_price;
         this.status_id = status_id;
     }
+    public Orderline(int order_id, int cupcake_orderline_id, int quanity, double initial_price, int status_id) {
+        this.order_id = order_id;
+        this.cupcake_orderline_id = cupcake_orderline_id;
+        this.quanity = quanity;
+        this.initial_price = initial_price;
+        this.status_id = status_id;
+    }
 
     public int getOrderline_id() {
         return orderline_id;

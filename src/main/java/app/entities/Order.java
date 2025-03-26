@@ -14,6 +14,13 @@ public class Order {
         this.total_price = total_price;
         this.status_id = status_id;
     }
+    public Order(int customer_id, int order_date, double total_price, int status_id) {
+        this.customer_id = customer_id;
+        this.order_date = order_date;
+        this.total_price = total_price;
+        this.status_id = status_id;
+    }
+
 
     public int getOrder_id() {
         return order_id;

@@ -6,8 +6,14 @@ public class Customer {
     private String email;
     private String password;
     private double balance;
+
     public Customer(int customer_id, String email, String password, double balance) {
         this.customer_id = customer_id;
+        this.email = email;
+        this.password = password;
+        this.balance = balance;
+    }
+    public Customer(String email, String password, double balance) {
         this.email = email;
         this.password = password;
         this.balance = balance;
