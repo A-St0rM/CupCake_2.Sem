@@ -3,7 +3,7 @@
 <title>Cupcake Shop</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="../public/css/login.css" th:href="@{/css/login.css}" rel="stylesheet"/>
+<link href="../public/css/createcustomer.css" th:href="@{/css/createcustomer.css}" rel="stylesheet"/>
 </head>
 
 <body>
@@ -22,13 +22,13 @@
 </nav>
 
 
-<!--Husk når denne form skal styles, så skal login-form class'en bruges-->
+<!--Husk når denne form skal styles, så skal create-form class'en bruges-->
 
-<div class="logIn-box">
-    <div class="logIn-items">
+<div class="createCustomer-Box">
+    <div class="createCustomer-Items">
         <h2>Log in</h2>
         <p th:if="${message}" style="color: red;">[[${message}]]</p>
-        <form action="/login" th:action="@{/login}" method="post" onsubmit="console.log('Form submitted!')">
+        <form action="/createcustomer" th:action="@{/createcustomer}" method="post" onsubmit="console.log('Form submitted!')">
             <label for="email">E-mail</label>:
             <input type="text" id="email" name="email" autofocus="autofocus"/><br/>
             <label for="password">Password</label>:
@@ -45,8 +45,6 @@
 
 <!--    Denne nedenstående linje, viser på siden den attribut som kommer, når der sker fejl på siden-->
     <p th:text="${message}"></p>
-
-<p><a href="createcustomer.html" th:href="@{/createcustomer}">Create account</a></p>
 
 </body>
 </html>
