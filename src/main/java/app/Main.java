@@ -1,5 +1,6 @@
 package app;
 
+import app.controllers.CustomerController;
 import app.controllers.RoutingController;
 import app.config.SessionConfig;
 import app.config.ThymeleafConfig;
