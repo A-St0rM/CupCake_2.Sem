@@ -65,8 +65,21 @@ public class AdminMapper {
         }
     }
 
-    public static void addToCustomerBalance(int customer_id, int balance){
-        String sql = "insert into CustomerBalance (customer_id, balance) values (?,)";
+    public static void addToCustomerBalance(int customer_id, int balance, ConnectionPool connectionPool) throws DatabaseException {
+        String sql = "UPDATE customers SET balance = balance + ? WHERE customer_id = ?";
+
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setInt(1, balance);
+            ps.setInt(2, customer_id);
+
+            int rowsAffected = ps.executeUpdate();
+            System.out.println(rowsAffected + " row(s) updated.");
+        } catch (SQLException e) {
+            throw new DatabaseException("Error updating balance");
+        }
+
     }
 
     public static void deleteAdminById(int admin_id, ConnectionPool connectionPool) throws DatabaseException
