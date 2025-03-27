@@ -4,9 +4,14 @@ import app.controllers.CustomerController;
 import app.controllers.RoutingController;
 import app.config.SessionConfig;
 import app.config.ThymeleafConfig;
+import app.entities.CupcakeTop;
 import app.persistence.ConnectionPool;
+import app.persistence.CupcakeTopMapper;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinThymeleaf;
+
+import java.util.List;
+
 
 
 public class Main {

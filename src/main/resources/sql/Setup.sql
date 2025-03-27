@@ -1,7 +1,7 @@
 BEGIN;
 
 -- Create tables
-CREATE TABLE IF NOT EXISTS public."Admins"
+CREATE TABLE IF NOT EXISTS public."admins"
 (
     admin_id serial NOT NULL,
     email character varying(50) COLLATE pg_catalog."default" NOT NULL,
@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS public."Admins"
     CONSTRAINT "Admins_pkey" PRIMARY KEY (admin_id)
 );
 
-CREATE TABLE IF NOT EXISTS public."Customers"
+CREATE TABLE IF NOT EXISTS public."customers"
 (
     customer_id serial NOT NULL,
     email character varying(50) COLLATE pg_catalog."default" NOT NULL,
@@ -19,14 +19,14 @@ CREATE TABLE IF NOT EXISTS public."Customers"
     CONSTRAINT email_unique UNIQUE (email)
 );
 
-CREATE TABLE IF NOT EXISTS public."Status"
+CREATE TABLE IF NOT EXISTS public."status"
 (
     status_id serial NOT NULL,
     is_paid boolean NOT NULL,
     CONSTRAINT status_pkey PRIMARY KEY (status_id)
 );
 
-CREATE TABLE IF NOT EXISTS public."Orders"
+CREATE TABLE IF NOT EXISTS public."orders"
 (
     order_id serial NOT NULL,
     customer_id integer NOT NULL,
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS public."Orders"
         REFERENCES public."Status" (status_id)
 );
 
-CREATE TABLE IF NOT EXISTS public."Cupcake_bottoms"
+CREATE TABLE IF NOT EXISTS public."cupcake_bottoms"
 (
     cupcake_bottom_id serial NOT NULL,
     price numeric NOT NULL,
@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS public."Cupcake_bottoms"
     CONSTRAINT cupcake_bottoms_pkey PRIMARY KEY (cupcake_bottom_id)
 );
 
-CREATE TABLE IF NOT EXISTS public."Cupcake_tops"
+CREATE TABLE IF NOT EXISTS public."cupcake_tops"
 (
     cupcake_top_id serial NOT NULL,
     price numeric NOT NULL,
@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS public."Cupcake_tops"
     CONSTRAINT cupcake_tops_pkey PRIMARY KEY (cupcake_top_id)
 );
 
-CREATE TABLE IF NOT EXISTS public."Cupcakes"
+CREATE TABLE IF NOT EXISTS public."cupcakes"
 (
     cupcake_id serial NOT NULL,
     cupcake_top_id integer NOT NULL,
@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS public."Cupcakes"
         REFERENCES public."Cupcake_tops" (cupcake_top_id)
 );
 
-CREATE TABLE IF NOT EXISTS public."Orderlines"
+CREATE TABLE IF NOT EXISTS public."orderlines"
 (
     orderline_id serial NOT NULL,
     order_id integer NOT NULL,
@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS public."Orderlines"
         REFERENCES public."Orders" (order_id)
 );
 
-CREATE TABLE IF NOT EXISTS public."CupcakesOrderlines"
+CREATE TABLE IF NOT EXISTS public."cupcakesorderlines"
 (
     cupcake_orderline_id serial NOT NULL,
     cupcake_id integer NOT NULL,
