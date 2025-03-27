@@ -1,12 +1,12 @@
 package app.entities;
 
 public class Admin {
-    private int user_id;
+    private int admin_id;
     private String email;
     private String password;
 
-    public Admin(int user_id, String email, String password) {
-        this.user_id = user_id;
+    public Admin(int admin_id, String email, String password) {
+        this.admin_id = admin_id;
         this.email = email;
         this.password = password;
     }
@@ -16,12 +16,12 @@ public class Admin {
     }
 
 
-    public int getUser_id() {
-        return user_id;
+    public int getAdmin_id() {
+        return admin_id;
     }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
+    public void setAdmin_id(int admin_id) {
+        this.admin_id = admin_id;
     }
 
     public String getEmail() {
