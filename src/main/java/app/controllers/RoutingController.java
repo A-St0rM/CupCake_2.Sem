@@ -16,5 +16,12 @@ public class RoutingController {
         app.get("logout", ctx -> CustomerController.logout(ctx));
         app.get("createcustomer", ctx -> ctx.render("createcustomer"));
         app.post("createcustomer", ctx -> CustomerController.createcustomer(ctx, connectionPool));
+
+        // Routing for Admin
+        app.post("adminlogin", ctx -> AdminController.adminLogin(ctx, connectionPool));
+        app.get("logout", ctx -> AdminController.logout(ctx));
+        app.get("createAdmin", ctx -> ctx.render("createAdmin"));
+        app.post("createAdmin", ctx -> AdminController.createAdmin(ctx, connectionPool));
+
     }
 }
