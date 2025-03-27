@@ -13,7 +13,7 @@ public class AdminMapper {
 
 
     public static Admin login(String email, String password, ConnectionPool connectionPool) throws SQLException {
-        String sql = "select * from Admin where email = ? and password = ?";
+        String sql = "select * from admins where email = ? and password = ?";
 
         Connection connection = connectionPool.getConnection();
 
@@ -38,7 +38,7 @@ public class AdminMapper {
 
     public static void createAdmin(String email, String password, ConnectionPool connectionPool) throws DatabaseException
     {
-        String sql = "insert into Admins (email, password) values (?,?)";
+        String sql = "insert into admins (email, password) values (?,?)";
 
         try (
                 Connection connection = connectionPool.getConnection();
@@ -84,7 +84,7 @@ public class AdminMapper {
 
     public static void deleteAdminById(int admin_id, ConnectionPool connectionPool) throws DatabaseException
     {
-        String sql = "delete from Admins where admin_id = ?";
+        String sql = "delete from admins where admin_id = ?";
 
         try (
                 Connection connection = connectionPool.getConnection();
@@ -106,7 +106,7 @@ public class AdminMapper {
 
     public static void updateAdminById(int admin_id, String email, ConnectionPool connectionPool) throws DatabaseException
     {
-        String sql = "update Admins set email = ? where admin_id = ?";
+        String sql = "update admins set email = ? where admin_id = ?";
 
         try (
                 Connection connection = connectionPool.getConnection();
