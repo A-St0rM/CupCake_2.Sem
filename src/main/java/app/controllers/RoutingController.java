@@ -24,7 +24,7 @@ public class RoutingController {
 
         // Routing for Admin
         app.post("adminlogin", ctx -> AdminController.adminLogin(ctx, connectionPool));
-        app.get("logout", ctx -> AdminController.logout(ctx));
+        app.get("adminlogout", ctx -> AdminController.logout(ctx));
         app.get("createAdmin", ctx -> ctx.render("createAdmin"));
         app.post("createAdmin", ctx -> AdminController.createAdmin(ctx, connectionPool));
 
