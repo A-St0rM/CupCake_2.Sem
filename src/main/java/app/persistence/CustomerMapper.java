@@ -24,7 +24,7 @@ public class CustomerMapper {
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 int id = rs.getInt("customer_id");
-                int balance = rs.getInt("role");
+                double balance = rs.getDouble("balance");
                 return new Customer(id, email, password, balance);
             } else {
                 throw new DatabaseException("Fejl i login. Prøv igen");
