@@ -46,7 +46,7 @@ Projektet er designet med en **3. normalform (3NF) database** for at sikre optim
    
 2. Opsæt database:
 
-    Opret en PostgreSQL database og kør SQL-scriptsene i setup.sql for at oprette de nødvendige tabeller og initialisere databasen.
+    Opret en PostgreSQL database og kør SQL-scriptsene i setup.SQL for at oprette de nødvendige tabeller og initialisere databasen.
 
 
 3. Start backend. Frontend er en del af Javalin-serveren og Thymeleaf, så den kører automatisk med backend.
