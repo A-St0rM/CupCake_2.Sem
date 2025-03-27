@@ -1,6 +1,10 @@
 package app.controllers;
 
-import app.persistence.ConnectionPool;
+import app.InjectorHandler.DependencyInjector;
+import app.entities.Cupcake;
+import app.entities.CupcakeBottom;
+import app.entities.CupcakeTop;
+import app.persistence.*;
 import app.service.CupcakeService;
 import io.javalin.Javalin;
 
@@ -9,12 +13,15 @@ public class RoutingController {
 
 
     public static void startRouting(Javalin app, ConnectionPool connectionPool) {
-        CupcakeService cupcakeService = new CupcakeService();
-        CupcakeController cupcakeController = new CupcakeController(cupcakeService, connectionPool);
-        AdminController adminController = new AdminController(connectionPool);
-        CupcakeBottomController cupcakeBottomController = new CupcakeBottomController(connectionPool);
-        CupcakeTopController cupcakeTopController = new CupcakeTopController(connectionPool);
-        CustomerController customerController = new CustomerController(connectionPool);
+
+        DependencyInjector di = new DependencyInjector(connectionPool);
+
+        CupcakeController cupcakeController = di.getCupcakeController();
+        AdminController adminController = di.getAdminController();
+        CupcakeBottomController cupcakeBottomController = di.getCupcakeBottomController();
+        CupcakeTopController cupcakeTopController = di.getCupcakeTopController();
+        CustomerController customerController = di.getCustomerController();
+
 
         app.get("/", ctx -> ctx.render("index.html"));
 
@@ -37,7 +44,6 @@ public class RoutingController {
 
         //Routing for cupcake
         app.post("/addCupcake", (ctx) -> cupcakeController.addCupcake(ctx));
-
 
     }
 }

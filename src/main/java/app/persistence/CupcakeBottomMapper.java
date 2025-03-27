@@ -9,7 +9,13 @@ import java.util.List;
 
 public class CupcakeBottomMapper {
 
-    public static CupcakeBottom insertCupcakeBottom(ConnectionPool connectionPool, CupcakeBottom cupcakeBottom) throws DatabaseException {
+    private final ConnectionPool connectionPool;
+
+    public CupcakeBottomMapper(ConnectionPool connectionPool){
+        this.connectionPool = connectionPool;
+    }
+
+    public CupcakeBottom insertCupcakeBottom(CupcakeBottom cupcakeBottom) throws DatabaseException {
         String query = "INSERT INTO cupcake_bottoms (price, bottom_name)   VALUES(?,?)";
 
         try (Connection connection = connectionPool.getConnection()) {
@@ -41,9 +47,9 @@ public class CupcakeBottomMapper {
     }
 
 
-    public static double getPriceById(int bottomId) {
+    public double getPriceById(int bottomId) {
         String sql = "SELECT price FROM cupcake_bottoms WHERE cupcake_bottom_id = ?";
-        try (Connection conn = ConnectionPool.getConnection();
+        try (Connection conn = connectionPool.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, bottomId);
             ResultSet rs = ps.executeQuery();
@@ -56,10 +62,10 @@ public class CupcakeBottomMapper {
         return 0;
     }
 
-    public static CupcakeTop getCupcakeBottomById(ConnectionPool connectionPool, int id) throws DatabaseException {
+    public CupcakeTop getCupcakeBottomById(int id) throws DatabaseException {
         String sql = "SELECT * FROM cupcake_bottoms WHERE cupcake_bottom_id = ?";
 
-        try (Connection conn = ConnectionPool.getConnection();
+        try (Connection conn = connectionPool.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, id);
 
@@ -73,7 +79,7 @@ public class CupcakeBottomMapper {
         return null;
     }
 
-    public static List<CupcakeBottom> getAllCupcakeBottoms(ConnectionPool connectionPool) throws DatabaseException {
+    public List<CupcakeBottom> getAllCupcakeBottoms() throws DatabaseException {
         String sql = "SELECT cupcake_bottom_id, price, bottom_name FROM cupcake_bottoms";
 
         List<CupcakeBottom> cupcakeBottomList = new ArrayList<>();
@@ -98,7 +104,7 @@ public class CupcakeBottomMapper {
     }
 
 
-    public static boolean deleteCupcakeBottom(ConnectionPool connectionPool, int cupcakeBottomId) throws DatabaseException {
+    public boolean deleteCupcakeBottom(int cupcakeBottomId) throws DatabaseException {
         String query = "DELETE FROM cupcake_bottoms WHERE cupcake_bottom_id = ?";
 
         try (Connection connection = connectionPool.getConnection();
@@ -115,7 +121,7 @@ public class CupcakeBottomMapper {
         }
     }
 
-    public static boolean updateCupcakeBottomById(int cupcakeBottomId, String newName, double newPrice, ConnectionPool connectionPool) throws DatabaseException
+    public boolean updateCupcakeBottomById(int cupcakeBottomId, String newName, double newPrice) throws DatabaseException
     {
         String query = "UPDATE cupcake_bottoms SET bottom_name = ?, price = ? WHERE cupcake_bottom_id = ?";
 

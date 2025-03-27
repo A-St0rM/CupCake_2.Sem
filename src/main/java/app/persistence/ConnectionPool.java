@@ -58,7 +58,7 @@ public class  ConnectionPool {
      * @return a database connection
      * @throws SQLException if connection fails
      */
-    public static Connection getConnection() throws SQLException {
+    public Connection getConnection() throws SQLException {
         if (ds == null) {
             throw new SQLException("DataSource is not initialized. Call getInstance() first.");
         }

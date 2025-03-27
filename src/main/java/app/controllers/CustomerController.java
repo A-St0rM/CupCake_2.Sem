@@ -12,11 +12,10 @@ import java.sql.SQLException;
 
 public class CustomerController {
 
-    private final ConnectionPool connectionPool;
-
+    private CustomerMapper customerMapper;
     // Constructor injection
-    public CustomerController(ConnectionPool connectionPool) {
-        this.connectionPool = connectionPool;
+    public CustomerController( CustomerMapper customerMapper) {
+        this.customerMapper = customerMapper;
     }
 
     public void logout(@NotNull Context ctx) {
@@ -32,7 +31,7 @@ public class CustomerController {
 
         if (password1.equals(password2)) {
             try {
-                CustomerMapper.createCustomer(email, password1, connectionPool);
+                customerMapper.createCustomer(email, password1);
                 ctx.attribute("message", "Du er hermed oprettet som kunde med mailen: " + email);
                 ctx.render("index.html");
 
@@ -53,7 +52,7 @@ public class CustomerController {
 
         // Tjek om brugeren findes i databasen
         try {
-            Customer customer = CustomerMapper.login(email, password, connectionPool);
+            Customer customer = customerMapper.login(email, password);
             ctx.sessionAttribute("currentCustomer", customer);
 
 

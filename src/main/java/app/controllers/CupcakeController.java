@@ -8,11 +8,9 @@ import io.javalin.http.Context;
 public class CupcakeController {
 
    private final CupcakeService cupcakeService;
-   private final ConnectionPool connectionPool;
 
-   public CupcakeController(CupcakeService cupcakeService, ConnectionPool connectionPool){
+   public CupcakeController(CupcakeService cupcakeService){
        this.cupcakeService = cupcakeService;
-       this.connectionPool = connectionPool;
    }
 
     // Handle POST request to add a new cupcake
@@ -20,8 +18,9 @@ public class CupcakeController {
         try {
             int topId = Integer.parseInt(ctx.formParam("topId"));
             int bottomId = Integer.parseInt(ctx.formParam("bottomId"));
+            int quantity = Integer.parseInt(ctx.formParam("quantity"));
 
-            cupcakeService.createAndSaveCupcake(topId, bottomId);
+            cupcakeService.createAndSaveCupcake(topId, bottomId, quantity);
             ctx.redirect("/cupcakes"); // Redirects after adding cupcake
         } catch (Exception e) {
             ctx.status(400).result("Invalid input: " + e.getMessage());

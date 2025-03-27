@@ -5,17 +5,24 @@ public class Cupcake {
     private int cupcakeTopId;
     private int cupcakeBottomId;
     private double price;
+    private int quantity;
 
-    public Cupcake(int cupcake_id, int cupcakeTopId, int cupcakeBottomId, double price) {
+    public Cupcake(int cupcake_id, int cupcakeTopId, int cupcakeBottomId, double price, int quantity) {
         this.cupcake_id = cupcake_id;
         this.cupcakeTopId = cupcakeTopId;
         this.cupcakeBottomId = cupcakeBottomId;
         this.price = price;
+        this.quantity = quantity;
     }
-    public Cupcake(int cupcakeTopId, int cupcakeBottomId, double price) {
+    public Cupcake(int cupcakeTopId, int cupcakeBottomId, double price, int quantity) {
         this.cupcakeTopId = cupcakeTopId;
         this.cupcakeBottomId = cupcakeBottomId;
         this.price = price;
+        this.quantity = quantity;
+    }
+
+    public int getQuantity() {
+        return quantity;
     }
 
     public int getCupcake_id() {

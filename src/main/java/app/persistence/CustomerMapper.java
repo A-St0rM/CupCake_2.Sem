@@ -9,8 +9,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class CustomerMapper {
+    private final ConnectionPool connectionPool;
 
-    public static Customer login(String email, String password, ConnectionPool connectionPool) throws SQLException {
+    public CustomerMapper(ConnectionPool connectionPool){
+        this.connectionPool = connectionPool;
+    }
+
+    public Customer login(String email, String password) throws SQLException {
         String sql = "select * from customers where email = ? and password = ?";
 
         Connection connection = connectionPool.getConnection();
@@ -34,7 +39,7 @@ public class CustomerMapper {
         }
     }
 
-    public static void createCustomer(String email, String password, ConnectionPool connectionPool) throws DatabaseException
+    public void createCustomer(String email, String password) throws DatabaseException
     {
         String sql = "insert into customers (email, password) values (?,?)";
 
@@ -63,7 +68,7 @@ public class CustomerMapper {
         }
     }
 
-    public static void deleteCustomerById(int userId, ConnectionPool connectionPool) throws DatabaseException
+    public void deleteCustomerById(int userId) throws DatabaseException
     {
         String sql = "delete from customers where customer_id = ?";
 
@@ -85,7 +90,7 @@ public class CustomerMapper {
         }
     }
 
-    public static void updateCustomerById(int customerId, String email, ConnectionPool connectionPool) throws DatabaseException
+    public void updateCustomerById(int customerId, String email) throws DatabaseException
     {
         String sql = "update customers set email = ? where customer_id = ?";
 

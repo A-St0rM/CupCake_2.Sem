@@ -13,13 +13,11 @@ import java.sql.SQLException;
 
 public class AdminController {
 
-    private final ConnectionPool connectionPool;  // Store the dependency
-
+    private AdminMapper adminMapper;
     // Constructor injection
-    public AdminController(ConnectionPool connectionPool) {
-        this.connectionPool = connectionPool;
+    public AdminController(AdminMapper adminMapper) {
+        this.adminMapper = adminMapper;
     }
-
 
     public void logout(@NotNull Context ctx) {
         ctx.req().getSession().invalidate();
@@ -34,7 +32,7 @@ public class AdminController {
 
         if (password1.equals(password2)) {
             try {
-                AdminMapper.createAdmin(email, password1, connectionPool);
+                adminMapper.createAdmin(email, password1);
                 ctx.attribute("message", "Du er hermed oprettet som admin med mailen: " + email);
                 ctx.render("adminIndex.html");
 
@@ -55,7 +53,7 @@ public class AdminController {
 
         // Tjek om brugeren findes i databasen
         try {
-            Admin admin = AdminMapper.login(email, password, connectionPool);
+            Admin admin = adminMapper.login(email, password);
 
             // Hvis customer findes i DB
             // TODO: Her vil der så sendes en attribut med en liste af alle tidligere ordre

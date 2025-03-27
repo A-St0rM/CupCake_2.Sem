@@ -8,16 +8,15 @@ import java.util.List;
 
 public class CupcakeBottomController {
 
+    private CupcakeBottomMapper cupcakeBottomMapper;
 
-    private final ConnectionPool connectionPool;
-
-    public CupcakeBottomController(ConnectionPool connectionPool) {
-        this.connectionPool = connectionPool;
+    public CupcakeBottomController(CupcakeBottomMapper cupcakeBottomMapper) {
+        this.cupcakeBottomMapper = cupcakeBottomMapper;
     }
 
     public void getAllCupcakeBottoms(Context ctx) {
         try {
-            List<CupcakeBottom> cupcakeBottoms = CupcakeBottomMapper.getAllCupcakeBottoms(connectionPool);
+            List<CupcakeBottom> cupcakeBottoms = cupcakeBottomMapper.getAllCupcakeBottoms();
             ctx.attribute("cupcakeBottoms", cupcakeBottoms); // Send data til Thymeleaf
             ctx.render("cupcakebottoms.html"); // Render Thymeleaf-skabelon (TODO: ændrer render)
         } catch (Exception e) {
