@@ -30,7 +30,8 @@ public class CustomerMapper {
                 throw new DatabaseException("Fejl i login. Prøv igen");
             }
         } catch (SQLException e) {
-            throw new DatabaseException("DB fejl", e.getMessage());
+            // Fejl i DB
+            throw new DatabaseException("System fejl", e.getMessage());
         }
     }
 

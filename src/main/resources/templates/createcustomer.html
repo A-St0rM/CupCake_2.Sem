@@ -31,8 +31,11 @@
         <form action="/createcustomer" th:action="@{/createcustomer}" method="post" onsubmit="console.log('Form submitted!')">
             <label for="email">E-mail</label>:
             <input type="text" id="email" name="email" autofocus="autofocus"/><br/>
-            <label for="password">Password</label>:
-            <input type="password" id="password" name="password"/><br/>
+            <label for="password1">Password</label>:
+            <input type="password" id="password1" name="password"/><br/>
+            <label for="password2">Repeat password</label>:
+            <input type="password" id="password2" name="password"/><br/>
+
             <input class="button" type="submit" value="Log in"/>
         </form>
     </div>
@@ -42,9 +45,6 @@
     <span th:text="${session.currentCustomer.email}"></span>
     <a href="index.html" th:href="@{/logout}">Logout</a>
 </div>
-
-<!--    Denne nedenstående linje, viser på siden den attribut som kommer, når der sker fejl på siden-->
-    <p th:text="${message}"></p>
 
 </body>
 </html>
