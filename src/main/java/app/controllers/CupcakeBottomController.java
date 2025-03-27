@@ -8,7 +8,14 @@ import java.util.List;
 
 public class CupcakeBottomController {
 
-    public static void getAllCupcakeBottoms(Context ctx, ConnectionPool connectionPool) {
+
+    private final ConnectionPool connectionPool;
+
+    public CupcakeBottomController(ConnectionPool connectionPool) {
+        this.connectionPool = connectionPool;
+    }
+
+    public void getAllCupcakeBottoms(Context ctx) {
         try {
             List<CupcakeBottom> cupcakeBottoms = CupcakeBottomMapper.getAllCupcakeBottoms(connectionPool);
             ctx.attribute("cupcakeBottoms", cupcakeBottoms); // Send data til Thymeleaf

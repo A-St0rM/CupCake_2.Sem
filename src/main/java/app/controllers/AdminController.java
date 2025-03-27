@@ -13,12 +13,20 @@ import java.sql.SQLException;
 
 public class AdminController {
 
-    public static void logout(@NotNull Context ctx) {
+    private final ConnectionPool connectionPool;  // Store the dependency
+
+    // Constructor injection
+    public AdminController(ConnectionPool connectionPool) {
+        this.connectionPool = connectionPool;
+    }
+
+
+    public void logout(@NotNull Context ctx) {
         ctx.req().getSession().invalidate();
         ctx.redirect("/");
     }
 
-    public static void createAdmin(@NotNull Context ctx, ConnectionPool connectionPool) {
+    public void createAdmin(@NotNull Context ctx) {
         // Henter form parametre, 2 passwords for at tjekke om de er ens
         String email = ctx.pathParam("email");
         String password1 = ctx.pathParam("password1");
@@ -40,7 +48,7 @@ public class AdminController {
             ctx.render("createcustomer.html");}
     }
 
-    public static void adminLogin(@NotNull Context ctx, ConnectionPool connectionPool) {
+    public void adminLogin(@NotNull Context ctx) {
         // Henter form parametre til login
         String email = ctx.queryParam("email");
         String password = ctx.queryParam("password");

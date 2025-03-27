@@ -64,6 +64,38 @@ public class CupcakeTopMapper {
         }
     }
 
+    public static CupcakeTop getCupcakeTopById(ConnectionPool connectionPool, int id) throws DatabaseException {
+        String sql = "SELECT * FROM cupcake_tops WHERE cupcake_top_id = ?";
+
+        try (Connection conn = ConnectionPool.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return new CupcakeTop(rs.getInt("cupcake_top_id"), rs.getDouble("price"), rs.getString("top_name"));
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("Could not get Cupcake by id: " + id + e.getMessage());
+        }
+        return null;
+    }
+
+
+    public static double getPriceById(int topId) {
+        String sql = "SELECT price FROM cupcake_tops WHERE cupcake_top_id = ?";
+        try (Connection conn = ConnectionPool.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, topId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getDouble("price");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 
     public static boolean deleteCupcakeTop(ConnectionPool connectionPool, int cupcakeTopId) throws DatabaseException {
         String query = "DELETE FROM cupcake_tops WHERE cupcake_top_id = ?";

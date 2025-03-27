@@ -1,6 +1,7 @@
 package app.persistence;
 
 import app.entities.CupcakeBottom;
+import app.entities.CupcakeTop;
 import app.exceptions.DatabaseException;
 import java.sql.*;
 import java.util.ArrayList;
@@ -39,6 +40,38 @@ public class CupcakeBottomMapper {
         }
     }
 
+
+    public static double getPriceById(int bottomId) {
+        String sql = "SELECT price FROM cupcake_bottoms WHERE cupcake_bottom_id = ?";
+        try (Connection conn = ConnectionPool.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, bottomId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getDouble("price");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public static CupcakeTop getCupcakeBottomById(ConnectionPool connectionPool, int id) throws DatabaseException {
+        String sql = "SELECT * FROM cupcake_bottoms WHERE cupcake_bottom_id = ?";
+
+        try (Connection conn = ConnectionPool.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return new CupcakeTop(rs.getInt("cupcake_bottom_id"), rs.getDouble("price"), rs.getString("bottom_name"));
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("Could not get Cupcake by id: " + id + e.getMessage());
+        }
+        return null;
+    }
 
     public static List<CupcakeBottom> getAllCupcakeBottoms(ConnectionPool connectionPool) throws DatabaseException {
         String sql = "SELECT cupcake_bottom_id, price, bottom_name FROM cupcake_bottoms";

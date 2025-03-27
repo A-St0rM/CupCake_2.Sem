@@ -10,7 +10,13 @@ import java.util.List;
 
 public class CupcakeTopController {
 
-    public static void getAllCupcakeTops(Context ctx, ConnectionPool connectionPool) {
+    private final ConnectionPool connectionPool;
+
+    public CupcakeTopController(ConnectionPool connectionPool) {
+        this.connectionPool = connectionPool;
+    }
+
+    public void getAllCupcakeTops(Context ctx) {
         try {
             List<CupcakeTop> cupcakeTops = CupcakeTopMapper.getAllCupcakeTops(connectionPool);
             ctx.attribute("cupcakeTops", cupcakeTops); // Send data til Thymeleaf
