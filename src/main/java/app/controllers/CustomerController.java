@@ -48,6 +48,8 @@ public class CustomerController {
         // Tjek om brugeren findes i databasen
         try {
             Customer customer = CustomerMapper.login(email, password, connectionPool);
+            ctx.sessionAttribute("currentCustomer", customer);
+
 
             // Hvis customer findes i DB
             // TODO: Her vil der så sendes en attribut med en liste af alle tidligere ordre
@@ -56,7 +58,7 @@ public class CustomerController {
         } catch (DatabaseException | SQLException e) {
             // Hvis customer IKKE findes, send tilbage til login siden med fejl besked
             ctx.attribute("message", e.getMessage());
-            ctx.render("index.html");
+            ctx.render("login.html");
         }
     }
 }
