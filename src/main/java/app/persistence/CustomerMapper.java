@@ -11,7 +11,7 @@ import java.sql.SQLException;
 public class CustomerMapper {
 
     public static Customer login(String email, String password, ConnectionPool connectionPool) throws SQLException {
-        String sql = "select * from Customers where email = ? and password = ?";
+        String sql = "select * from customers where email = ? and password = ?";
 
         Connection connection = connectionPool.getConnection();
 
@@ -36,7 +36,7 @@ public class CustomerMapper {
 
     public static void createCustomer(String email, String password, ConnectionPool connectionPool) throws DatabaseException
     {
-        String sql = "insert into Customers (email, password) values (?,?)";
+        String sql = "insert into customers (email, password) values (?,?)";
 
         try (
                 Connection connection = connectionPool.getConnection();
@@ -65,7 +65,7 @@ public class CustomerMapper {
 
     public static void deleteCustomerById(int userId, ConnectionPool connectionPool) throws DatabaseException
     {
-        String sql = "delete from Customers where customer_id = ?";
+        String sql = "delete from customers where customer_id = ?";
 
         try (
                 Connection connection = connectionPool.getConnection();
@@ -87,7 +87,7 @@ public class CustomerMapper {
 
     public static void updateCustomerById(int customerId, String email, ConnectionPool connectionPool) throws DatabaseException
     {
-        String sql = "update Customers set email = ? where customer_id = ?";
+        String sql = "update customers set email = ? where customer_id = ?";
 
         try (
                 Connection connection = connectionPool.getConnection();
