@@ -8,14 +8,12 @@
 
 <body>
 
-<!--Herunder ligger headeren, som skal være ens på siderne-->
 <header>
     <a href="index.html" th:href="@{/}">
         <img src="../public/images/cupcakelogo.png" th:src="@{/images/cupcakelogo.png}" width="40%"/>
     </a>
 </header>
 
-<!--Her ligger al den overliggende navigation. th:href henviser til routingen-->
 <nav>
     <ul>
         <li style="float:right"><a href="index.html" th:href="@{/}">Front Page</a></li>
@@ -24,15 +22,22 @@
 </nav>
 
 
-<!--Denne kode herunder burde gerne vise hvad email kunden er logget ind med,-->
-<!--og giver en knap til logout når man er logget ind-->
+<!--Husk når denne form skal styles, så skal login-form class'en bruges-->
+
+<form class="login-form" method="post">
+    <input type="text" name="username" placeholder="Enter your username"/>
+    <input type="password" name="password" placeholder="Enter your password"/>
+    <button type="submit" formaction="/login">Log in</button>
+
+</form>
+
 <div th:if="${session.currentCustomer != null}">
     <span th:text="${session.currentCustomer.email}"></span>
     <a href="index.html" th:href="@{/logout}">Logout</a>
 </div>
 
-<!--    Denne nedenstående linje, viser den attribut som kommer, når der sker fejl på siden-->
-<p th:text="${message}"></p>
+<!--    Denne nedenstående linje, viser på siden den attribut som kommer, når der sker fejl på siden-->
+    <p th:text="${message}"></p>
 
 </body>
 </html>

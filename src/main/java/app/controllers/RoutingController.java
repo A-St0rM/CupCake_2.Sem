@@ -12,6 +12,7 @@ public class RoutingController {
         app.get("/", ctx -> ctx.render("index.html"));
 
         // Routing for Customer
+        app.get("/login", ctx -> ctx.render("login.html"));
         app.post("login", ctx -> CustomerController.login(ctx, connectionPool));
         app.get("logout", ctx -> CustomerController.logout(ctx));
         app.get("createcustomer", ctx -> ctx.render("createcustomer"));
