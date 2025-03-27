@@ -1,5 +1,6 @@
 package app.persistence;
 
+import app.entities.Admin;
 import app.entities.Customer;
 import app.exceptions.DatabaseException;
 
@@ -8,10 +9,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class CustomerMapper {
+public class AdminMapper {
 
-    public static Customer login(String email, String password, ConnectionPool connectionPool) throws SQLException {
-        String sql = "select * from customers where email = ? and password = ?";
+
+    public static Admin login(String email, String password, ConnectionPool connectionPool) throws SQLException {
+        String sql = "select * from admins where email = ? and password = ?";
 
         Connection connection = connectionPool.getConnection();
 
@@ -25,19 +27,18 @@ public class CustomerMapper {
             if (rs.next()) {
                 int id = rs.getInt("customer_id");
                 int balance = rs.getInt("role");
-                return new Customer(id, email, password, balance);
+                return new Admin(id, email, password);
             } else {
                 throw new DatabaseException("Fejl i login. Prøv igen");
             }
         } catch (SQLException e) {
-            // Fejl i DB
-            throw new DatabaseException("System fejl", e.getMessage());
+            throw new DatabaseException("DB fejl", e.getMessage());
         }
     }
 
-    public static void createCustomer(String email, String password, ConnectionPool connectionPool) throws DatabaseException
+    public static void createAdmin(String email, String password, ConnectionPool connectionPool) throws DatabaseException
     {
-        String sql = "insert into customers (email, password) values (?,?)";
+        String sql = "insert into admins (email, password) values (?,?)";
 
         try (
                 Connection connection = connectionPool.getConnection();
@@ -64,31 +65,48 @@ public class CustomerMapper {
         }
     }
 
-    public static void deleteCustomerById(int userId, ConnectionPool connectionPool) throws DatabaseException
+    public static void addToCustomerBalance(int customer_id, int balance, ConnectionPool connectionPool) throws DatabaseException {
+        String sql = "UPDATE customers SET balance = balance + ? WHERE customer_id = ?";
+
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setInt(1, balance);
+            ps.setInt(2, customer_id);
+
+            int rowsAffected = ps.executeUpdate();
+            System.out.println(rowsAffected + " row(s) updated.");
+        } catch (SQLException e) {
+            throw new DatabaseException("Error updating balance");
+        }
+
+    }
+
+    public static void deleteAdminById(int admin_id, ConnectionPool connectionPool) throws DatabaseException
     {
-        String sql = "delete from customers where customer_id = ?";
+        String sql = "delete from admins where admin_id = ?";
 
         try (
                 Connection connection = connectionPool.getConnection();
                 PreparedStatement ps = connection.prepareStatement(sql)
         )
         {
-            ps.setInt(1, userId);
+            ps.setInt(1, admin_id);
             int rowsAffected = ps.executeUpdate();
             if (rowsAffected != 1)
             {
-                throw new DatabaseException("Fejl i fjernelse af bruger");
+                throw new DatabaseException("Fejl i fjernelse af admin");
             }
         }
         catch (SQLException e)
         {
-            throw new DatabaseException("Fejl ved sletning af bruger", e.getMessage());
+            throw new DatabaseException("Fejl ved sletning af admin", e.getMessage());
         }
     }
 
-    public static void updateCustomerById(int customerId, String email, ConnectionPool connectionPool) throws DatabaseException
+    public static void updateAdminById(int admin_id, String email, ConnectionPool connectionPool) throws DatabaseException
     {
-        String sql = "update customers set email = ? where customer_id = ?";
+        String sql = "update admins set email = ? where admin_id = ?";
 
         try (
                 Connection connection = connectionPool.getConnection();
@@ -96,7 +114,7 @@ public class CustomerMapper {
         )
         {
             ps.setString(1, email);
-            ps.setInt(2, customerId);
+            ps.setInt(2, admin_id);
             int rowsAffected = ps.executeUpdate();
             if (rowsAffected != 1)
             {
@@ -110,4 +128,6 @@ public class CustomerMapper {
     }
 
 }
+
+
 
