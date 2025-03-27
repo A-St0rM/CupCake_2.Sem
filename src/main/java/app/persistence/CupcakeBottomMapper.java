@@ -1,9 +1,7 @@
 package app.persistence;
 
 import app.entities.CupcakeBottom;
-import app.entities.CupcakeTop;
 import app.exceptions.DatabaseException;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -67,26 +65,26 @@ public class CupcakeBottomMapper {
     }
 
 
-    public static boolean deleteCupcakeTop(ConnectionPool connectionPool, int cupcakeTopId) throws DatabaseException {
-        String query = "DELETE FROM cupcake_tops WHERE cupcake_top_id = ?";
+    public static boolean deleteCupcakeBottom(ConnectionPool connectionPool, int cupcakeBottomId) throws DatabaseException {
+        String query = "DELETE FROM cupcake_bottoms WHERE cupcake_bottom_id = ?";
 
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
-            preparedStatement.setInt(1, cupcakeTopId);
+            preparedStatement.setInt(1, cupcakeBottomId);
 
             int affectedRows = preparedStatement.executeUpdate();
 
             return affectedRows > 0; // If at least one row was deleted, return true
 
         } catch (SQLException e) {
-            throw new DatabaseException("Could not delete cupcake top: " + e.getMessage());
+            throw new DatabaseException("Could not delete cupcake bottom: " + e.getMessage());
         }
     }
 
-    public static boolean updateCupcakeTopById(int cupcakeTopId, String newName, double newPrice, ConnectionPool connectionPool) throws DatabaseException
+    public static boolean updateCupcakeBottomById(int cupcakeBottomId, String newName, double newPrice, ConnectionPool connectionPool) throws DatabaseException
     {
-        String query = "UPDATE cupcake_tops SET top_name = ?, price = ? WHERE cupcake_top_id = ?";
+        String query = "UPDATE cupcake_bottoms SET bottom_name = ?, price = ? WHERE cupcake_bottom_id = ?";
 
         try (
                 Connection connection = connectionPool.getConnection();
@@ -95,7 +93,7 @@ public class CupcakeBottomMapper {
         {
             ps.setString(1, newName);
             ps.setDouble(2, newPrice);
-            ps.setInt(3, cupcakeTopId);
+            ps.setInt(3, cupcakeBottomId);
 
 
             int affectedRows = ps.executeUpdate();
@@ -104,7 +102,7 @@ public class CupcakeBottomMapper {
         }
         catch (SQLException e)
         {
-            throw new DatabaseException("Could not update cupcake top: " + e.getMessage());
+            throw new DatabaseException("Could not update cupcake bottom: " + e.getMessage());
         }
     }
 }

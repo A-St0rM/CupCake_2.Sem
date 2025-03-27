@@ -16,5 +16,11 @@ public class RoutingController {
         app.get("logout", ctx -> CustomerController.logout(ctx));
         app.get("createcustomer", ctx -> ctx.render("createcustomer"));
         app.post("createcustomer", ctx -> CustomerController.createcustomer(ctx, connectionPool));
+
+
+        // Routing for cupcake bottom and top
+        app.get("/cupcakebottoms", ctx -> CupcakeBottomController.getAllCupcakeBottoms(ctx, connectionPool));
+        app.get("/cupcaketops", ctx -> CupcakeTopController.getAllCupcakeTops(ctx, connectionPool));
+
     }
 }
