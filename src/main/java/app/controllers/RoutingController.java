@@ -20,14 +20,21 @@ public class RoutingController {
         CustomerController customerController = di.getCustomerController();
 
 
+        // General Routing
         app.get("/", ctx -> ctx.render("index.html"));
+        app.get("/logout", ctx -> {
+            ctx.sessionAttribute("currentCustomer", null);
+            ctx.sessionAttribute("currentAdmin", null);
+            ctx.req().getSession().invalidate();
+            ctx.redirect("/");
+        });
+
 
         // Routing for Customer
         app.get("/login", ctx -> ctx.render("login.html"));
         app.post("login", ctx -> customerController.login(ctx));
-        app.get("logout", ctx -> customerController.logout(ctx));
         app.get("createcustomer", ctx -> ctx.render("createcustomer"));
-        app.post("createcustomer", ctx -> customerController.createcustomer(ctx));
+        app.post("/createcustomer", ctx -> customerController.createcustomer(ctx));
 
         // Routing for cupcake bottom and top
         app.get("/cupcakebottoms", ctx -> cupcakeBottomController.getAllCupcakeBottoms(ctx));
@@ -35,7 +42,6 @@ public class RoutingController {
 
         // Routing for Admin
         app.post("admin/login", ctx -> adminController.adminLogin(ctx));
-        app.get("admin/logout", ctx -> adminController.logout(ctx));
         app.get("createAdmin", ctx -> ctx.render("createAdmin"));
         app.post("createAdmin", ctx -> adminController.createAdmin(ctx));
 

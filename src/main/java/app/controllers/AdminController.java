@@ -19,10 +19,6 @@ public class AdminController {
         this.adminMapper = adminMapper;
     }
 
-    public void logout(@NotNull Context ctx) {
-        ctx.req().getSession().invalidate();
-        ctx.redirect("/");
-    }
 
     public void createAdmin(@NotNull Context ctx) {
         // Henter form parametre, 2 passwords for at tjekke om de er ens

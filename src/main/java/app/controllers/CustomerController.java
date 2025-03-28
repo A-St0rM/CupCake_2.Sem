@@ -18,16 +18,20 @@ public class CustomerController {
         this.customerMapper = customerMapper;
     }
 
-    public void logout(@NotNull Context ctx) {
-        ctx.req().getSession().invalidate();
-        ctx.redirect("/");
-    }
+
 
     public void createcustomer(@NotNull Context ctx) {
         // Henter form parametre, 2 passwords for at tjekke om de er ens
-        String email = ctx.pathParam("email");
-        String password1 = ctx.pathParam("password1");
+        String email = ctx.formParam("email");
+        String password1 = ctx.formParam("password");
         String password2 = ctx.formParam("password2");
+
+        // Validerer emailen ved brug af en boolean som tjekker inputtet fra formen.
+        if (!isValidEmail(email)) {
+            ctx.attribute("message", "Invalid email format");
+            ctx.render("createcustomer.html");
+            return;
+        }
 
         if (password1.equals(password2)) {
             try {
@@ -36,19 +40,24 @@ public class CustomerController {
                 ctx.render("index.html");
 
             } catch (DatabaseException e) {
-                // Hvis brugernavnet allerede findes,så returneres denne besked
+                // Hvis brugernavnet allerede findes, så returneres denne besked
                 ctx.attribute("message", "Dit brugernavn findes allerede. Prøv igen eller log ind.");
                 ctx.render("createcustomer.html");
-        }
-    } else {
-        ctx.attribute("message", "Passwords do not match");
-        ctx.render("createcustomer.html");}
+            }
+        } else {
+            ctx.attribute("message", "Passwords do not match");
+            ctx.render("createcustomer.html");}
+    }
+
+    // Denne metode validerer emailen, selv om man ikke kan få lov i formen, så er det godt at have java validation også
+    private static boolean isValidEmail(String email) {
+        return email != null && email.matches("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}");
     }
 
     public void login(@NotNull Context ctx) {
         // Henter form parametre til login
-        String email = ctx.queryParam("email");
-        String password = ctx.queryParam("password");
+        String email = ctx.formParam("email");
+        String password = ctx.formParam("password");
 
         // Tjek om brugeren findes i databasen
         try {
