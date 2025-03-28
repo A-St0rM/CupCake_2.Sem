@@ -36,10 +36,17 @@
                     autofocus
                     required
                     pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                    title="Please enter a valid email (e.g., customer@olsker.dk)"
             />
             <br/>
             <label for="password">Password</label>:
-            <input type="password" id="password" name="password"/><br/>
+            <input
+                    type="password" id="password" name="password"
+                    pattern="^(?=.*[A-Z])(?=.*\d).{4,}$"
+                    title="Password must contain: 1 uppercase letter, 1 number, and be at least 4 characters long"
+                    required
+            />
+            <br/>
             <label for="password2">Confirm Password</label>:
             <input type="password" id="password2" name="password2"/><br/>
             <input class="button" type="submit" value="Create Account"/>
