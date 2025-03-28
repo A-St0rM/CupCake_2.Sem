@@ -13,10 +13,6 @@ import java.sql.SQLException;
 
 public class AdminController {
 
-    public static void logout(@NotNull Context ctx) {
-        ctx.req().getSession().invalidate();
-        ctx.redirect("/");
-    }
 
     public static void createAdmin(@NotNull Context ctx, ConnectionPool connectionPool) {
         // Henter form parametre, 2 passwords for at tjekke om de er ens
