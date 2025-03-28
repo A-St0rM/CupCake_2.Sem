@@ -30,7 +30,14 @@
         <p th:if="${message}" style="color: red;">[[${message}]]</p>
         <form action="/createcustomer" th:action="@{/createcustomer}" method="post" onsubmit="console.log('Form submitted!')">
             <label for="email">E-mail</label>:
-            <input type="text" id="email" name="email" autofocus="autofocus"/><br/>
+            <!-- Denne nedenstående form gør at den kræver en e-mail format -->
+            <input
+                    type="email" id="email" name="email"
+                    autofocus
+                    required
+                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+            />
+            <br/>
             <label for="password">Password</label>:
             <input type="password" id="password" name="password"/><br/>
             <label for="password2">Confirm Password</label>:
