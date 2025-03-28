@@ -44,6 +44,7 @@ public class RoutingController {
 
         //Routing for cupcake
         app.post("/addCupcake", (ctx) -> cupcakeController.addCupcake(ctx));
+        app.post("/deleteCupcake", (ctx) -> cupcakeController.deleteCupcake(ctx));
 
     }
 }

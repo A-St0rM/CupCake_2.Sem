@@ -27,18 +27,18 @@ public class DependencyInjector {
     public DependencyInjector(ConnectionPool connectionPool) {
         this.connectionPool = connectionPool;
 
-        // Initialiser Mappers
+        // Initialiser alle klasser
         this.cupcakeBottomMapper = new CupcakeBottomMapper(connectionPool);
         this.cupcakeTopMapper = new CupcakeTopMapper(connectionPool);
         this.cupcakeMapper = new CupcakeMapper(connectionPool);
         this.customerMapper = new CustomerMapper(connectionPool);
         this.adminMapper = new AdminMapper(connectionPool);
 
-        // Initialiser Services
+
         this.cupcakeService = new CupcakeService(cupcakeBottomMapper, cupcakeTopMapper, cupcakeMapper);
 
-        // Initialiser Controllers
-        this.cupcakeController = new CupcakeController(cupcakeService);
+
+        this.cupcakeController = new CupcakeController(cupcakeService, cupcakeMapper);
         this.adminController = new AdminController(adminMapper);
         this.cupcakeBottomController = new CupcakeBottomController(cupcakeBottomMapper);
         this.cupcakeTopController = new CupcakeTopController(cupcakeTopMapper);
@@ -65,4 +65,5 @@ public class DependencyInjector {
     public CustomerController getCustomerController() {
         return customerController;
     }
+
 }

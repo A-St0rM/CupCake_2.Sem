@@ -97,6 +97,4 @@ public class CupcakeMapper {
             throw new DatabaseException("Could not update cupcake bottom: " + e.getMessage());
         }
     }
-
-    //TODO: Make sure all CRUD are made
 }
