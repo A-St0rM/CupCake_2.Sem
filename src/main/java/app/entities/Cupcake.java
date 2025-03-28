@@ -56,4 +56,15 @@ public class Cupcake {
     public void setPrice(double price) {
         this.price = price;
     }
+
+    @Override
+    public String toString() {
+        return "Cupcake{" +
+                "cupcake_id=" + cupcake_id +
+                ", cupcakeTopId=" + cupcakeTopId +
+                ", cupcakeBottomId=" + cupcakeBottomId +
+                ", price=" + price +
+                ", quantity=" + quantity +
+                '}';
+    }
 }

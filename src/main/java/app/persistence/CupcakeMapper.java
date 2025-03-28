@@ -61,8 +61,11 @@ public class CupcakeMapper {
     public boolean deleteCupcakeById(int cupcakeTopId) throws DatabaseException {
         String query = "DELETE FROM cupcakes WHERE cupcake_id = ?";
 
-        try (Connection connection = connectionPool.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        try (
+                Connection connection = connectionPool.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)
+        )
+        {
 
             preparedStatement.setInt(1, cupcakeTopId);
 

@@ -1,9 +1,9 @@
 package app.controllers;
 
 import app.InjectorHandler.DependencyInjector;
-
 import app.persistence.*;
 import io.javalin.Javalin;
+
 
 
 public class RoutingController {
@@ -44,9 +44,6 @@ public class RoutingController {
         app.post("/deleteCupcake", ctx -> cupcakeController.deleteCupcake(ctx));
         app.put("/updateCupcake", ctx -> cupcakeController.updateCupcake(ctx));
         app.get("/getAllCupcakes", ctx -> cupcakeController.getAllCupcakes(ctx));
-
-
-        CupcakeMapper cupcakeMapper = new CupcakeMapper(connectionPool);
 
 
     }

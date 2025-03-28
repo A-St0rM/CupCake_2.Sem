@@ -1,7 +1,6 @@
 package app.controllers;
 
 import app.entities.Cupcake;
-import app.persistence.ConnectionPool;
 import app.persistence.CupcakeMapper;
 import app.service.CupcakeService;
 import io.javalin.http.Context;
@@ -27,7 +26,7 @@ public class CupcakeController {
             int quantity = Integer.parseInt(ctx.formParam("quantity"));
 
             cupcakeService.createAndSaveCupcake(topId, bottomId, quantity);
-            ctx.redirect("/cupcakes");
+            ctx.redirect("/cupcakes"); //TODO: a page for the list
         } catch (Exception e) {
             ctx.status(400).result("Invalid input: " + e.getMessage());
         }
@@ -40,7 +39,7 @@ public class CupcakeController {
 
            if (isDeleted) {
                System.out.println("successfully deleted");
-               ctx.redirect("/homepage");
+               ctx.redirect("/homepage"); //TODO: a page for the list
            } else {
                ctx.status(404).result("Cupcake not found or could not be deleted.");
            }
@@ -64,18 +63,15 @@ public class CupcakeController {
 
            if(isUpdated){
                System.out.println("Successfully updated the cupcake");
-               ctx.redirect("/homepage");
+               ctx.redirect("/homepage"); //TODO: a page for the list
            }
            else {
-               System.out.println("could not update");
+               ctx.status(404).result("Cupcake not found or could not be updated.");
            }
-
-
        } catch (NumberFormatException e) {
            ctx.status(400).result("Invalid cupcakeId : " + e.getMessage());
        }
     }
-
 
     public void getAllCupcakes(Context ctx){
        try {
