@@ -85,8 +85,9 @@ public class CupcakeMapper {
                 PreparedStatement ps = connection.prepareStatement(query)
         )
         {
-            ps.setInt(1, cupcakeId);
-            ps.setDouble(5, quantity);
+            ps.setInt(1, quantity);
+            ps.setInt(2, cupcakeId);
+
 
             int affectedRows = ps.executeUpdate();
 

@@ -1,11 +1,8 @@
 package app.controllers;
 
 import app.InjectorHandler.DependencyInjector;
-import app.entities.Cupcake;
-import app.entities.CupcakeBottom;
-import app.entities.CupcakeTop;
+
 import app.persistence.*;
-import app.service.CupcakeService;
 import io.javalin.Javalin;
 
 
@@ -43,8 +40,14 @@ public class RoutingController {
         app.post("createAdmin", ctx -> adminController.createAdmin(ctx));
 
         //Routing for cupcake
-        app.post("/addCupcake", (ctx) -> cupcakeController.addCupcake(ctx));
-        app.post("/deleteCupcake", (ctx) -> cupcakeController.deleteCupcake(ctx));
+        app.post("/addCupcake", ctx -> cupcakeController.addCupcake(ctx));
+        app.post("/deleteCupcake", ctx -> cupcakeController.deleteCupcake(ctx));
+        app.put("/updateCupcake", ctx -> cupcakeController.updateCupcake(ctx));
+        app.get("/getAllCupcakes", ctx -> cupcakeController.getAllCupcakes(ctx));
+
+
+        CupcakeMapper cupcakeMapper = new CupcakeMapper(connectionPool);
+
 
     }
 }
