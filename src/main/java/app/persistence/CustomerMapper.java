@@ -11,7 +11,8 @@ import java.sql.SQLException;
 public class CustomerMapper {
 
     public static Customer login(String email, String password, ConnectionPool connectionPool) throws SQLException {
-        String sql = "select * from customers where email = ? and password = ?";
+        // Denne super fede SQL linje konverterer input parametrene (ps) til lowercase og sammenligner med email i lowercase
+        String sql = "SELECT * FROM customers WHERE LOWER(email) = LOWER(?) AND password = ?";
 
         Connection connection = connectionPool.getConnection();
 
@@ -24,19 +25,20 @@ public class CustomerMapper {
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 int id = rs.getInt("customer_id");
-                int balance = rs.getInt("role");
+                double balance = rs.getDouble("balance");
                 return new Customer(id, email, password, balance);
             } else {
                 throw new DatabaseException("Fejl i login. Prøv igen");
             }
         } catch (SQLException e) {
+            System.err.println("SQL Fejl" + e.getMessage());
             throw new DatabaseException("DB fejl", e.getMessage());
         }
     }
 
     public static void createCustomer(String email, String password, ConnectionPool connectionPool) throws DatabaseException
     {
-        String sql = "insert into customers (email, password) values (?,?)";
+        String sql = "insert into customers (email, password, balance) values (?,?, 0.0)";
 
         try (
                 Connection connection = connectionPool.getConnection();
