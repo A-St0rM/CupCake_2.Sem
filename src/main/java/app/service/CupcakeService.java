@@ -24,6 +24,6 @@ public class CupcakeService {
         double totalPrice = topPrice + bottomPrice;
 
         Cupcake cupcake = new Cupcake(topId, bottomId, totalPrice, quantity);
-        cupcakeMapper.saveCupcake(cupcake);
+        cupcakeMapper.insertCupcake(cupcake);
     }
 }
