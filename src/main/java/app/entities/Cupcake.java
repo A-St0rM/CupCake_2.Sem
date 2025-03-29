@@ -2,20 +2,27 @@ package app.entities;
 
 public class Cupcake {
     private int cupcake_id;
-    private int cupcake_top_id;
-    private int cupcake_bottom_id;
+    private int cupcakeTopId;
+    private int cupcakeBottomId;
     private double price;
+    private int quantity;
 
-    public Cupcake(int cupcake_id, int cupcake_top_id, int cupcake_bottom_id, double price) {
+    public Cupcake(int cupcake_id, int cupcakeTopId, int cupcakeBottomId, double price, int quantity) {
         this.cupcake_id = cupcake_id;
-        this.cupcake_top_id = cupcake_top_id;
-        this.cupcake_bottom_id = cupcake_bottom_id;
+        this.cupcakeTopId = cupcakeTopId;
+        this.cupcakeBottomId = cupcakeBottomId;
         this.price = price;
+        this.quantity = quantity;
     }
-    public Cupcake(int cupcake_top_id, int cupcake_bottom_id, double price) {
-        this.cupcake_top_id = cupcake_top_id;
-        this.cupcake_bottom_id = cupcake_bottom_id;
+    public Cupcake(int cupcakeTopId, int cupcakeBottomId, double price, int quantity) {
+        this.cupcakeTopId = cupcakeTopId;
+        this.cupcakeBottomId = cupcakeBottomId;
         this.price = price;
+        this.quantity = quantity;
+    }
+
+    public int getQuantity() {
+        return quantity;
     }
 
     public int getCupcake_id() {
@@ -26,20 +33,20 @@ public class Cupcake {
         this.cupcake_id = cupcake_id;
     }
 
-    public int getCupcake_top_id() {
-        return cupcake_top_id;
+    public int getCupcakeTopId() {
+        return cupcakeTopId;
     }
 
-    public void setCupcake_top_id(int cupcake_top_id) {
-        this.cupcake_top_id = cupcake_top_id;
+    public void setCupcakeTopId(int cupcakeTopId) {
+        this.cupcakeTopId = cupcakeTopId;
     }
 
-    public int getCupcake_bottom_id() {
-        return cupcake_bottom_id;
+    public int getCupcakeBottomId() {
+        return cupcakeBottomId;
     }
 
-    public void setCupcake_bottom_id(int cupcake_bottom_id) {
-        this.cupcake_bottom_id = cupcake_bottom_id;
+    public void setCupcakeBottomId(int cupcakeBottomId) {
+        this.cupcakeBottomId = cupcakeBottomId;
     }
 
     public double getPrice() {
@@ -48,5 +55,16 @@ public class Cupcake {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    @Override
+    public String toString() {
+        return "Cupcake{" +
+                "cupcake_id=" + cupcake_id +
+                ", cupcakeTopId=" + cupcakeTopId +
+                ", cupcakeBottomId=" + cupcakeBottomId +
+                ", price=" + price +
+                ", quantity=" + quantity +
+                '}';
     }
 }

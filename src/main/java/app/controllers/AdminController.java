@@ -13,8 +13,14 @@ import java.sql.SQLException;
 
 public class AdminController {
 
+    private AdminMapper adminMapper;
+    // Constructor injection
+    public AdminController(AdminMapper adminMapper) {
+        this.adminMapper = adminMapper;
+    }
 
-    public static void createAdmin(@NotNull Context ctx, ConnectionPool connectionPool) {
+
+    public void createAdmin(@NotNull Context ctx) {
         // Henter form parametre, 2 passwords for at tjekke om de er ens
         String email = ctx.pathParam("email");
         String password1 = ctx.pathParam("password1");
@@ -22,7 +28,7 @@ public class AdminController {
 
         if (password1.equals(password2)) {
             try {
-                AdminMapper.createAdmin(email, password1, connectionPool);
+                adminMapper.createAdmin(email, password1);
                 ctx.attribute("message", "Du er hermed oprettet som admin med mailen: " + email);
                 ctx.render("adminIndex.html");
 
@@ -36,14 +42,14 @@ public class AdminController {
             ctx.render("createcustomer.html");}
     }
 
-    public static void adminLogin(@NotNull Context ctx, ConnectionPool connectionPool) {
+    public void adminLogin(@NotNull Context ctx) {
         // Henter form parametre til login
         String email = ctx.queryParam("email");
         String password = ctx.queryParam("password");
 
         // Tjek om brugeren findes i databasen
         try {
-            Admin admin = AdminMapper.login(email, password, connectionPool);
+            Admin admin = adminMapper.login(email, password);
 
             // Hvis customer findes i DB
             // TODO: Her vil der så sendes en attribut med en liste af alle tidligere ordre

@@ -1,6 +1,7 @@
 package app.persistence;
 
 import app.entities.CupcakeBottom;
+import app.entities.CupcakeTop;
 import app.exceptions.DatabaseException;
 import java.sql.*;
 import java.util.ArrayList;
@@ -8,7 +9,13 @@ import java.util.List;
 
 public class CupcakeBottomMapper {
 
-    public static CupcakeBottom insertCupcakeBottom(ConnectionPool connectionPool, CupcakeBottom cupcakeBottom) throws DatabaseException {
+    private final ConnectionPool connectionPool;
+
+    public CupcakeBottomMapper(ConnectionPool connectionPool){
+        this.connectionPool = connectionPool;
+    }
+
+    public CupcakeBottom insertCupcakeBottom(CupcakeBottom cupcakeBottom) throws DatabaseException {
         String query = "INSERT INTO cupcake_bottoms (price, bottom_name)   VALUES(?,?)";
 
         try (Connection connection = connectionPool.getConnection()) {
@@ -40,7 +47,39 @@ public class CupcakeBottomMapper {
     }
 
 
-    public static List<CupcakeBottom> getAllCupcakeBottoms(ConnectionPool connectionPool) throws DatabaseException {
+    public double getPriceById(int bottomId) {
+        String sql = "SELECT price FROM cupcake_bottoms WHERE cupcake_bottom_id = ?";
+        try (Connection conn = connectionPool.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, bottomId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getDouble("price");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public CupcakeTop getCupcakeBottomById(int id) throws DatabaseException {
+        String sql = "SELECT * FROM cupcake_bottoms WHERE cupcake_bottom_id = ?";
+
+        try (Connection conn = connectionPool.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return new CupcakeTop(rs.getInt("cupcake_bottom_id"), rs.getDouble("price"), rs.getString("bottom_name"));
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("Could not get Cupcake by id: " + id + e.getMessage());
+        }
+        return null;
+    }
+
+    public List<CupcakeBottom> getAllCupcakeBottoms() throws DatabaseException {
         String sql = "SELECT cupcake_bottom_id, price, bottom_name FROM cupcake_bottoms";
 
         List<CupcakeBottom> cupcakeBottomList = new ArrayList<>();
@@ -65,7 +104,7 @@ public class CupcakeBottomMapper {
     }
 
 
-    public static boolean deleteCupcakeBottom(ConnectionPool connectionPool, int cupcakeBottomId) throws DatabaseException {
+    public boolean deleteCupcakeBottom(int cupcakeBottomId) throws DatabaseException {
         String query = "DELETE FROM cupcake_bottoms WHERE cupcake_bottom_id = ?";
 
         try (Connection connection = connectionPool.getConnection();
@@ -82,7 +121,7 @@ public class CupcakeBottomMapper {
         }
     }
 
-    public static boolean updateCupcakeBottomById(int cupcakeBottomId, String newName, double newPrice, ConnectionPool connectionPool) throws DatabaseException
+    public boolean updateCupcakeBottomById(int cupcakeBottomId, String newName, double newPrice) throws DatabaseException
     {
         String query = "UPDATE cupcake_bottoms SET bottom_name = ?, price = ? WHERE cupcake_bottom_id = ?";
 

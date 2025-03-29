@@ -1,6 +1,5 @@
 package app;
 
-import app.controllers.CustomerController;
 import app.controllers.RoutingController;
 import app.config.SessionConfig;
 import app.config.ThymeleafConfig;
@@ -10,10 +9,6 @@ import app.persistence.CupcakeTopMapper;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinThymeleaf;
 
-import java.util.List;
-
-
-
 public class Main {
 
     private static final String USER = "postgres";
@@ -22,7 +17,6 @@ public class Main {
     private static final String DB = "Cupcake";
 
     public static final ConnectionPool connectionPool = ConnectionPool.getInstance(USER, PASSWORD, URL, DB);
-
 
     public static void main(String[] args) {
 
@@ -35,6 +29,7 @@ public class Main {
 
 
         RoutingController.startRouting(app, connectionPool);
+
 
     }
 }

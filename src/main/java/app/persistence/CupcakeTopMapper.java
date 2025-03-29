@@ -8,7 +8,13 @@ import java.util.List;
 
 public class CupcakeTopMapper {
 
-    public static CupcakeTop insertCupcakeTop(ConnectionPool connectionPool, CupcakeTop cupcakeTop) throws DatabaseException {
+    private final ConnectionPool connectionPool;
+
+    public CupcakeTopMapper(ConnectionPool connectionPool){
+        this.connectionPool = connectionPool;
+    }
+
+    public CupcakeTop insertCupcakeTop(CupcakeTop cupcakeTop) throws DatabaseException {
         String query = "INSERT INTO cupcake_tops (price, top_name)   VALUES(?,?)";
 
         try (Connection connection = connectionPool.getConnection()) {
@@ -40,7 +46,7 @@ public class CupcakeTopMapper {
     }
 
 
-    public static List<CupcakeTop> getAllCupcakeTops(ConnectionPool connectionPool) throws DatabaseException {
+    public List<CupcakeTop> getAllCupcakeTops() throws DatabaseException {
         String sql = "SELECT cupcake_top_id, price, top_name FROM cupcake_tops";
 
         List<CupcakeTop> cupcakeTopList = new ArrayList<>();
@@ -64,8 +70,40 @@ public class CupcakeTopMapper {
         }
     }
 
+    public CupcakeTop getCupcakeTopById(int id) throws DatabaseException {
+        String sql = "SELECT * FROM cupcake_tops WHERE cupcake_top_id = ?";
 
-    public static boolean deleteCupcakeTop(ConnectionPool connectionPool, int cupcakeTopId) throws DatabaseException {
+        try (Connection conn = connectionPool.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return new CupcakeTop(rs.getInt("cupcake_top_id"), rs.getDouble("price"), rs.getString("top_name"));
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("Could not get Cupcake by id: " + id + e.getMessage());
+        }
+        return null;
+    }
+
+
+    public double getPriceById(int topId) {
+        String sql = "SELECT price FROM cupcake_tops WHERE cupcake_top_id = ?";
+        try (Connection conn = connectionPool.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, topId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getDouble("price");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public boolean deleteCupcakeTop(int cupcakeTopId) throws DatabaseException {
         String query = "DELETE FROM cupcake_tops WHERE cupcake_top_id = ?";
 
         try (Connection connection = connectionPool.getConnection();
@@ -82,7 +120,7 @@ public class CupcakeTopMapper {
         }
     }
 
-    public static boolean updateCupcakeTopById(int cupcakeTopId, String newName, double newPrice, ConnectionPool connectionPool) throws DatabaseException
+    public boolean updateCupcakeTopById(int cupcakeTopId, String newName, double newPrice) throws DatabaseException
     {
         String query = "UPDATE cupcake_tops SET top_name = ?, price = ? WHERE cupcake_top_id = ?";
 

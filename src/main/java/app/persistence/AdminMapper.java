@@ -11,8 +11,13 @@ import java.sql.SQLException;
 
 public class AdminMapper {
 
+    private final ConnectionPool connectionPool;
 
-    public static Admin login(String email, String password, ConnectionPool connectionPool) throws SQLException {
+    public AdminMapper(ConnectionPool connectionPool){
+        this.connectionPool = connectionPool;
+    }
+
+    public Admin login(String email, String password) throws SQLException {
         String sql = "select * from admins where email = ? and password = ?";
 
         Connection connection = connectionPool.getConnection();
@@ -36,7 +41,7 @@ public class AdminMapper {
         }
     }
 
-    public static void createAdmin(String email, String password, ConnectionPool connectionPool) throws DatabaseException
+    public void createAdmin(String email, String password) throws DatabaseException
     {
         String sql = "insert into admins (email, password) values (?,?)";
 
@@ -65,7 +70,7 @@ public class AdminMapper {
         }
     }
 
-    public static void addToCustomerBalance(int customer_id, int balance, ConnectionPool connectionPool) throws DatabaseException {
+    public void addToCustomerBalance(int customer_id, int balance) throws DatabaseException {
         String sql = "UPDATE customers SET balance = balance + ? WHERE customer_id = ?";
 
         try (Connection connection = connectionPool.getConnection();
@@ -82,7 +87,7 @@ public class AdminMapper {
 
     }
 
-    public static void deleteAdminById(int admin_id, ConnectionPool connectionPool) throws DatabaseException
+    public void deleteAdminById(int admin_id) throws DatabaseException
     {
         String sql = "delete from admins where admin_id = ?";
 
@@ -104,7 +109,7 @@ public class AdminMapper {
         }
     }
 
-    public static void updateAdminById(int admin_id, String email, ConnectionPool connectionPool) throws DatabaseException
+    public void updateAdminById(int admin_id, String email) throws DatabaseException
     {
         String sql = "update admins set email = ? where admin_id = ?";
 
