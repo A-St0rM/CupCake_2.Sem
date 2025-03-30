@@ -1,5 +1,6 @@
 package app.service;
 
+import app.DTO.CupcakeDTO;
 import app.entities.Cupcake;
 import app.entities.Order;
 import app.entities.Orderline;
@@ -47,9 +48,9 @@ public class OrderlineService {
         }
 
         //add the orderline
-        List<Cupcake> cupcakeList = cupcakeMapper.getAllCupcakes();
+        List<CupcakeDTO> cupcakeList = cupcakeMapper.getAllCupcakesDTO();
         double totalPrice = 0;
-        for (Cupcake c : cupcakeList) {
+        for (CupcakeDTO c : cupcakeList) {
             totalPrice += c.getPrice();
         }
 

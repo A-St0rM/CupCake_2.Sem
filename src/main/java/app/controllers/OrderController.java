@@ -16,6 +16,7 @@ public class OrderController {
         this.orderMapper = orderMapper;
     }
 
+    //TODO: make it to an endpoint
     public void getAllOrders(@NotNull Context ctx) {
         try {
             List<CustomerOrderDTO> orders = orderMapper.getOrdersWithCustomerInfo();

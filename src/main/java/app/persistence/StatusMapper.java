@@ -12,6 +12,8 @@ public class StatusMapper {
         this.connectionPool = connectionPool;
     }
 
+    //TODO: make an update status on paid and picked up for admin to update
+
     public int createStatus() throws DatabaseException {
         String sql = "INSERT INTO status (is_paid, is_picked_up) VALUES (false, false)";
 
