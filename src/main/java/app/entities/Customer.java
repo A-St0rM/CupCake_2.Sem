@@ -2,13 +2,13 @@ package app.entities;
 
 public class Customer {
 
-    private int customer_id;
+    private int customerId;
     private String email;
     private String password;
     private double balance;
 
-    public Customer(int customer_id, String email, String password, double balance) {
-        this.customer_id = customer_id;
+    public Customer(int customerId, String email, String password, double balance) {
+        this.customerId = customerId;
         this.email = email;
         this.password = password;
         this.balance = balance;
@@ -19,12 +19,12 @@ public class Customer {
         this.balance = balance;
     }
 
-    public int getCustomer_id() {
-        return customer_id;
+    public int getCustomerId() {
+        return customerId;
     }
 
-    public void setCustomer_id(int customer_id) {
-        this.customer_id = customer_id;
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
     }
 
     public String getEmail() {

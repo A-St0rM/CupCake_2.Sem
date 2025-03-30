@@ -8,7 +8,7 @@ import java.util.List;
 
 public class CupcakeBottomController {
 
-    private CupcakeBottomMapper cupcakeBottomMapper;
+    private final CupcakeBottomMapper cupcakeBottomMapper;
 
     public CupcakeBottomController(CupcakeBottomMapper cupcakeBottomMapper) {
         this.cupcakeBottomMapper = cupcakeBottomMapper;

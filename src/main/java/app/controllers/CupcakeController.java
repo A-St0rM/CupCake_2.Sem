@@ -11,7 +11,7 @@ import java.util.List;
 public class CupcakeController {
 
    private final CupcakeService cupcakeService;
-   private CupcakeMapper cupcakeMapper;
+   private final CupcakeMapper cupcakeMapper;
 
    public CupcakeController(CupcakeService cupcakeService, CupcakeMapper cupcakeMapper){
        this.cupcakeService = cupcakeService;

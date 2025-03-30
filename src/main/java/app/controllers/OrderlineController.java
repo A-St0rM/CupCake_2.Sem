@@ -12,8 +12,8 @@ import java.util.List;
 
 public class OrderlineController {
 
-    private OrderlineService orderlineService;
-    private OrderlineMapper orderlineMapper;
+    private final OrderlineService orderlineService;
+    private final OrderlineMapper orderlineMapper;
 
     public OrderlineController(OrderlineService orderlineService, OrderlineMapper orderlineMapper){
         this.orderlineService = orderlineService;
@@ -32,11 +32,19 @@ public class OrderlineController {
 
     public void updateOrderlinePrice(Context ctx) {
         try {
-            int orderlineId = Integer.parseInt(ctx.pathParam("id"));
-            double newPrice = Double.parseDouble(ctx.formParam("price"));
+            int orderlineId = Integer.parseInt(ctx.formParam("orderlineId"));
+            int cupcakeId = Integer.parseInt(ctx.formParam("cupcakeId"));
 
-            orderlineService.UpdateOrderlinePrice(orderlineId, new Cupcake(0, 0, 0, newPrice, 1));
-            ctx.redirect("/orderlines"); //TODO: a page
+            Cupcake cupcake = orderlineService.getCupcakeById(cupcakeId); // Get cupcake from DB
+
+            if (cupcake == null) {
+                ctx.status(400).result("Cupcake not found");
+                return;
+            }
+
+            orderlineService.UpdateOrderlinePrice(orderlineId, cupcake);
+            ctx.redirect("/orderlines");
+
         } catch (NumberFormatException e) {
             ctx.status(400).result("Invalid input: " + e.getMessage());
         } catch (DatabaseException e) {

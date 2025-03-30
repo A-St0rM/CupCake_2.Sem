@@ -72,4 +72,8 @@ public class OrderlineService {
             throw new DatabaseException("Failed to update orderline price");
         }
     }
+
+    public Cupcake getCupcakeById(int cupcakeId) throws DatabaseException {
+        return cupcakeMapper.getCupcakeById(cupcakeId);
+    }
 }

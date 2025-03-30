@@ -13,7 +13,7 @@ import java.sql.SQLException;
 
 public class AdminController {
 
-    private AdminMapper adminMapper;
+    private final AdminMapper adminMapper;
     // Constructor injection
     public AdminController(AdminMapper adminMapper) {
         this.adminMapper = adminMapper;
