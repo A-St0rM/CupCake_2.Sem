@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS public.customers
 CREATE TABLE IF NOT EXISTS public.status
 (
     status_id serial NOT NULL,
-    is_paid boolean NOT NULL DEFUALT false,
+    is_paid boolean NOT NULL DEFAULT false,
     is_picked_up boolean NOT NULL DEFAULT false,
     CONSTRAINT status_pkey PRIMARY KEY (status_id)
     );
