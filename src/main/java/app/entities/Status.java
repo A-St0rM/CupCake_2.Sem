@@ -11,8 +11,9 @@ public class Status {
         this.isPaid = isPaid;
         this.isPickedUp = isPickedUp;
     }
-    public Status( boolean isPaid) {
+    public Status(boolean isPaid, boolean isPickedUp) {
         this.isPaid = isPaid;
+        this.isPickedUp = isPickedUp;
     }
 
     public int getStatusId() {
@@ -29,5 +30,13 @@ public class Status {
 
     public void setPaid(boolean paid) {
         this.isPaid = paid;
+    }
+
+    public boolean isPickedUp() {
+        return isPickedUp;
+    }
+
+    public void setPickedUp(boolean pickedUp) {
+        isPickedUp = pickedUp;
     }
 }
