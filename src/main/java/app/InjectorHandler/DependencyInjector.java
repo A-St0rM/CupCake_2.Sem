@@ -2,6 +2,7 @@ package app.InjectorHandler;
 
 import app.controllers.*;
 import app.entities.Orderline;
+import app.entities.Status;
 import app.persistence.*;
 import app.service.CupcakeService;
 import app.service.OrderlineService;
@@ -16,6 +17,8 @@ public class DependencyInjector {
     private final CustomerMapper customerMapper;
     private final AdminMapper adminMapper;
     private final OrderlineMapper orderlineMapper;
+    private final OrderMapper orderMapper;
+    private final StatusMapper statusMapper;
 
     // Services
     private final CupcakeService cupcakeService;
@@ -39,11 +42,12 @@ public class DependencyInjector {
         this.customerMapper = new CustomerMapper(connectionPool);
         this.adminMapper = new AdminMapper(connectionPool);
         this.orderlineMapper = new OrderlineMapper(connectionPool);
+        this.orderMapper = new OrderMapper(connectionPool);
+        this.statusMapper = new StatusMapper(connectionPool);
 
 
         this.cupcakeService = new CupcakeService(cupcakeBottomMapper, cupcakeTopMapper, cupcakeMapper);
-        this.orderlineService = new OrderlineService(cupcakeMapper, orderlineMapper);
-
+        this.orderlineService = new OrderlineService(cupcakeMapper, orderlineMapper, orderMapper, statusMapper);
         this.cupcakeController = new CupcakeController(cupcakeService, cupcakeMapper);
         this.adminController = new AdminController(adminMapper);
         this.cupcakeBottomController = new CupcakeBottomController(cupcakeBottomMapper);
