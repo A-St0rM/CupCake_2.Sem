@@ -1,10 +1,12 @@
 package app.persistence;
 
+import app.DTO.CustomerOrderDTO;
 import app.entities.Order;
 import app.entities.Orderline;
 import app.exceptions.DatabaseException;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -120,5 +122,30 @@ public class OrderMapper {
         {
             throw new DatabaseException("Could not update order: " + e.getMessage());
         }
+    }
+
+    public List<CustomerOrderDTO> getOrdersWithCustomerInfo() throws DatabaseException {
+        List<CustomerOrderDTO> orders = new ArrayList<>();
+
+        String sql = "SELECT o.order_id, c.email, o.total_price, o.order_date " +
+                "FROM orders o " +
+                "JOIN customers c ON o.customer_id = c.customer_id";
+
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                int orderId = rs.getInt("order_id");
+                String customerEmail = rs.getString("email");
+                double totalPrice = rs.getDouble("total_price");
+                LocalDate orderDate = rs.getDate("order_date").toLocalDate();
+
+                orders.add(new CustomerOrderDTO(orderId, customerEmail, totalPrice, orderDate));
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("Error getting orders", e.getMessage());
+        }
+        return orders;
     }
 }
