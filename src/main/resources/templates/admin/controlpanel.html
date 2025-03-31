@@ -32,7 +32,7 @@
 </nav>
 
 <p>Welcome, admin: <span th:text="${session.currentAdmin.email}"></span></p>
-<p th:text="${adminmessage}"></p>
+<p th:text="${message}"></p>
 
 <a href="/admin/vieworders.html" th:href="@{/viewOrders}" class="admin-button">View all orders</a>
 <a href="/admin/createadmin.html" th:href="@{/createAdmin}" class="admin-button">Create Admin</a>
