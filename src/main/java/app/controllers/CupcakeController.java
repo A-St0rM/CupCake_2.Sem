@@ -1,5 +1,6 @@
 package app.controllers;
 
+import app.DTO.CupcakeDTO;
 import app.entities.Cupcake;
 import app.persistence.CupcakeMapper;
 import app.service.CupcakeService;
@@ -75,7 +76,7 @@ public class CupcakeController {
 
     public void getAllCupcakes(Context ctx){
        try {
-           List<Cupcake> cupcakes = cupcakeMapper.getAllCupcakes();
+           List<CupcakeDTO> cupcakes = cupcakeMapper.getAllCupcakesDTO();
 
            if (cupcakes.isEmpty()) {
                ctx.status(400).result("No cupcakes found");

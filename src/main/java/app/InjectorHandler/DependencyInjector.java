@@ -2,6 +2,7 @@ package app.InjectorHandler;
 
 import app.controllers.*;
 import app.entities.Orderline;
+import app.entities.Status;
 import app.persistence.*;
 import app.service.CupcakeService;
 import app.service.OrderlineService;
@@ -16,6 +17,8 @@ public class DependencyInjector {
     private final CustomerMapper customerMapper;
     private final AdminMapper adminMapper;
     private final OrderlineMapper orderlineMapper;
+    private final OrderMapper orderMapper;
+    private final StatusMapper statusMapper;
 
     // Services
     private final CupcakeService cupcakeService;
@@ -28,6 +31,8 @@ public class DependencyInjector {
     private final CupcakeTopController cupcakeTopController;
     private final CustomerController customerController;
     private final OrderlineController orderlineController;
+    private final StatusController statusController;
+    private final OrderController orderController;
 
     public DependencyInjector(ConnectionPool connectionPool) {
         this.connectionPool = connectionPool;
@@ -39,17 +44,20 @@ public class DependencyInjector {
         this.customerMapper = new CustomerMapper(connectionPool);
         this.adminMapper = new AdminMapper(connectionPool);
         this.orderlineMapper = new OrderlineMapper(connectionPool);
+        this.orderMapper = new OrderMapper(connectionPool);
+        this.statusMapper = new StatusMapper(connectionPool);
 
 
         this.cupcakeService = new CupcakeService(cupcakeBottomMapper, cupcakeTopMapper, cupcakeMapper);
-        this.orderlineService = new OrderlineService(cupcakeMapper, orderlineMapper);
-
+        this.orderlineService = new OrderlineService(cupcakeMapper, orderlineMapper, orderMapper, statusMapper);
         this.cupcakeController = new CupcakeController(cupcakeService, cupcakeMapper);
         this.adminController = new AdminController(adminMapper);
         this.cupcakeBottomController = new CupcakeBottomController(cupcakeBottomMapper);
         this.cupcakeTopController = new CupcakeTopController(cupcakeTopMapper);
         this.customerController = new CustomerController(customerMapper);
         this.orderlineController = new OrderlineController(orderlineService, orderlineMapper);
+        this.statusController = new StatusController(statusMapper);
+        this.orderController = new OrderController(orderMapper);
     }
 
     public CupcakeController getCupcakeController() {
@@ -76,4 +84,11 @@ public class DependencyInjector {
         return orderlineController;
     }
 
+    public StatusController getStatusController() {
+        return statusController;
+    }
+
+    public OrderController getOrderController() {
+        return orderController;
+    }
 }

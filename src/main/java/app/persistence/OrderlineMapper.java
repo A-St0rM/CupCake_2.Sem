@@ -122,4 +122,30 @@ public class OrderlineMapper {
             throw new DatabaseException("Could not update orderline: " + e.getMessage());
         }
     }
+
+
+    public int getOrderIdByOderlineId(int orderlineId){
+        String query = "SELECT order_id FROM orderlines WHERE orderline_id = ?";
+
+        try (
+                Connection connection = connectionPool.getConnection();
+                PreparedStatement ps = connection.prepareStatement(query)
+        )
+        {
+            ps.setInt(1, orderlineId);
+            ResultSet resultSet = ps.executeQuery();
+
+            if(resultSet.next()){
+                return resultSet.getInt("order_id");
+            }
+            else{
+                throw new DatabaseException("No order found for this orderline");
+            }
+
+        }
+        catch (SQLException e)
+        {
+            throw new DatabaseException("Error getting order ID: " + e.getMessage());
+        }
+    }
 }

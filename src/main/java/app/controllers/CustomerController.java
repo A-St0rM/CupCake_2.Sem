@@ -1,5 +1,6 @@
 package app.controllers;
 
+import app.DTO.CustomerDTO;
 import app.entities.Customer;
 import app.exceptions.DatabaseException;
 import app.persistence.ConnectionPool;
@@ -13,11 +14,10 @@ import java.sql.SQLException;
 public class CustomerController {
 
     private final CustomerMapper customerMapper;
-    // Constructor injection
+
     public CustomerController( CustomerMapper customerMapper) {
         this.customerMapper = customerMapper;
     }
-
 
 
     public void createcustomer(@NotNull Context ctx) {
@@ -61,8 +61,8 @@ public class CustomerController {
 
         // Tjek om brugeren findes i databasen
         try {
-            Customer customer = customerMapper.login(email, password);
-            ctx.sessionAttribute("currentCustomer", customer);
+            CustomerDTO customerDTO = customerMapper.login(email, password);
+            ctx.sessionAttribute("currentCustomer", customerDTO);
 
 
             // Hvis customer findes i DB
@@ -70,8 +70,10 @@ public class CustomerController {
             ctx.render("cupcakeshop.html");
 
         } catch (DatabaseException | SQLException e) {
+
+            ctx.attribute("message", "Der opstod en fejl under login. Prøv igen.");
             // Hvis customer IKKE findes, send tilbage til login siden med fejl besked
-            ctx.attribute("message", e.getMessage());
+            System.err.println("Login fejl: " + e.getMessage());
             ctx.render("login.html");
         }
     }

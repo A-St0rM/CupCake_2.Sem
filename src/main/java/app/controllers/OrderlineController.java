@@ -23,7 +23,8 @@ public class OrderlineController {
     public void createOrderline(Context ctx) {
         try {
             int orderId = Integer.parseInt(ctx.formParam("orderId"));
-            orderlineService.createAndSaveOrderline(orderId);
+            int customerId = Integer.parseInt(ctx.formParam("customerId"));
+            orderlineService.createAndSaveOrderline(orderId, customerId);
             ctx.redirect("/orderlines"); //TODO: a page
         } catch (NumberFormatException e) {
             ctx.status(400).result("Invalid orderId: " + e.getMessage());
@@ -75,6 +76,4 @@ public class OrderlineController {
             ctx.status(500).result("Error retrieving orderlines: " + e.getMessage());
         }
     }
-
-
 }

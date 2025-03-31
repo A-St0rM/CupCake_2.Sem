@@ -1,5 +1,6 @@
 package app.persistence;
 
+import app.DTO.CustomerDTO;
 import app.entities.Customer;
 import app.exceptions.DatabaseException;
 
@@ -15,7 +16,7 @@ public class CustomerMapper {
         this.connectionPool = connectionPool;
     }
 
-    public Customer login(String email, String password) throws SQLException {
+    public CustomerDTO login(String email, String password) throws SQLException {
         // Denne super fede SQL linje konverterer input parametrene (ps) til lowercase og sammenligner med email i lowercase
         String sql = "SELECT * FROM customers WHERE LOWER(email) = LOWER(?) AND password = ?";
 
@@ -32,7 +33,8 @@ public class CustomerMapper {
             if (rs.next()) {
                 int id = rs.getInt("customer_id");
                 double balance = rs.getDouble("balance");
-                return new Customer(id, email, password, balance);
+                String customerEmail = rs.getString("email");
+                return new CustomerDTO(id, customerEmail, balance);
             } else {
                 throw new DatabaseException("Fejl i login. Prøv igen");
             }

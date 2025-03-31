@@ -1,5 +1,6 @@
 package app.persistence;
 
+import app.DTO.CupcakeDTO;
 import app.entities.Cupcake;
 import app.exceptions.DatabaseException;
 import java.sql.*;
@@ -31,10 +32,13 @@ public class CupcakeMapper {
         }
     }
 
-    public List<Cupcake> getAllCupcakes() throws DatabaseException {
-        String sql = "SELECT * FROM cupcakes";
+    public List<CupcakeDTO> getAllCupcakesDTO() throws DatabaseException {
+        String sql = "SELECT c.cupcake_id, t.name AS top_name, b.name AS bottom_name, c.cupcake_price " +
+                "FROM cupcakes c " +
+                "JOIN cupcake_tops t ON c.cupcake_top_id = t.id " +
+                "JOIN cupcake_bottoms b ON c.cupcake_bottom_id = b.id";
 
-        List<Cupcake> cupcakeList = new ArrayList<>();
+        List<CupcakeDTO> cupcakeList = new ArrayList<>();
 
         try (
                 Connection connection = connectionPool.getConnection();
@@ -42,14 +46,13 @@ public class CupcakeMapper {
                 ResultSet rs = ps.executeQuery()
         ) {
             while (rs.next()) {
-                Cupcake cupcake = new Cupcake(
+                CupcakeDTO cupcakeDTO = new CupcakeDTO(
                         rs.getInt("cupcake_id"),
-                        rs.getInt("cupcake_top_id"),
-                        rs.getInt("cupcake_bottom_id"),
-                        rs.getDouble("cupcake_price"),
-                        rs.getInt("quantity")
+                        rs.getString("top_name"),
+                        rs.getString("bottom_name"),
+                        rs.getDouble("cupcake_price")
                 );
-                cupcakeList.add(cupcake);
+                cupcakeList.add(cupcakeDTO);
             }
             return cupcakeList;
         } catch (SQLException e) {
