@@ -44,7 +44,11 @@ public class RoutingController {
         app.get("/cupcaketops", ctx -> cupcakeTopController.getAllCupcakeTops(ctx));
 
         // Routing for Admin
-        app.post("admin/login", ctx -> adminController.adminLogin(ctx));
+        app.get("/controlpanel", ctx -> ctx.render("admin/controlpanel.html"));
+        app.get("/vieworders", ctx -> ctx.render("admin/vieworders.html"));
+        app.post("vieworders", ctx -> orderController.getAllOrders(ctx));
+        app.get("/adminlogin", ctx -> ctx.render("admin/adminlogin.html"));
+        app.post("adminlogin", ctx -> adminController.adminLogin(ctx));
         app.get("createAdmin", ctx -> ctx.render("createAdmin"));
         app.post("createAdmin", ctx -> adminController.createAdmin(ctx));
 
