@@ -21,27 +21,28 @@
 <!--Her ligger al den overliggende navigation. th:href henviser til routingen-->
 <nav>
     <ul>
-        <li style="float:right"><a href="index.html" th:href="@{/}">Front Page</a></li>
-        <li style="float:right"><a href="login.html" th:href="@{/login}">Log in</a></li>
+        <li id="homepagebutton" style="float:right"><a href="index.html" th:href="@{/}">Front page</a></li>
+        <li id="loginbutton" style="float:right"><a href="login.html" th:href="@{/login}">Log in</a></li>
+
+        <!-- Move logout inside the list and only show if a user is logged in -->
+        <li id="logoutbutton" th:if="${session.currentCustomer != null}" style="float:right">
+            <a href="index.html" th:href="@{/logout}">Logout</a>
+        </li>
     </ul>
 </nav>
+<li id="makefirstorder" style="float:right"><a href="login.html" th:href="@{/login}">Make your first order!</a></li>
+
 
 <h1>ORDER CUPCAKES TODAY</h1>
 <div id="rectangle"></div>
 <img id="cupcake1" src="../public/images/cupcake1.jpg" th:src="@{/images/cupcake1.jpg}  "/>
-
-
-
-
-
-
+<h2>Olsker Cupcakes - The taste of Bornholm!</h2>
+<h3>Olsker Cupcakes is not just a bakery – it’s a deep-ecological adventure from Bornholm. With the finest ingredients and a passion for craftsmanship, we create cupcakes that not only taste heavenly but also tell a story. Perfection baked into every bite – natural, sustainable, and irresistible!</h3>
+´
 
 <!--Denne kode herunder burde gerne vise hvad email kunden er logget ind med,-->
 <!--og giver en knap til logout når man er logget ind-->
-<div th:if="${session.currentCustomer != null}">
-    <span th:text="${session.currentCustomer.email}"></span>
-    <a href="index.html" th:href="@{/logout}">Logout</a>
-</div>
+
 
 <!--    Denne nedenstående linje, viser den attribut som kommer, når der sker fejl på siden-->
 <p th:text="${message}"></p>

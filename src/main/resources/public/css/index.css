@@ -9,6 +9,29 @@ h1{
 
 }
 
+h2{
+    font-size: 36px;
+    font-family: Inter;
+    font-weight: 400;
+    position: relative;
+    bottom: 900px;
+    left: 250px;
+    width: 500px;
+}
+
+h3{
+    font-size: 16px;
+    font-family: Inter;
+    font-weight: 400;
+    position: relative;
+    bottom: 900px;
+    left: 250px;
+    width: 700px;
+
+}
+
+
+
 #rectangle{
     width:800px;
     height:300px;
@@ -25,7 +48,59 @@ h1{
 
 #cupcake1{
     position: relative;
-    left: 1000px;
-    bottom: 625px;
+    left: 1200px;
+    bottom: 800px;
     scale: 70%
 }
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: flex-end; /* Aligns buttons to the right */
+    gap: 10px; /* Adds space between buttons */
+}
+
+nav ul li {
+    display: inline-block;
+}
+
+nav ul li a {
+    display: block;
+    background-color: black;
+    color: white;
+    padding: 15px 32px;
+    text-decoration: none;
+    font-size: 16px;
+    font-family: Inter;
+    font-weight: 400;
+}
+
+nav ul li a:hover {
+    color: gray;
+}
+
+#makefirstorder{
+    background-color: black;
+    color: white; /* Ensures the text is white */
+    border: none;
+    padding: 15px 200px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    position: relative;
+    bottom: -800px;
+    right: 580px;
+    font-family: Inter;
+    font-weight: 400;
+
+}
+#makefirstorder a{
+    color: white; /* Ensures the link inside the button is white */
+    text-decoration: none; /* Removes underline */
+}
+
+
+
+
