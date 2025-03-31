@@ -1,6 +1,7 @@
 package app.persistence;
 
 import app.DTO.CustomerOrderDTO;
+import app.DTO.OrderStatusDTO;
 import app.entities.Order;
 import app.entities.Orderline;
 import app.exceptions.DatabaseException;
@@ -148,4 +149,33 @@ public class OrderMapper {
         }
         return orders;
     }
+
+    public List<OrderStatusDTO> getOrdersWithStatus() throws DatabaseException {
+        List<OrderStatusDTO> ordersWithStatus = new ArrayList<>();
+
+        String sql = "SELECT o.order_id, o.customer_id, o.order_date, o.total_price, " +
+                "s.is_paid, s.is_picked_up " +
+                "FROM orders o " +
+                "JOIN status s ON o.status_id = s.status_id";
+
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                int orderId = rs.getInt("order_id");
+                int customerId = rs.getInt("customer_id");
+                LocalDate orderDate = rs.getDate("order_date").toLocalDate();
+                double totalPrice = rs.getDouble("total_price");
+                boolean isPaid = rs.getBoolean("is_paid");
+                boolean isPickedUp = rs.getBoolean("is_picked_up");
+
+                ordersWithStatus.add(new OrderStatusDTO(orderId, customerId, orderDate, totalPrice, isPaid, isPickedUp));
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("Error getting orders with status: " + e.getMessage());
+        }
+        return ordersWithStatus;
+    }
+
 }

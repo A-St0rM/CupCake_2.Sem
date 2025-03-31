@@ -31,6 +31,8 @@ public class DependencyInjector {
     private final CupcakeTopController cupcakeTopController;
     private final CustomerController customerController;
     private final OrderlineController orderlineController;
+    private final StatusController statusController;
+    private final OrderController orderController;
 
     public DependencyInjector(ConnectionPool connectionPool) {
         this.connectionPool = connectionPool;
@@ -54,6 +56,8 @@ public class DependencyInjector {
         this.cupcakeTopController = new CupcakeTopController(cupcakeTopMapper);
         this.customerController = new CustomerController(customerMapper);
         this.orderlineController = new OrderlineController(orderlineService, orderlineMapper);
+        this.statusController = new StatusController(statusMapper);
+        this.orderController = new OrderController(orderMapper);
     }
 
     public CupcakeController getCupcakeController() {
@@ -80,4 +84,11 @@ public class DependencyInjector {
         return orderlineController;
     }
 
+    public StatusController getStatusController() {
+        return statusController;
+    }
+
+    public OrderController getOrderController() {
+        return orderController;
+    }
 }

@@ -14,7 +14,7 @@ import java.sql.SQLException;
 public class CustomerController {
 
     private final CustomerMapper customerMapper;
-    // Constructor injection
+
     public CustomerController( CustomerMapper customerMapper) {
         this.customerMapper = customerMapper;
     }

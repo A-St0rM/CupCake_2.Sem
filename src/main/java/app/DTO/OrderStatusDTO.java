@@ -19,8 +19,6 @@ public class OrderStatusDTO {
         this.isPickedUp = isPickedUp;
     }
 
-    //TODO: Last DTO to make endpoints for
-
     public int getOrderId() { return orderId; }
     public int getCustomerId() { return customerId; }
     public LocalDate getOrderDate() { return orderDate; }

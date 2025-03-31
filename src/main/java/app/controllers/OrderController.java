@@ -1,6 +1,7 @@
 package app.controllers;
 
 import app.DTO.CustomerOrderDTO;
+import app.DTO.OrderStatusDTO;
 import app.exceptions.DatabaseException;
 import app.persistence.OrderMapper;
 import io.javalin.http.Context;
@@ -16,7 +17,6 @@ public class OrderController {
         this.orderMapper = orderMapper;
     }
 
-    //TODO: make it to an endpoint
     public void getAllOrders(@NotNull Context ctx) {
         try {
             List<CustomerOrderDTO> orders = orderMapper.getOrdersWithCustomerInfo();
@@ -29,8 +29,13 @@ public class OrderController {
         }
     }
 
-
-    //TODO: change status on each order (Maybe in status controller/mapper)
-
-
+    public void getOrdersWithStatus(Context ctx) {
+        try {
+            List<OrderStatusDTO> orders = orderMapper.getOrdersWithStatus();
+            ctx.attribute("ordersWithStatus", orders);
+            ctx.render("orders.html");
+        } catch (DatabaseException e) {
+            ctx.status(500).result("Error fetching orders with status: " + e.getMessage());
+        }
+    }
 }
