@@ -14,7 +14,7 @@ public class CupcakeMapper {
         this.connectionPool = connectionPool;
     }
 
-    public void saveCupcake(Cupcake cupcake) {
+    public void insertCupcake(Cupcake cupcake) throws DatabaseException{
         String sql = "INSERT INTO cupcakes (cupcake_top_id, cupcake_bottom_id, cupcake_price, quantity) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = connectionPool.getConnection();
@@ -27,7 +27,7 @@ public class CupcakeMapper {
             ps.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DatabaseException("Could not insert new cupcake: " + e.getMessage());
         }
     }
 
@@ -101,4 +101,30 @@ public class CupcakeMapper {
             throw new DatabaseException("Could not update cupcake bottom: " + e.getMessage());
         }
     }
+
+    public Cupcake getCupcakeById(int cupcakeId) throws DatabaseException {
+        String sql = "SELECT * FROM cupcakes WHERE cupcake_id = ?";
+
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setInt(1, cupcakeId);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return new Cupcake(
+                        rs.getInt("cupcake_id"),
+                        rs.getInt("cupcake_top_id"),
+                        rs.getInt("cupcake_bottom_id"),
+                        rs.getDouble("cupcake_price"),
+                        rs.getInt("quantity")
+                );
+            } else {
+                return null; // Cupcake not found
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("Could not get cupcake by ID: " + e.getMessage());
+        }
+    }
+
 }

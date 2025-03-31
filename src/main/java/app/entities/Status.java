@@ -2,30 +2,41 @@ package app.entities;
 
 public class Status {
 
-    private int status_id;
-    private boolean is_paid;
+    private int statusId;
+    private boolean isPaid;
+    private boolean isPickedUp;
 
-    public Status(int status_id, boolean is_paid) {
-        this.status_id = status_id;
-        this.is_paid = is_paid;
+    public Status(int statusId, boolean isPaid, boolean isPickedUp) {
+        this.statusId = statusId;
+        this.isPaid = isPaid;
+        this.isPickedUp = isPickedUp;
     }
-    public Status( boolean is_paid) {
-        this.is_paid = is_paid;
-    }
-
-    public int getStatus_id() {
-        return status_id;
-    }
-
-    public void setStatus_id(int status_id) {
-        this.status_id = status_id;
+    public Status(boolean isPaid, boolean isPickedUp) {
+        this.isPaid = isPaid;
+        this.isPickedUp = isPickedUp;
     }
 
-    public boolean isIs_paid() {
-        return is_paid;
+    public int getStatusId() {
+        return statusId;
     }
 
-    public void setIs_paid(boolean is_paid) {
-        this.is_paid = is_paid;
+    public void setStatusId(int statusId) {
+        this.statusId = statusId;
+    }
+
+    public boolean isPaid() {
+        return isPaid;
+    }
+
+    public void setPaid(boolean paid) {
+        this.isPaid = paid;
+    }
+
+    public boolean isPickedUp() {
+        return isPickedUp;
+    }
+
+    public void setPickedUp(boolean pickedUp) {
+        isPickedUp = pickedUp;
     }
 }

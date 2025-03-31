@@ -18,6 +18,7 @@ public class RoutingController {
         CupcakeBottomController cupcakeBottomController = di.getCupcakeBottomController();
         CupcakeTopController cupcakeTopController = di.getCupcakeTopController();
         CustomerController customerController = di.getCustomerController();
+        OrderlineController orderlineController = di.getOrderlineController();
 
 
         // General Routing
@@ -51,6 +52,11 @@ public class RoutingController {
         app.put("/updateCupcake", ctx -> cupcakeController.updateCupcake(ctx));
         app.get("/getAllCupcakes", ctx -> cupcakeController.getAllCupcakes(ctx));
 
+        //Routing for orderline
+        app.post("/createOrderline", ctx -> orderlineController.createOrderline(ctx));
+        app.put("/updateOrderlinePrice", ctx -> orderlineController.updateOrderlinePrice(ctx));
+        app.post("/deleteCupcakeFromOrderline", ctx -> orderlineController.deleteCupcakeFromOrderline(ctx));
+        app.get("/getAllOrderlines", ctx -> orderlineController.getAllOrderlines(ctx));
 
     }
 }

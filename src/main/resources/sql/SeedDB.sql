@@ -8,9 +8,10 @@ INSERT INTO public.customers (email, password, balance) VALUES
 ('customer2@example.com', 'mypassword', 75.50),
 ('customer3@example.com', 'securepass', 30.25);
 
-INSERT INTO public.status (is_paid) VALUES
-(TRUE),
-(FALSE);
+INSERT INTO public.status (is_paid, is_picked_up) VALUES
+(TRUE, FALSE),   -- Paid but not picked up
+(FALSE, FALSE),  -- Not paid and not picked up
+(TRUE, TRUE);  -- Paid and picked up
 
 INSERT INTO public.cupcake_bottoms (price, bottom_name) VALUES
 (5.00, 'Chocolate'),

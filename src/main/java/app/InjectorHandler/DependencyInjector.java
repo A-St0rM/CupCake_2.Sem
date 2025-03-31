@@ -1,8 +1,10 @@
 package app.InjectorHandler;
 
 import app.controllers.*;
+import app.entities.Orderline;
 import app.persistence.*;
 import app.service.CupcakeService;
+import app.service.OrderlineService;
 
 public class DependencyInjector {
     private final ConnectionPool connectionPool;
@@ -13,9 +15,11 @@ public class DependencyInjector {
     private final CupcakeMapper cupcakeMapper;
     private final CustomerMapper customerMapper;
     private final AdminMapper adminMapper;
+    private final OrderlineMapper orderlineMapper;
 
     // Services
     private final CupcakeService cupcakeService;
+    private final OrderlineService orderlineService;
 
     // Controllers
     private final CupcakeController cupcakeController;
@@ -23,6 +27,7 @@ public class DependencyInjector {
     private final CupcakeBottomController cupcakeBottomController;
     private final CupcakeTopController cupcakeTopController;
     private final CustomerController customerController;
+    private final OrderlineController orderlineController;
 
     public DependencyInjector(ConnectionPool connectionPool) {
         this.connectionPool = connectionPool;
@@ -33,19 +38,20 @@ public class DependencyInjector {
         this.cupcakeMapper = new CupcakeMapper(connectionPool);
         this.customerMapper = new CustomerMapper(connectionPool);
         this.adminMapper = new AdminMapper(connectionPool);
+        this.orderlineMapper = new OrderlineMapper(connectionPool);
 
 
         this.cupcakeService = new CupcakeService(cupcakeBottomMapper, cupcakeTopMapper, cupcakeMapper);
-
+        this.orderlineService = new OrderlineService(cupcakeMapper, orderlineMapper);
 
         this.cupcakeController = new CupcakeController(cupcakeService, cupcakeMapper);
         this.adminController = new AdminController(adminMapper);
         this.cupcakeBottomController = new CupcakeBottomController(cupcakeBottomMapper);
         this.cupcakeTopController = new CupcakeTopController(cupcakeTopMapper);
         this.customerController = new CustomerController(customerMapper);
+        this.orderlineController = new OrderlineController(orderlineService, orderlineMapper);
     }
 
-    // Gettere til at hente controllers
     public CupcakeController getCupcakeController() {
         return cupcakeController;
     }
@@ -64,6 +70,10 @@ public class DependencyInjector {
 
     public CustomerController getCustomerController() {
         return customerController;
+    }
+
+    public OrderlineController getOrderlineController(){
+        return orderlineController;
     }
 
 }
