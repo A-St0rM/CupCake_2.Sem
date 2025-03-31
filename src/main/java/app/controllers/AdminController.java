@@ -29,6 +29,13 @@ public class AdminController {
         String password1 = ctx.formParam("password");
         String password2 = ctx.formParam("password2");
 
+        // Validerer emailen ved brug af en boolean som tjekker inputtet fra formen.
+        if (!isValidEmail(email)) {
+            ctx.attribute("message", "Invalid email format");
+            ctx.render("admin/createadmin.html");
+            return;
+        }
+
         if (password1.equals(password2)) {
             try {
                 adminMapper.createAdmin(email, password1);
@@ -44,6 +51,10 @@ public class AdminController {
             ctx.attribute("message", "Passwords do not match");
             ctx.render("admin/createadmin.html");
         }
+    }
+
+    private static boolean isValidEmail(String email) {
+        return email != null && email.matches("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}");
     }
 
     public void adminLogin(@NotNull Context ctx) {
