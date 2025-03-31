@@ -1,5 +1,6 @@
 package app.persistence;
 
+import app.DTO.AdminDTO;
 import app.entities.Admin;
 import app.entities.Customer;
 import app.exceptions.DatabaseException;
@@ -17,8 +18,9 @@ public class AdminMapper {
         this.connectionPool = connectionPool;
     }
 
-    public Admin login(String email, String password) throws SQLException {
-        String sql = "select * from admins where email = ? and password = ?";
+    public AdminDTO login(String email, String password) throws SQLException {
+        // Denne SQL linje konverterer input parametrene til lowercase og sammenligner med email i lowercase
+        String sql = "SELECT * FROM admins WHERE LOWER(email) = LOWER(?) and password = ?";
 
         Connection connection = connectionPool.getConnection();
 
@@ -30,20 +32,21 @@ public class AdminMapper {
 
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                int id = rs.getInt("customer_id");
-                int balance = rs.getInt("role");
-                return new Admin(id, email, password);
+                int id = rs.getInt("admin_id");
+                String adminEmail = rs.getString("email");
+                return new AdminDTO(id, adminEmail);
             } else {
                 throw new DatabaseException("Fejl i login. Prøv igen");
             }
         } catch (SQLException e) {
+            System.err.println("SQL Fejl" + e.getMessage());
             throw new DatabaseException("DB fejl", e.getMessage());
         }
     }
 
     public void createAdmin(String email, String password) throws DatabaseException
     {
-        String sql = "insert into admins (email, password) values (?,?)";
+        String sql = "INSERT INTO admins (email, password) VALUES (?,?)";
 
         try (
                 Connection connection = connectionPool.getConnection();

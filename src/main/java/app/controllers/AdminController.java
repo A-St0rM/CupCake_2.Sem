@@ -1,5 +1,7 @@
 package app.controllers;
 
+import app.DTO.AdminDTO;
+import app.DTO.CustomerDTO;
 import app.entities.Admin;
 import app.entities.Customer;
 import app.exceptions.DatabaseException;
@@ -14,6 +16,7 @@ import java.sql.SQLException;
 public class AdminController {
 
     private final AdminMapper adminMapper;
+
     // Constructor injection
     public AdminController(AdminMapper adminMapper) {
         this.adminMapper = adminMapper;
@@ -22,8 +25,8 @@ public class AdminController {
 
     public void createAdmin(@NotNull Context ctx) {
         // Henter form parametre, 2 passwords for at tjekke om de er ens
-        String email = ctx.pathParam("email");
-        String password1 = ctx.pathParam("password1");
+        String email = ctx.formParam("email");
+        String password1 = ctx.formParam("password");
         String password2 = ctx.formParam("password2");
 
         if (password1.equals(password2)) {
@@ -39,7 +42,8 @@ public class AdminController {
             }
         } else {
             ctx.attribute("message", "Passwords do not match");
-            ctx.render("createcustomer.html");}
+            ctx.render("createcustomer.html");
+        }
     }
 
     public void adminLogin(@NotNull Context ctx) {
@@ -47,18 +51,18 @@ public class AdminController {
         String email = ctx.queryParam("email");
         String password = ctx.queryParam("password");
 
-        // Tjek om brugeren findes i databasen
+        // Tjek om admin findes i databasen
         try {
-            Admin admin = adminMapper.login(email, password);
+            AdminDTO adminDTO = adminMapper.login(email, password);
+            ctx.sessionAttribute("currentAdmin", adminDTO);
 
             // Hvis customer findes i DB
-            // TODO: Her vil der så sendes en attribut med en liste af alle tidligere ordre
-            ctx.render("cupcakeshop.html");
+            ctx.render("adminindex.html");
 
         } catch (DatabaseException | SQLException e) {
-            // Hvis customer IKKE findes, send tilbage til login siden med fejl besked
+            // Hvis admin IKKE findes, send tilbage til login siden med fejl besked
             ctx.attribute("message", e.getMessage());
-            ctx.render("index.html");
+            ctx.render("login.html");
         }
     }
 }
