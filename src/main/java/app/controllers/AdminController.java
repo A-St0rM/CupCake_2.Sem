@@ -48,8 +48,8 @@ public class AdminController {
 
     public void adminLogin(@NotNull Context ctx) {
         // Henter form parametre til login
-        String email = ctx.queryParam("email");
-        String password = ctx.queryParam("password");
+        String email = ctx.formParam("email");
+        String password = ctx.formParam("password");
 
         // Tjek om admin findes i databasen
         try {
