@@ -3,7 +3,7 @@
 <title>Cupcake Shop</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="../public/css/adminlogin.css" th:href="@{/css/adminlogin.css}" rel="stylesheet"/>
+<link href="../../public/css/adminlogin.css" th:href="@{/css/admin/adminlogin.css}" rel="stylesheet"/>
 </head>
 
 <body>
@@ -28,7 +28,7 @@
     <div class="logIn-items">
         <h2>Log in</h2>
         <p th:if="${message}" style="color: red;">[[${message}]]</p>
-        <form action="/adminlogin" th:action="@{/adminlogin}" method="post" onsubmit="console.log('Form submitted!')">
+        <form action="/adminlogin" th:action="@{/adminLogin}" method="post" onsubmit="console.log('Form submitted!')">
             <label for="email">E-mail</label>:
             <input type="text" id="email" name="email" autofocus="autofocus"/><br/>
             <label for="password">Password</label>:
@@ -46,9 +46,9 @@
 <!--    Denne nedenstående linje, viser på siden den attribut som kommer, når der sker fejl på siden-->
 <p th:text="${message}"></p>
 
-<p><a href="../createcustomer.html" th:href="@{/createcustomer}">Create account</a></p>
+<p><a href="../createcustomer.html" th:href="@{/createCustomer}">Create account</a></p>
 
-<p><a href="adminlogin.html" th:href="@{/adminlogin}">Admin Login</a></p>
+<p><a href="adminlogin.html" th:href="@{/adminLogin}">Admin Login</a></p>
 
 
 </body>

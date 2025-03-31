@@ -3,7 +3,7 @@
 <title>Cupcake Shop</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="../public/css/controlpanel.css" th:href="@{/css/control.css}" rel="stylesheet"/>
+<link href="../../public/css/controlpanel.css" th:href="@{/css/admin/control.css}" rel="stylesheet"/>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
@@ -21,7 +21,7 @@
 <!--Her ligger al den overliggende navigation. th:href henviser til routingen-->
 <nav>
   <ul>
-    <li style="float:right"><a href="admin/controlpanel.html" th:href="@{/controlpanel}">Control Panel</a></li>
+    <li style="float:right"><a href="admin/controlpanel.html" th:href="@{/controlPanel}">Control Panel</a></li>
 
     <!-- Move logout inside the list and only show if a user is logged in -->
     <li id="logoutbutton" th:if="${session.currentAdmin != null}" style="float:right">
@@ -34,8 +34,8 @@
 <p>Welcome, admin: <span th:text="${session.currentAdmin.email}"></span></p>
 <p th:text="${adminmessage}"></p>
 
-<a href="/admin/vieworders.html" th:href="@{/vieworders}" class="admin-button">View all orders</a>
-<a href="/admin/createadmin.html" th:href="@{/createadmin}" class="admin-button">Create Admin</a>
+<a href="/admin/vieworders.html" th:href="@{/viewOrders}" class="admin-button">View all orders</a>
+<a href="/admin/createadmin.html" th:href="@{/createAdmin}" class="admin-button">Create Admin</a>
 
 
 <!--    Denne nedenstående linje, viser den attribut som kommer, når der sker fejl på siden-->

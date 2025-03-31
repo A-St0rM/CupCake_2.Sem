@@ -36,21 +36,21 @@ public class RoutingController {
         // Routing for Customer
         app.get("/login", ctx -> ctx.render("login.html"));
         app.post("login", ctx -> customerController.login(ctx));
-        app.get("createcustomer", ctx -> ctx.render("createcustomer"));
-        app.post("/createcustomer", ctx -> customerController.createcustomer(ctx));
+        app.get("createCustomer", ctx -> ctx.render("createcustomer"));
+        app.post("/createCustomer", ctx -> customerController.createcustomer(ctx));
 
         // Routing for cupcake bottom and top
         app.get("/cupcakebottoms", ctx -> cupcakeBottomController.getAllCupcakeBottoms(ctx));
         app.get("/cupcaketops", ctx -> cupcakeTopController.getAllCupcakeTops(ctx));
 
         // Routing for Admin
-        app.get("/controlpanel", ctx -> ctx.render("admin/controlpanel.html"));
-        app.get("/vieworders", ctx -> ctx.render("admin/vieworders.html"));
-        app.post("vieworders", ctx -> orderController.getAllOrders(ctx));
-        app.get("/adminlogin", ctx -> ctx.render("admin/adminlogin.html"));
-        app.post("adminlogin", ctx -> adminController.adminLogin(ctx));
-        app.get("/createadmin", ctx -> ctx.render("admin/createadmin.html"));
-        app.post("createadmin", ctx -> adminController.createAdmin(ctx));
+        app.get("/controlPanel", ctx -> ctx.render("admin/controlpanel.html"));
+        app.get("/viewOrders", ctx -> ctx.render("admin/vieworders.html"));
+        app.post("viewOrders", ctx -> orderController.getAllOrders(ctx));
+        app.get("/adminLogin", ctx -> ctx.render("admin/adminlogin.html"));
+        app.post("adminLogin", ctx -> adminController.adminLogin(ctx));
+        app.get("/createAdmin", ctx -> ctx.render("admin/createadmin.html"));
+        app.post("createAdmin", ctx -> adminController.createAdmin(ctx));
 
         //Routing for cupcake
         app.post("/addCupcake", ctx -> cupcakeController.addCupcake(ctx));

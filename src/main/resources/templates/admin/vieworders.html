@@ -3,7 +3,7 @@
 <title>Cupcake Shop</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="../public/css/controlpanel.css" th:href="@{/css/control.css}" rel="stylesheet"/>
+<link href="../../public/css/vieworders.css" th:href="@{/css/admin/vieworders.css}" rel="stylesheet"/>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
@@ -21,7 +21,7 @@
 <!--Her ligger al den overliggende navigation. th:href henviser til routingen-->
 <nav>
     <ul>
-        <li style="float:right"><a href="admin/controlpanel.html" th:href="@{/controlpanel}">Control Panel</a></li>
+        <li style="float:right"><a href="admin/controlpanel.html" th:href="@{/controlPanel}">Control Panel</a></li>
 
         <!-- Move logout inside the list and only show if a user is logged in -->
         <li id="logoutbutton" th:if="${session.currentAdmin != null}" style="float:right">
@@ -32,31 +32,6 @@
 </nav>
 
 <p>Welcome, admin: <span th:text="${session.currentAdmin.email}"></span></p>
-
-
-<!-- Burde liste alle ordre (Den virker ikke endnu, for some reason) -->
-<table class="order-table">
-    <thead>
-    <tr>
-        <th>orderId</th>
-        <th>customerEmail</th>
-        <th>totalPrice</th>
-        <th>orderDate</th>
-        <th>Action</th>
-    </tr>
-    <tbody>
-    <tr th:each="order: ${orders}">
-        <td th:text="${order.orderId}"></td>
-        <td th:text="${order.customerEmail}"></td>
-        <td th:text="${order.totalPrice}"></td>
-        <td th:text="${order.orderDate}"></td>
-        <td><button type="submit">Edit</button></td>
-    </tr>
-    </tbody>
-    </thead>
-</table>
-
-
 
 
 </body>
