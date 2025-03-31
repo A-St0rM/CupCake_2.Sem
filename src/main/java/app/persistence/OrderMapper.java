@@ -19,23 +19,30 @@ public class OrderMapper {
         this.connectionPool = connectionPool;
     }
 
-    public void insertOrder(Order order) throws DatabaseException {
-        String sql = "INSERT INTO orders(order_id, customer_id, order_date, total_price, status_id) VALUES (?, ?, ?, ?, ?)";
+    public int insertOrder(Order order) throws DatabaseException {
+        String sql = "INSERT INTO orders (customer_id, order_date, total_price, status_id) " +
+                "VALUES (?, ?, ?, ?) RETURNING order_id";
 
         try (Connection conn = connectionPool.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setInt(1, order.getOrderId());
-            ps.setInt(2, order.getCustomerId());
-            ps.setDate(3, Date.valueOf(order.getOrderDate()));
-            ps.setDouble(4, order.getTotalPrice());
-            ps.setInt(5, order.getStatusId());
-            ps.executeUpdate();
+            ps.setInt(1, order.getCustomerId());
+            ps.setDate(2, Date.valueOf(order.getOrderDate()));
+            ps.setInt(3, order.getTotalPrice());
+            ps.setInt(4, order.getStatusId());
+
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("order_id");
+            } else {
+                throw new DatabaseException("Failed to insert order and retrieve ID.");
+            }
 
         } catch (SQLException e) {
             throw new DatabaseException("Could not insert new Order: " + e.getMessage());
         }
     }
+
 
     public List<Order> getAllOrders() throws DatabaseException {
         String sql = "SELECT * FROM orders";
@@ -102,25 +109,18 @@ public class OrderMapper {
         }
     }
 
-    public boolean updateOrderById(int orderId) throws DatabaseException
-    {
+    public boolean updateOrderById(int orderId) throws DatabaseException {
         String query = "UPDATE orders SET total_price = (SELECT SUM(initial_price) FROM orderlines WHERE order_id = ?) WHERE order_id = ?";
 
         try (
                 Connection connection = connectionPool.getConnection();
                 PreparedStatement ps = connection.prepareStatement(query)
-        )
-        {
+        ) {
             ps.setInt(1, orderId);
             ps.setInt(2, orderId);
-
-
             int affectedRows = ps.executeUpdate();
-
-            return affectedRows > 0; // If at least one row was updated, return true
-        }
-        catch (SQLException e)
-        {
+            return affectedRows > 0;
+        } catch (SQLException e) {
             throw new DatabaseException("Could not update order: " + e.getMessage());
         }
     }

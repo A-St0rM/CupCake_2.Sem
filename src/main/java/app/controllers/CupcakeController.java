@@ -44,18 +44,8 @@ public class CupcakeController {
                 return;
             }
 
-            // Sørg for at kunden har en aktiv order + orderline
-            int orderId;
-            try {
-                orderId = orderlineService.getLatestOrderId(customerId);
-            } catch (Exception e) {
-                // Opret ny ordre og orderline hvis ingen findes
-                orderlineService.createAndSaveOrderline(customerId);
-                orderId = orderlineService.getLatestOrderId(customerId);
-            }
-
-            // Tilføj cupcake til databasen
-            cupcakeService.createAndSaveCupcake(topId, bottomId, quantity);
+            // Lad service håndtere alt med ordre/orderline/cupcake
+            cupcakeService.createAndSaveCupcake(topId, bottomId, quantity, customerId);
 
             ctx.redirect("/cupcakeshop");
         } catch (Exception e) {

@@ -15,20 +15,24 @@ public class CupcakeMapper {
         this.connectionPool = connectionPool;
     }
 
-    public void insertCupcake(Cupcake cupcake) throws DatabaseException{
-        String sql = "INSERT INTO cupcakes (cupcake_top_id, cupcake_bottom_id, cupcake_price, quantity) VALUES (?, ?, ?, ?)";
+    public int insertCupcakeAndReturnId(Cupcake cupcake) {
+        String sql = "INSERT INTO cupcakes (cupcake_top_id, cupcake_bottom_id, cupcake_price, quantity) VALUES (?, ?, ?, ?) RETURNING cupcake_id";
 
         try (Connection conn = connectionPool.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
-
             ps.setInt(1, cupcake.getCupcakeTopId());
             ps.setInt(2, cupcake.getCupcakeBottomId());
-            ps.setDouble(3, cupcake.getPrice());
+            ps.setInt(3, cupcake.getPrice());
             ps.setInt(4, cupcake.getQuantity());
-            ps.executeUpdate();
 
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("cupcake_id");
+            } else {
+                throw new DatabaseException("Failed to insert cupcake and return ID");
+            }
         } catch (SQLException e) {
-            throw new DatabaseException("Could not insert new cupcake: " + e.getMessage());
+            throw new DatabaseException("Could not insert cupcake: " + e.getMessage());
         }
     }
 
@@ -163,5 +167,7 @@ public class CupcakeMapper {
             throw new DatabaseException("Could not get cupcakes by orderline ID", e.getMessage());
         }
     }
+
+
 
 }

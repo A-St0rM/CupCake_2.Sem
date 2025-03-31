@@ -29,35 +29,23 @@ public class OrderlineService {
     }
 
     public void createAndSaveOrderline(int orderId, int customerId) {
-
-        boolean orderExists = orderMapper.doesOrderExist(orderId);
-
-        if (!orderExists) {
-
-            //Create a new status id for order
+        if (orderId == 0 || !orderMapper.doesOrderExist(orderId)) {
             int statusId = statusMapper.createStatus();
-
-            Order order = new Order(
-                    orderId,
-                    customerId,
-                    LocalDate.now(),
-                    0,
-                    statusId
-            );
-            orderMapper.insertOrder(order);
+            Order order = new Order(0, customerId, LocalDate.now(), 0, statusId);
+            orderId = orderMapper.insertOrder(order);
         }
 
-        //add the orderline
-        List<CupcakeDTO> cupcakeList = cupcakeMapper.getAllCupcakesDTO();
+        // 🔁 Her bruger vi kun cupcakes for denne kunde
+        List<CupcakeDTO> cupcakeList = getCupcakesInCart(customerId);
+
         int totalPrice = 0;
         for (CupcakeDTO c : cupcakeList) {
-            totalPrice += c.getPrice();
+            totalPrice += c.getPrice() * c.getQuantity();
         }
 
+        //TODO: Prisen laves ikke når vi opretter orderline/orders
         Orderline orderline = new Orderline(orderId, totalPrice);
         orderlineMapper.insertOrderline(orderline);
-
-        //update the total order price
         orderMapper.updateOrderById(orderId);
     }
 

@@ -48,7 +48,7 @@ public class DependencyInjector {
         this.statusMapper = new StatusMapper(connectionPool);
 
 
-        this.cupcakeService = new CupcakeService(cupcakeBottomMapper, cupcakeTopMapper, cupcakeMapper);
+        this.cupcakeService = new CupcakeService(cupcakeBottomMapper, cupcakeTopMapper, cupcakeMapper, orderlineMapper, orderMapper, statusMapper);
         this.orderlineService = new OrderlineService(cupcakeMapper, orderlineMapper, orderMapper, statusMapper);
         this.cupcakeController = new CupcakeController(cupcakeService, cupcakeMapper, cupcakeTopMapper, cupcakeBottomMapper, orderlineService);
         this.adminController = new AdminController(adminMapper);

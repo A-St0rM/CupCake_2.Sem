@@ -18,19 +18,38 @@ public class OrderlineMapper {
         this.connectionPool = connectionPool;
     }
 
-    public void insertOrderline(Orderline orderline) throws DatabaseException {
-        String sql = "INSERT INTO orderlines (orderline_id, order_id, initial_price) VALUES (?, ?, ?)";
+    public int insertOrderline(Orderline orderline) throws DatabaseException {
+        String sql = "INSERT INTO orderlines (order_id, initial_price) VALUES (?, ?) RETURNING orderline_id";
 
         try (Connection conn = connectionPool.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setInt(1, orderline.getOrderlineId());
-            ps.setInt(2, orderline.getOrderId());
-            ps.setInt(3, orderline.getInitialPrice());
-            ps.executeUpdate();
+            ps.setInt(1, orderline.getOrderId());
+            ps.setInt(2, orderline.getInitialPrice());
+
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("orderline_id");
+            } else {
+                throw new DatabaseException("Failed to insert orderline and retrieve ID.");
+            }
 
         } catch (SQLException e) {
             throw new DatabaseException("Could not insert new Orderline: " + e.getMessage());
+        }
+    }
+
+
+    public void insertCupcakeToOrderline(int cupcakeId, int orderlineId) {
+        String sql = "INSERT INTO cupcakes_orderlines (cupcake_id, orderline_id) VALUES (?, ?)";
+
+        try (Connection conn = connectionPool.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, cupcakeId);
+            ps.setInt(2, orderlineId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new DatabaseException("Could not insert cupcake into orderline: " + e.getMessage());
         }
     }
 

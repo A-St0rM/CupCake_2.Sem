@@ -1,0 +1,64 @@
+.cart-container {
+    max-width: 700px;
+    margin: 3rem auto;
+    padding: 1rem;
+    text-align: center;
+}
+
+.cart-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffe6e6;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+}
+
+.cupcake-info {
+    text-align: left;
+    flex-grow: 1;
+}
+
+.btn-delete {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.btn-delete:hover {
+    background-color: #cc0000;
+}
+
+.cart-empty {
+    margin-top: 2rem;
+    font-size: 1.2rem;
+    color: #555;
+}
+
+.cart-back {
+    margin-top: 2rem;
+}
+
+.btn-back {
+    background-color: #222;
+    color: white;
+    padding: 0.7rem 1.2rem;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.btn-back:hover {
+    background-color: #444;
+}

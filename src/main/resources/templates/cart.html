@@ -2,19 +2,39 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Din kurv</title>
+    <link rel="stylesheet" href="/css/cart.css" th:href="@{/css/cart.css}" />
 </head>
 <body>
-<h1>Din kurv</h1>
-<div th:if="${cupcakes != null and !cupcakes.isEmpty()}">
-  <ul>
-    <li th:each="cupcake : ${cupcakes}">
-      <span th:text="'x' + ${cupcake.quantity} + ': ' + ${cupcake.bottomName} + ' + ' + ${cupcake.topName} + ' = ' + ${cupcake.price} + ' kr'"></span>
-    </li>
-  </ul>
-</div>
-<div th:if="${cupcakes == null or cupcakes.isEmpty()}">
-  <p>Din kurv er tom 😢</p>
+<header>
+    <a href="/" th:href="@{/}">
+        <img id="banner" src="../public/images/CupcakeShop_header.png" th:src="@{/images/CupcakeShop_header.png}" width="100%"/>
+    </a>
+</header>
+
+<div class="cart-container">
+    <h2>🧁 Din kurv</h2>
+
+    <div class="cart-list" th:if="${cupcakes != null and !cupcakes.isEmpty()}">
+        <ul>
+            <li class="cart-item" th:each="cupcake : ${cupcakes}">
+                <div class="cupcake-info">
+                    <strong th:text="'x' + ${cupcake.quantity} + ': '"></strong>
+                    <span th:text="${cupcake.bottomName}"></span> +
+                    <span th:text="${cupcake.topName}"></span> =
+                    <span th:text="${cupcake.price} + ' kr'"></span>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <div class="cart-empty" th:if="${cupcakes == null or cupcakes.isEmpty()}">
+        <p>Kurven er tom 😢</p>
+    </div>
+
+    <div class="cart-back">
+        <a th:href="@{/cupcakeshop}" class="btn-back">Tilbage til shoppen</a>
+    </div>
 </div>
 </body>
 </html>
