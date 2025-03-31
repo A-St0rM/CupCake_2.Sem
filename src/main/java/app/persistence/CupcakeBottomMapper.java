@@ -22,7 +22,7 @@ public class CupcakeBottomMapper {
             try(PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)){
 
                 preparedStatement.setDouble(1, cupcakeBottom.getPrice());
-                preparedStatement.setString(2, cupcakeBottom.getCupcake_bottom_name());
+                preparedStatement.setString(2, cupcakeBottom.getCupcakeBottomName());
 
                 int affectedRows = preparedStatement.executeUpdate();
 
@@ -35,7 +35,7 @@ public class CupcakeBottomMapper {
                         int generatedId = generatedKeys.getInt(1);
 
                         // Return a new cupcake object including the generated ID
-                        return new CupcakeBottom(generatedId, cupcakeBottom.getPrice(), cupcakeBottom.getCupcake_bottom_name());
+                        return new CupcakeBottom(generatedId, cupcakeBottom.getPrice(), cupcakeBottom.getCupcakeBottomName());
                     } else {
                         throw new DatabaseException("Creating cupcake bottom failed, no ID obtained.");
                     }
@@ -47,14 +47,14 @@ public class CupcakeBottomMapper {
     }
 
 
-    public double getPriceById(int bottomId) {
+    public int getPriceById(int bottomId) {
         String sql = "SELECT price FROM cupcake_bottoms WHERE cupcake_bottom_id = ?";
         try (Connection conn = connectionPool.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, bottomId);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                return rs.getDouble("price");
+                return rs.getInt("price");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -71,7 +71,7 @@ public class CupcakeBottomMapper {
 
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                return new CupcakeTop(rs.getInt("cupcake_bottom_id"), rs.getDouble("price"), rs.getString("bottom_name"));
+                return new CupcakeTop(rs.getInt("cupcake_bottom_id"), rs.getInt("price"), rs.getString("bottom_name"));
             }
         } catch (SQLException e) {
             throw new DatabaseException("Could not get Cupcake by id: " + id + e.getMessage());
@@ -92,7 +92,7 @@ public class CupcakeBottomMapper {
             while (rs.next()) {
                 CupcakeBottom cupcakeBottom = new CupcakeBottom(
                         rs.getInt("cupcake_bottom_id"),
-                        rs.getDouble("price"),
+                        rs.getInt("price"),
                         rs.getString("bottom_name")
                 );
                 cupcakeBottomList.add(cupcakeBottom);
@@ -121,7 +121,7 @@ public class CupcakeBottomMapper {
         }
     }
 
-    public boolean updateCupcakeBottomById(int cupcakeBottomId, String newName, double newPrice) throws DatabaseException
+    public boolean updateCupcakeBottomById(int cupcakeBottomId, String newName, int newPrice) throws DatabaseException
     {
         String query = "UPDATE cupcake_bottoms SET bottom_name = ?, price = ? WHERE cupcake_bottom_id = ?";
 
@@ -131,7 +131,7 @@ public class CupcakeBottomMapper {
         )
         {
             ps.setString(1, newName);
-            ps.setDouble(2, newPrice);
+            ps.setInt(2, newPrice);
             ps.setInt(3, cupcakeBottomId);
 
 

@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS public.orders
 CREATE TABLE IF NOT EXISTS public.cupcake_bottoms
 (
     cupcake_bottom_id serial NOT NULL,
-    price numeric NOT NULL,
+    price integer NOT NULL,
     bottom_name character varying(50) COLLATE pg_catalog."default" NOT NULL,
     CONSTRAINT cupcake_bottoms_pkey PRIMARY KEY (cupcake_bottom_id)
     );
@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS public.cupcake_bottoms
 CREATE TABLE IF NOT EXISTS public.cupcake_tops
 (
     cupcake_top_id serial NOT NULL,
-    price numeric NOT NULL,
+    price integer NOT NULL,
     top_name character varying(50) COLLATE pg_catalog."default" NOT NULL,
     CONSTRAINT cupcake_tops_pkey PRIMARY KEY (cupcake_top_id)
     );
@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS public.cupcakes
     cupcake_id serial NOT NULL,
     cupcake_top_id integer NOT NULL,
     cupcake_bottom_id integer NOT NULL,
-    cupcake_price numeric NOT NULL,
+    cupcake_price integer NOT NULL,
     quantity integer,
     CONSTRAINT cupcakes_pkey PRIMARY KEY (cupcake_id),
     CONSTRAINT fk_cupcake_bottom FOREIGN KEY (cupcake_bottom_id)
@@ -86,7 +86,7 @@ CREATE TABLE IF NOT EXISTS public.cupcakes_orderlines
     cupcake_orderline_id serial NOT NULL,
     cupcake_id integer NOT NULL,
     orderline_id integer NOT NULL,
-    cupcake_price numeric NOT NULL,
+    cupcake_price integer NOT NULL,
     CONSTRAINT cupcakes_orderlines_pkey PRIMARY KEY (cupcake_orderline_id),
     CONSTRAINT fk_cupcake_id FOREIGN KEY (cupcake_id)
     REFERENCES public.cupcakes (cupcake_id),

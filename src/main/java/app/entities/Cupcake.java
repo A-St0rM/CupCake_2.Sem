@@ -4,17 +4,17 @@ public class Cupcake {
     private int cupcake_id;
     private int cupcakeTopId;
     private int cupcakeBottomId;
-    private double price;
+    private int price;
     private int quantity;
 
-    public Cupcake(int cupcake_id, int cupcakeTopId, int cupcakeBottomId, double price, int quantity) {
+    public Cupcake(int cupcake_id, int cupcakeTopId, int cupcakeBottomId, int price, int quantity) {
         this.cupcake_id = cupcake_id;
         this.cupcakeTopId = cupcakeTopId;
         this.cupcakeBottomId = cupcakeBottomId;
         this.price = price;
         this.quantity = quantity;
     }
-    public Cupcake(int cupcakeTopId, int cupcakeBottomId, double price, int quantity) {
+    public Cupcake(int cupcakeTopId, int cupcakeBottomId, int price, int quantity) {
         this.cupcakeTopId = cupcakeTopId;
         this.cupcakeBottomId = cupcakeBottomId;
         this.price = price;
@@ -49,11 +49,11 @@ public class Cupcake {
         this.cupcakeBottomId = cupcakeBottomId;
     }
 
-    public double getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 

@@ -33,10 +33,10 @@ public class CupcakeMapper {
     }
 
     public List<CupcakeDTO> getAllCupcakesDTO() throws DatabaseException {
-        String sql = "SELECT c.cupcake_id, t.name AS top_name, b.name AS bottom_name, c.cupcake_price " +
+        String sql = "SELECT c.cupcake_id, t.top_name AS top_name, b.bottom_name AS bottom_name, c.cupcake_price, c.quantity " +
                 "FROM cupcakes c " +
-                "JOIN cupcake_tops t ON c.cupcake_top_id = t.id " +
-                "JOIN cupcake_bottoms b ON c.cupcake_bottom_id = b.id";
+                "JOIN cupcake_tops t ON c.cupcake_top_id = t.cupcake_top_id " +
+                "JOIN cupcake_bottoms b ON c.cupcake_bottom_id = b.cupcake_bottom_id";
 
         List<CupcakeDTO> cupcakeList = new ArrayList<>();
 
@@ -50,7 +50,8 @@ public class CupcakeMapper {
                         rs.getInt("cupcake_id"),
                         rs.getString("top_name"),
                         rs.getString("bottom_name"),
-                        rs.getDouble("cupcake_price")
+                        rs.getInt("cupcake_price"),
+                        rs.getInt("quantity")
                 );
                 cupcakeList.add(cupcakeDTO);
             }
@@ -119,7 +120,7 @@ public class CupcakeMapper {
                         rs.getInt("cupcake_id"),
                         rs.getInt("cupcake_top_id"),
                         rs.getInt("cupcake_bottom_id"),
-                        rs.getDouble("cupcake_price"),
+                        rs.getInt("cupcake_price"),
                         rs.getInt("quantity")
                 );
             } else {

@@ -21,7 +21,7 @@ public class CupcakeTopMapper {
             try(PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)){
 
                 preparedStatement.setDouble(1, cupcakeTop.getPrice());
-                preparedStatement.setString(2, cupcakeTop.getCupcake_top_name());
+                preparedStatement.setString(2, cupcakeTop.getCupcakeTopName());
 
                 int affectedRows = preparedStatement.executeUpdate();
 
@@ -34,7 +34,7 @@ public class CupcakeTopMapper {
                         int generatedId = generatedKeys.getInt(1);
 
                         // Return a new cupcake object including the generated ID
-                        return new CupcakeTop(generatedId, cupcakeTop.getPrice(), cupcakeTop.getCupcake_top_name());
+                        return new CupcakeTop(generatedId, cupcakeTop.getPrice(), cupcakeTop.getCupcakeTopName());
                     } else {
                         throw new DatabaseException("Creating cupcake top failed, no ID obtained.");
                     }
@@ -59,7 +59,7 @@ public class CupcakeTopMapper {
             while (rs.next()) {
                 CupcakeTop cupcakeTop = new CupcakeTop(
                         rs.getInt("cupcake_top_id"),
-                        rs.getDouble("price"),
+                        rs.getInt("price"),
                         rs.getString("top_name")
                 );
                 cupcakeTopList.add(cupcakeTop);
@@ -79,7 +79,7 @@ public class CupcakeTopMapper {
 
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                return new CupcakeTop(rs.getInt("cupcake_top_id"), rs.getDouble("price"), rs.getString("top_name"));
+                return new CupcakeTop(rs.getInt("cupcake_top_id"), rs.getInt("price"), rs.getString("top_name"));
             }
         } catch (SQLException e) {
             throw new DatabaseException("Could not get Cupcake by id: " + id + e.getMessage());
@@ -88,14 +88,14 @@ public class CupcakeTopMapper {
     }
 
 
-    public double getPriceById(int topId) {
+    public int getPriceById(int topId) {
         String sql = "SELECT price FROM cupcake_tops WHERE cupcake_top_id = ?";
         try (Connection conn = connectionPool.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, topId);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                return rs.getDouble("price");
+                return rs.getInt("price");
             }
         } catch (SQLException e) {
             e.printStackTrace();

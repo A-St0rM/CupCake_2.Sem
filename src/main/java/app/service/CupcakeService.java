@@ -19,9 +19,9 @@ public class CupcakeService {
     }
 
     public void createAndSaveCupcake(int topId, int bottomId, int quantity) {
-        double topPrice = cupcakeTopMapper.getPriceById(topId);
-        double bottomPrice = cupcakeBottomMapper.getPriceById(bottomId);
-        double totalPrice = topPrice + bottomPrice;
+        int topPrice = cupcakeTopMapper.getPriceById(topId);
+        int bottomPrice = cupcakeBottomMapper.getPriceById(bottomId);
+        int totalPrice = topPrice + bottomPrice;
 
         Cupcake cupcake = new Cupcake(topId, bottomId, totalPrice, quantity);
         cupcakeMapper.insertCupcake(cupcake);

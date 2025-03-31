@@ -53,6 +53,7 @@ public class RoutingController {
         app.post("/deleteCupcake", ctx -> cupcakeController.deleteCupcake(ctx));
         app.put("/updateCupcake", ctx -> cupcakeController.updateCupcake(ctx));
         app.get("/getAllCupcakes", ctx -> cupcakeController.getAllCupcakes(ctx));
+        app.get("/cupcakeshop", ctx -> cupcakeController.showOrderPage(ctx));
 
         //Routing for orderline
         app.post("/createOrderline", ctx -> orderlineController.createOrderline(ctx));

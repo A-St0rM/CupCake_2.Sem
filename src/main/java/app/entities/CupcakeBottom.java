@@ -2,41 +2,41 @@ package app.entities;
 
 public class CupcakeBottom {
 
-    private int cupcake_bottom_id;
-    private String cupcake_bottom_name;
-    private double price;
+    private int cupcakeBottomId;
+    private String cupcakeBottomName;
+    private int price;
 
-    public CupcakeBottom(int cupcake_bottom_id,  double price, String cupcake_bottom_name) {
-        this.cupcake_bottom_id = cupcake_bottom_id;
-        this.cupcake_bottom_name = cupcake_bottom_name;
+    public CupcakeBottom(int cupcakeBottomId, int price, String cupcakeBottomName) {
+        this.cupcakeBottomId = cupcakeBottomId;
+        this.cupcakeBottomName = cupcakeBottomName;
         this.price = price;
     }
-    public CupcakeBottom(double price, String cupcake_bottom_name) {
-        this.cupcake_bottom_name = cupcake_bottom_name;
+    public CupcakeBottom(int price, String cupcakeBottomName) {
+        this.cupcakeBottomName = cupcakeBottomName;
         this.price = price;
     }
 
-    public int getCupcake_bottom_id() {
-        return cupcake_bottom_id;
+    public int getCupcakeBottomId() {
+        return cupcakeBottomId;
     }
 
-    public void setCupcake_bottom_id(int cupcake_bottom_id) {
-        this.cupcake_bottom_id = cupcake_bottom_id;
+    public void setCupcakeBottomId(int cupcakeBottomId) {
+        this.cupcakeBottomId = cupcakeBottomId;
     }
 
-    public String getCupcake_bottom_name() {
-        return cupcake_bottom_name;
+    public String getCupcakeBottomName() {
+        return cupcakeBottomName;
     }
 
-    public void setCupcake_bottom_name(String cupcake_bottom_name) {
-        this.cupcake_bottom_name = cupcake_bottom_name;
+    public void setCupcakeBottomName(String cupcakeBottomName) {
+        this.cupcakeBottomName = cupcakeBottomName;
     }
 
-    public double getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 }
