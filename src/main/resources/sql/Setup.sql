@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS public.customers
     customer_id serial NOT NULL,
     email character varying(50) COLLATE pg_catalog."default" NOT NULL,
     password character varying(50) COLLATE pg_catalog."default" NOT NULL,
-    balance numeric,
+    balance numeric, -- only balance remains numeric
     CONSTRAINT customers_pkey PRIMARY KEY (customer_id),
     CONSTRAINT email_unique UNIQUE (email)
     );
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS public.orders
     order_id serial NOT NULL,
     customer_id integer NOT NULL,
     order_date date NOT NULL,
-    total_price numeric NOT NULL,
+    total_price integer NOT NULL, -- changed from numeric to integer
     status_id integer NOT NULL,
     CONSTRAINT orders_pkey PRIMARY KEY (order_id),
     CONSTRAINT fk_customer_order FOREIGN KEY (customer_id)
@@ -75,7 +75,7 @@ CREATE TABLE IF NOT EXISTS public.orderlines
 (
     orderline_id serial NOT NULL,
     order_id integer NOT NULL,
-    initial_price numeric NOT NULL,
+    initial_price integer NOT NULL, -- changed from numeric to integer
     CONSTRAINT orderlines_pkey PRIMARY KEY (orderline_id),
     CONSTRAINT fk_order FOREIGN KEY (order_id)
     REFERENCES public.orders (order_id)

@@ -1,0 +1,95 @@
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #fff;
+}
+
+header img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+h1 {
+    display: none; /* skjult som på mockup */
+}
+
+/* Layout container */
+form, .order-instructions {
+    box-sizing: border-box;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    padding: 5rem 37rem;
+    align-items: flex-start;
+}
+
+/* Venstre side (tekst) */
+.order-instructions {
+    font-size: 3rem;
+    font-weight: bold;
+    flex: 1;
+    padding-top: 2rem;
+}
+
+.order-instructions span {
+    display: block;
+}
+
+.order-instructions .arrow {
+    font-size: 3rem;
+}
+
+/* Højre side (form) */
+form {
+    background-color: #ffe6e6;
+    padding: 2rem;
+    border-radius: 10px;
+    max-width: 400px;
+    flex: 1;
+}
+
+form label {
+    display: block;
+    margin: 1rem 0 0.3rem;
+    font-weight: 600;
+}
+
+form select,
+form input[type="number"],
+form input[type="text"] {
+    width: 100%;
+    padding: 0.6rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+form button {
+    margin-top: 1.5rem;
+    background-color: #222;
+    color: white;
+    padding: 0.7rem 1.2rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+form button:hover {
+    background-color: #444;
+}
+
+form p {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+/* Link to cart */
+.cart-link {
+    text-align: center;
+    margin-top: 2rem;
+}

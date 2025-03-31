@@ -131,4 +131,37 @@ public class CupcakeMapper {
         }
     }
 
+    public List<CupcakeDTO> getCupcakesByOrderlineId(int orderlineId) throws DatabaseException {
+        String sql = """
+        SELECT c.cupcake_id, t.top_name, b.bottom_name, c.cupcake_price, c.quantity
+        FROM cupcakes c
+        JOIN cupcake_tops t ON c.cupcake_top_id = t.cupcake_top_id
+        JOIN cupcake_bottoms b ON c.cupcake_bottom_id = b.cupcake_bottom_id
+        JOIN cupcakes_orderlines co ON c.cupcake_id = co.cupcake_id
+        WHERE co.orderline_id = ?
+    """;
+
+        List<CupcakeDTO> cupcakes = new ArrayList<>();
+
+        try (Connection conn = connectionPool.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, orderlineId);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                cupcakes.add(new CupcakeDTO(
+                        rs.getInt("cupcake_id"),
+                        rs.getString("top_name"),
+                        rs.getString("bottom_name"),
+                        rs.getInt("cupcake_price"),
+                        rs.getInt("quantity")
+                ));
+            }
+            return cupcakes;
+        } catch (SQLException e) {
+            throw new DatabaseException("Could not get cupcakes by orderline ID", e.getMessage());
+        }
+    }
+
 }

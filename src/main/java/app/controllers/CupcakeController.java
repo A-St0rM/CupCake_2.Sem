@@ -8,6 +8,7 @@ import app.persistence.CupcakeBottomMapper;
 import app.persistence.CupcakeMapper;
 import app.persistence.CupcakeTopMapper;
 import app.service.CupcakeService;
+import app.service.OrderlineService;
 import io.javalin.http.Context;
 
 import java.util.List;
@@ -19,12 +20,14 @@ public class CupcakeController {
    private final CupcakeMapper cupcakeMapper;
    private final CupcakeBottomMapper cupcakeBottomMapper;
    private final CupcakeTopMapper cupcakeTopMapper;
+   private final OrderlineService orderlineService;
 
-   public CupcakeController(CupcakeService cupcakeService, CupcakeMapper cupcakeMapper, CupcakeTopMapper cupcakeTopMapper, CupcakeBottomMapper cupcakeBottomMapper){
+   public CupcakeController(CupcakeService cupcakeService, CupcakeMapper cupcakeMapper, CupcakeTopMapper cupcakeTopMapper, CupcakeBottomMapper cupcakeBottomMapper, OrderlineService orderlineService){
        this.cupcakeService = cupcakeService;
        this.cupcakeMapper = cupcakeMapper;
        this.cupcakeBottomMapper = cupcakeBottomMapper;
        this.cupcakeTopMapper = cupcakeTopMapper;
+       this.orderlineService = orderlineService;
    }
 
     // Handle POST request to add a new cupcake
@@ -34,10 +37,30 @@ public class CupcakeController {
             int bottomId = Integer.parseInt(ctx.formParam("bottomId"));
             int quantity = Integer.parseInt(ctx.formParam("quantity"));
 
+            // Hent customerId fra session
+            Integer customerId = ctx.sessionAttribute("currentUserId");
+            if (customerId == null) {
+                ctx.redirect("/login");
+                return;
+            }
+
+            // Sørg for at kunden har en aktiv order + orderline
+            int orderId;
+            try {
+                orderId = orderlineService.getLatestOrderId(customerId);
+            } catch (Exception e) {
+                // Opret ny ordre og orderline hvis ingen findes
+                orderlineService.createAndSaveOrderline(customerId);
+                orderId = orderlineService.getLatestOrderId(customerId);
+            }
+
+            // Tilføj cupcake til databasen
             cupcakeService.createAndSaveCupcake(topId, bottomId, quantity);
+
             ctx.redirect("/cupcakeshop");
         } catch (Exception e) {
-            ctx.status(400).result("Invalid input: " + e.getMessage());
+            e.printStackTrace(); // Log til konsollen
+            ctx.status(400).result("Fejl ved tilføjelse af cupcake: " + e.getMessage());
         }
     }
 

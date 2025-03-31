@@ -6,17 +6,17 @@ public class Order {
     private int orderId;
     private int customerId;
     private LocalDate orderDate;
-    private double totalPrice;
+    private int totalPrice;
     private int statusId;
 
-    public Order(int orderId, int customerId, LocalDate orderDate, double totalPrice, int statusId) {
+    public Order(int orderId, int customerId, LocalDate orderDate, int totalPrice, int statusId) {
         this.orderId = orderId;
         this.customerId = customerId;
         this.orderDate = orderDate;
         this.totalPrice = totalPrice;
         this.statusId = statusId;
     }
-    public Order(int customerId, LocalDate orderDate, double totalPrice, int statusId) {
+    public Order(int customerId, LocalDate orderDate, int totalPrice, int statusId) {
         this.customerId = customerId;
         this.orderDate = orderDate;
         this.totalPrice = totalPrice;
@@ -48,11 +48,11 @@ public class Order {
         this.orderDate = orderDate;
     }
 
-    public double getTotalPrice() {
+    public int getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(double totalPrice) {
+    public void setTotalPrice(int totalPrice) {
         this.totalPrice = totalPrice;
     }
 

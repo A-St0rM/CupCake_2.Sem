@@ -16,52 +16,52 @@
     </a>
 </header>
 
-<!-- Overskrift -->
-<h1>Build Your Cupcake</h1>
+<!-- Main Layout -->
+<div class="container">
+    <!-- Left side: Order text -->
+    <div class="order-instructions">
+        <span>ORDER</span>
+        <span>HERE</span>
+        <span class="arrow">→</span>
+    </div>
 
-<!-- Bestillingsformular -->
-<form method="post" action="/addCupcake">
-    <label for="bottomId">Bottom:</label>
-    <select name="bottomId" id="bottomId" required>
-        <option disabled selected>-- Select Bottom --</option>
-        <th:block th:each="bottom : ${cupcakeBottoms}">
-            <option th:value="${bottom.cupcakeBottomId}"
-                    th:text="${bottom.cupcakeBottomName + ' (' + bottom.price + ' kr)'}"></option>
-        </th:block>
-    </select>
-    <br><br>
+    <!-- Right side: Form -->
+    <form method="post" action="/addCupcake">
+        <p>Step 1: Choose a bread type for your cupcakes.</p>
+        <p>Step 2: Choose a topping for your cupcakes.</p>
+        <p>Step 3: Choose how many cupcakes you want.</p>
 
-    <!-- Tops -->
-    <label for="topId">Top:</label>
-    <select name="topId" id="topId" required>
-        <option disabled selected>-- Select Top --</option>
-        <th:block th:each="top : ${cupcakeTops}">
-            <option th:value="${top.cupcakeTopId}"
-                    th:text="${top.cupcakeTopName + ' (' + top.price + ' kr)'}"></option>
-        </th:block>
-    </select>
+        <label for="bottomId">Breadtype</label>
+        <select name="bottomId" id="bottomId" required>
+            <option disabled selected>vælg</option>
+            <th:block th:each="bottom : ${cupcakeBottoms}">
+                <option th:value="${bottom.cupcakeBottomId}"
+                        th:text="${bottom.cupcakeBottomName + ' (' + bottom.price + ' kr)'}"></option>
+            </th:block>
+        </select>
 
-    <br><br>
+        <label for="topId">Topping</label>
+        <select name="topId" id="topId" required>
+            <option disabled selected>vælg</option>
+            <th:block th:each="top : ${cupcakeTops}">
+                <option th:value="${top.cupcakeTopId}"
+                        th:text="${top.cupcakeTopName + ' (' + top.price + ' kr)'}"></option>
+            </th:block>
+        </select>
 
-    <label for="quantity">Quantity:</label>
-    <input type="number" id="quantity" name="quantity" min="1" value="1" required>
-    <br><br>
+        <label for="quantity">Amount (min 1, max 100)</label>
+        <input type="number" id="quantity" name="quantity" min="1" max="100" value="1" required>
 
-    <button type="submit">Add Cupcake</button>
-</form>
+        <p>For larger orders than 100, please reach out to us.</p>
 
-<!-- Liste over tilføjede cupcakes
-<div th:if="${cupcakes != null}">
-    <h2>Current Cupcakes</h2>
-    <ul>
-        <li th:each="cupcake : ${cupcakes}">
-            <span th:text="'Bottom: ' + ${cupcake.bottomName} + ', Top: ' + ${cupcake.topName} + ', Qty: ' + ${cupcake.quantity} + ', Price: ' + ${cupcake.price} + ' kr'"></span>
-        </li>
-    </ul>
+        <button type="submit">Add to basket</button>
+    </form>
 </div>
-<div th:if="${cupcakes == null}">
-    <p>No cupcakes added yet.</p>
+
+<!-- Optional: Link to cart -->
+<div class="cart-link">
+    <p><a href="cart.html" th:href="@{/cart}">Kurv</a></p>
 </div>
--->
+
 </body>
 </html>

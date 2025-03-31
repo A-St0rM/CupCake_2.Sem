@@ -41,7 +41,7 @@ public class OrderlineService {
                     orderId,
                     customerId,
                     LocalDate.now(),
-                    0.0,
+                    0,
                     statusId
             );
             orderMapper.insertOrder(order);
@@ -49,7 +49,7 @@ public class OrderlineService {
 
         //add the orderline
         List<CupcakeDTO> cupcakeList = cupcakeMapper.getAllCupcakesDTO();
-        double totalPrice = 0;
+        int totalPrice = 0;
         for (CupcakeDTO c : cupcakeList) {
             totalPrice += c.getPrice();
         }
@@ -61,11 +61,16 @@ public class OrderlineService {
         orderMapper.updateOrderById(orderId);
     }
 
+    //To make it more clean for our method used for only customerId
+    public void createAndSaveOrderline(int customerId) {
+        createAndSaveOrderline(0, customerId);
+    }
+
     public void UpdateOrderlinePrice(int orderlineId, Cupcake cupcake) {
 
-        double currentPrice = orderlineMapper.getOrderlinePriceById(orderlineId);
+        int currentPrice = orderlineMapper.getOrderlinePriceById(orderlineId);
 
-        double newPrice = currentPrice + cupcake.getPrice();
+        int newPrice = currentPrice + cupcake.getPrice();
 
         boolean succes = orderlineMapper.updateOrderlineById(orderlineId, newPrice);
 
@@ -84,9 +89,9 @@ public class OrderlineService {
             throw new DatabaseException("Cupcake not found, cannot update orderline");
         }
 
-        double currentPrice = orderlineMapper.getOrderlinePriceById(orderlineId);
+        int currentPrice = orderlineMapper.getOrderlinePriceById(orderlineId);
 
-        double newPrice = currentPrice - cupcake.getPrice();
+        int newPrice = currentPrice - cupcake.getPrice();
 
         boolean cupcakeDeleted = cupcakeMapper.deleteCupcakeById(cupcakeId);
 
@@ -106,5 +111,20 @@ public class OrderlineService {
 
     public Cupcake getCupcakeById(int cupcakeId) throws DatabaseException {
         return cupcakeMapper.getCupcakeById(cupcakeId);
+    }
+
+    public List<CupcakeDTO> getCupcakesInCart(int customerId) {
+        // 1. Find den nyeste ordre for brugeren
+        int orderId = orderMapper.getLatestOrderIdByCustomer(customerId);
+
+        // 2. Find orderline til den ordre
+        int orderlineId = orderlineMapper.getOrderlineIdByOrderId(orderId);
+
+        // 3. Hent cupcakes for den orderline
+        return cupcakeMapper.getCupcakesByOrderlineId(orderlineId);
+    }
+
+    public int getLatestOrderId(int customerId) {
+        return orderMapper.getLatestOrderIdByCustomer(customerId);
     }
 }

@@ -52,7 +52,7 @@ public class OrderMapper {
                         rs.getInt("order_id"),
                         rs.getInt("customer_id"),
                         rs.getDate("order_date").toLocalDate(),
-                        rs.getDouble("total_price"),
+                        rs.getInt("total_price"),
                         rs.getInt("status_id")
                 );
                 orderList.add(order);
@@ -176,6 +176,26 @@ public class OrderMapper {
             throw new DatabaseException("Error getting orders with status: " + e.getMessage());
         }
         return ordersWithStatus;
+    }
+
+    public int getLatestOrderIdByCustomer(int customerId) {
+        String sql = "SELECT order_id FROM orders WHERE customer_id = ? ORDER BY order_date DESC, order_id DESC LIMIT 1";
+
+        try (Connection conn = connectionPool.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, customerId);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt("order_id");
+            } else {
+                throw new DatabaseException("No order found for customer: " + customerId);
+            }
+
+        } catch (SQLException e) {
+            throw new DatabaseException("Could not get latest order ID: " + e.getMessage());
+        }
     }
 
 }

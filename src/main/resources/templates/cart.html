@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Din kurv</h1>
+<div th:if="${cupcakes != null and !cupcakes.isEmpty()}">
+  <ul>
+    <li th:each="cupcake : ${cupcakes}">
+      <span th:text="'x' + ${cupcake.quantity} + ': ' + ${cupcake.bottomName} + ' + ' + ${cupcake.topName} + ' = ' + ${cupcake.price} + ' kr'"></span>
+    </li>
+  </ul>
+</div>
+<div th:if="${cupcakes == null or cupcakes.isEmpty()}">
+  <p>Din kurv er tom 😢</p>
+</div>
+</body>
+</html>

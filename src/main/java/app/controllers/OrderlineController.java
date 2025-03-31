@@ -1,5 +1,6 @@
 package app.controllers;
 
+import app.DTO.CupcakeDTO;
 import app.entities.Cupcake;
 import app.entities.Orderline;
 import app.exceptions.DatabaseException;
@@ -74,6 +75,32 @@ public class OrderlineController {
             ctx.render("orderlines.html");
         } catch (DatabaseException e) {
             ctx.status(500).result("Error retrieving orderlines: " + e.getMessage());
+        }
+    }
+
+    public void showCart(Context ctx) {
+        try {
+            // Her bruger vi "Integer" og IKKE "int", fordi sessionAttribute kan returnere null.
+            // Hvis vi brugte "int", og værdien er null, ville vi få en NullPointerException med det samme.
+            // Med "Integer" kan vi tjekke for null først:
+            Integer customerId = ctx.sessionAttribute("currentUserId");
+
+
+            if (customerId == null) {
+                ctx.redirect("/login");
+                return;
+            }
+
+            // Hent alle cupcakes i brugerens kurv (fra databasen)
+            List<CupcakeDTO> cupcakes = orderlineService.getCupcakesInCart(customerId);
+
+            // Send cupcakes videre til Thymeleaf-template
+            ctx.attribute("cupcakes", cupcakes);
+            ctx.render("cart.html");
+
+        } catch (Exception e) {
+            e.printStackTrace(); // Print fejl i konsollen
+            ctx.status(500).result("Fejl ved visning af kurv: " + e.getMessage());
         }
     }
 }
