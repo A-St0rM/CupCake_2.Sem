@@ -34,30 +34,35 @@
 <p>Welcome, admin: <span th:text="${session.currentAdmin.email}"></span></p>
 
 
-<!-- Burde liste alle ordre (Den virker ikke endnu, for some reason) -->
-<table class="order-table">
-    <thead>
-    <tr>
-        <th>orderId</th>
-        <th>customerEmail</th>
-        <th>totalPrice</th>
-        <th>orderDate</th>
-        <th>Action</th>
-    </tr>
-    <tbody>
-    <tr th:each="order: ${orders}">
-        <td th:text="${order.orderId}"></td>
-        <td th:text="${order.customerEmail}"></td>
-        <td th:text="${order.totalPrice}"></td>
-        <td th:text="${order.orderDate}"></td>
-        <td><button type="submit">Edit</button></td>
-    </tr>
-    </tbody>
-    </thead>
-</table>
-
-
-
+<div class="createAdmin-box">
+    <div class="createAdmin-items">
+        <h2>Create Admin Account</h2>
+        <p th:if="${message}" style="color: red;">[[${message}]]</p>
+        <form action="/createadmin" th:action="@{/createadmin}" method="post" onsubmit="console.log('Form submitted!')">
+            <label for="email">E-mail</label>:
+            <!-- Denne nedenstående form gør at den kræver en e-mail format -->
+            <input
+                    type="email" id="email" name="email"
+                    autofocus
+                    required
+                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                    title="Please enter a valid email (e.g., admin@olsker.dk)"
+            />
+            <br/>
+            <label for="password">Password</label>:
+            <input
+                    type="password" id="password" name="password"
+                    pattern="^(?=.*[A-Z])(?=.*\d).{4,}$"
+                    title="Password must contain: 1 uppercase letter, 1 number, and be at least 4 characters long"
+                    required
+            />
+            <br/>
+            <label for="password2">Confirm Password</label>:
+            <input type="password" id="password2" name="password2"/><br/>
+            <input class="button" type="submit" value="Create Admin"/>
+        </form>
+    </div>
+</div>
 
 </body>
 </html>

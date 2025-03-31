@@ -49,8 +49,8 @@ public class RoutingController {
         app.post("vieworders", ctx -> orderController.getAllOrders(ctx));
         app.get("/adminlogin", ctx -> ctx.render("admin/adminlogin.html"));
         app.post("adminlogin", ctx -> adminController.adminLogin(ctx));
-        app.get("createAdmin", ctx -> ctx.render("createAdmin"));
-        app.post("createAdmin", ctx -> adminController.createAdmin(ctx));
+        app.get("/createadmin", ctx -> ctx.render("admin/createadmin.html"));
+        app.post("createadmin", ctx -> adminController.createAdmin(ctx));
 
         //Routing for cupcake
         app.post("/addCupcake", ctx -> cupcakeController.addCupcake(ctx));

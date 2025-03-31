@@ -32,17 +32,17 @@ public class AdminController {
         if (password1.equals(password2)) {
             try {
                 adminMapper.createAdmin(email, password1);
-                ctx.attribute("adminmessage", "Du er hermed oprettet som admin med mailen: " + email);
+                ctx.attribute("adminmessage", "Du har oprettet en admin med mailen: " + email);
                 ctx.render("admin/controlpanel.html");
 
             } catch (DatabaseException e) {
                 // Hvis brugernavnet allerede findes,så returneres denne besked
                 ctx.attribute("adminmessage", "Dit brugernavn findes allerede. Prøv igen eller log ind.");
-                ctx.render("createcustomer.html");
+                ctx.render("admin/createadmin.html");
             }
         } else {
             ctx.attribute("adminmessage", "Passwords do not match");
-            ctx.render("createcustomer.html");
+            ctx.render("admin/createadmin.html");
         }
     }
 
