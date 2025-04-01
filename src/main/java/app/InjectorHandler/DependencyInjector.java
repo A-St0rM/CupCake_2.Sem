@@ -49,14 +49,14 @@ public class DependencyInjector {
 
 
         this.cupcakeService = new CupcakeService(cupcakeBottomMapper, cupcakeTopMapper, cupcakeMapper, orderlineMapper, orderMapper, statusMapper);
-        this.orderlineService = new OrderlineService(cupcakeMapper, orderlineMapper, orderMapper, statusMapper);
+        this.orderlineService = new OrderlineService(cupcakeMapper, orderlineMapper, orderMapper, statusMapper, customerMapper);
         this.cupcakeController = new CupcakeController(cupcakeService, cupcakeMapper, cupcakeTopMapper, cupcakeBottomMapper, orderlineService);
         this.adminController = new AdminController(adminMapper);
         this.cupcakeBottomController = new CupcakeBottomController(cupcakeBottomMapper);
         this.cupcakeTopController = new CupcakeTopController(cupcakeTopMapper);
         this.customerController = new CustomerController(customerMapper);
-        this.orderlineController = new OrderlineController(orderlineService, orderlineMapper);
-        this.statusController = new StatusController(statusMapper);
+        this.orderlineController = new OrderlineController(orderlineService, orderlineMapper, customerMapper);
+        this.statusController = new StatusController(statusMapper, orderMapper, customerMapper, orderlineService);
         this.orderController = new OrderController(orderMapper);
     }
 

@@ -5,11 +5,9 @@ import app.entities.Cupcake;
 import app.entities.Order;
 import app.entities.Orderline;
 import app.exceptions.DatabaseException;
-import app.persistence.CupcakeMapper;
-import app.persistence.OrderMapper;
-import app.persistence.OrderlineMapper;
-import app.persistence.StatusMapper;
+import app.persistence.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -20,33 +18,26 @@ public class OrderlineService {
     private final OrderlineMapper orderlineMapper;
     private final OrderMapper orderMapper;
     private final StatusMapper statusMapper;
+    private final CustomerMapper customerMapper;
 
-    public OrderlineService(CupcakeMapper cupcakeMapper, OrderlineMapper orderlineMapper, OrderMapper orderMapper, StatusMapper statusMapper) {
+    public OrderlineService(CupcakeMapper cupcakeMapper, OrderlineMapper orderlineMapper, OrderMapper orderMapper, StatusMapper statusMapper, CustomerMapper customerMapper) {
         this.cupcakeMapper = cupcakeMapper;
         this.orderlineMapper = orderlineMapper;
         this.orderMapper = orderMapper;
         this.statusMapper = statusMapper;
+        this.customerMapper = customerMapper;
     }
 
     public void createAndSaveOrderline(int orderId, int customerId) {
         if (orderId == 0 || !orderMapper.doesOrderExist(orderId)) {
             int statusId = statusMapper.createStatus();
             Order order = new Order(0, customerId, LocalDate.now(), 0, statusId);
-            orderId = orderMapper.insertOrder(order);
+            orderId = orderMapper.insertOrder(order); // Fanger auto-genereret ID
         }
 
-        // 🔁 Her bruger vi kun cupcakes for denne kunde
-        List<CupcakeDTO> cupcakeList = getCupcakesInCart(customerId);
-
-        int totalPrice = 0;
-        for (CupcakeDTO c : cupcakeList) {
-            totalPrice += c.getPrice() * c.getQuantity();
-        }
-
-        //TODO: Prisen laves ikke når vi opretter orderline/orders
-        Orderline orderline = new Orderline(orderId, totalPrice);
+        // Opret tom orderline med pris = 0. Vi opdatere prisen efter
+        Orderline orderline = new Orderline(orderId, 0);
         orderlineMapper.insertOrderline(orderline);
-        orderMapper.updateOrderById(orderId);
     }
 
     //To make it more clean for our method used for only customerId
@@ -78,8 +69,9 @@ public class OrderlineService {
         }
 
         int currentPrice = orderlineMapper.getOrderlinePriceById(orderlineId);
+        int cupcakeTotalPrice = cupcake.getPrice() * cupcake.getQuantity();
 
-        int newPrice = currentPrice - cupcake.getPrice();
+        int newPrice = currentPrice - cupcakeTotalPrice;
 
         boolean cupcakeDeleted = cupcakeMapper.deleteCupcakeById(cupcakeId);
 
@@ -101,6 +93,10 @@ public class OrderlineService {
         return cupcakeMapper.getCupcakeById(cupcakeId);
     }
 
+    public int getOrderlineIdByOrderId(int orderId){
+        return orderlineMapper.getOrderlineIdByOrderId(orderId);
+    }
+
     public List<CupcakeDTO> getCupcakesInCart(int customerId) {
         // 1. Find den nyeste ordre for brugeren
         int orderId = orderMapper.getLatestOrderIdByCustomer(customerId);
@@ -114,5 +110,17 @@ public class OrderlineService {
 
     public int getLatestOrderId(int customerId) {
         return orderMapper.getLatestOrderIdByCustomer(customerId);
+    }
+
+    public boolean isOrderPaid(int statusId) {
+        return statusMapper.getPaymentStatus(statusId); // ny metode i StatusMapper
+    }
+
+    public int getStatusIdByOrderId(int orderId) {
+        return orderMapper.getStatusIdByOrderId(orderId);
+    }
+
+    public BigDecimal getCustomerBalance(int customerId) {
+        return customerMapper.getBalanceByCustomerId(customerId);
     }
 }

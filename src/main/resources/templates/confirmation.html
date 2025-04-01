@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Tak for dit køb</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" th:href="@{/css/cart.css}">
+</head>
+<body>
+
+<header>
+  <a th:href="@{/}">
+    <img src="/images/CupcakeShop_header.png" th:src="@{/images/CupcakeShop_header.png}" width="100%" />
+  </a>
+</header>
+
+<div class="confirmation-container">
+  <h2>Tak for dit køb! 🧁</h2>
+  <p>Din betaling er modtaget, og vi bager dine cupcakes med kærlighed.</p>
+
+  <a class="return-link" th:href="@{/cupcakeshop}">Tilbage til shoppen</a>
+</div>
+
+</body>
+</html>

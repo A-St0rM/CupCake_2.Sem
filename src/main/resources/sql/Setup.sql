@@ -1,5 +1,16 @@
 BEGIN;
 
+-- Drop tables i korrekt rækkefølge pga. FK-afhængigheder
+DROP TABLE IF EXISTS public.cupcakes_orderlines;
+DROP TABLE IF EXISTS public.orderlines;
+DROP TABLE IF EXISTS public.cupcakes;
+DROP TABLE IF EXISTS public.orders;
+DROP TABLE IF EXISTS public.status;
+DROP TABLE IF EXISTS public.cupcake_tops;
+DROP TABLE IF EXISTS public.cupcake_bottoms;
+DROP TABLE IF EXISTS public.customers;
+DROP TABLE IF EXISTS public.admins;
+
 -- Admins
 CREATE TABLE IF NOT EXISTS public.admins (
     admin_id serial PRIMARY KEY,

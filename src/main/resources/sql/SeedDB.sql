@@ -8,11 +8,6 @@ VALUES ('customer1@example.com', 'pass123', 50),
        ('customer2@example.com', 'mypassword', 75),
        ('customer3@example.com', 'securepass', 30);
 
-INSERT INTO public.status (is_paid, is_picked_up)
-VALUES (TRUE, FALSE),  -- Paid but not picked up
-       (FALSE, FALSE), -- Not paid and not picked up
-       (TRUE, TRUE); -- Paid and picked up
-
 INSERT INTO public.cupcake_bottoms (price, bottom_name)
 VALUES (5, 'Chocolate'),
        (5, 'Vanilla'),

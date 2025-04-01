@@ -62,6 +62,8 @@ public class RoutingController {
         app.post("/deleteCupcakeFromOrderline", ctx -> orderlineController.deleteCupcakeFromOrderline(ctx));
         app.get("/getAllOrderlines", ctx -> orderlineController.getAllOrderlines(ctx));
         app.get("/cart", ctx -> orderlineController.showCart(ctx));
+        app.post("/purchase", ctx -> statusController.handlePurchase(ctx));
+        app.get("/confirmation", ctx -> ctx.render("confirmation.html"));
 
 
         // Routing for Status updates

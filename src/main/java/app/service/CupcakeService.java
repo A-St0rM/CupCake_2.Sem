@@ -1,5 +1,6 @@
 package app.service;
 
+import app.DTO.CupcakeDTO;
 import app.entities.Cupcake;
 import app.entities.Order;
 import app.entities.*;
@@ -7,6 +8,7 @@ import app.exceptions.DatabaseException;
 import app.persistence.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 
 public class CupcakeService {
@@ -51,6 +53,14 @@ public class CupcakeService {
         int cupcakeId = cupcakeMapper.insertCupcakeAndReturnId(cupcake);
         orderlineMapper.insertCupcakeToOrderline(cupcakeId, orderlineId);
 
+        // Opdater orderline og order med korrekt totalpris.
+        List<CupcakeDTO> cupcakes = cupcakeMapper.getCupcakesByOrderlineId(orderlineId);
+        int newOrderlinePrice = 0;
+        for (CupcakeDTO c : cupcakes) {
+            newOrderlinePrice += c.getPrice() * c.getQuantity();
+        }
+
+        orderlineMapper.updateOrderlineById(orderlineId, newOrderlinePrice);
         orderMapper.updateOrderById(orderId);
     }
 

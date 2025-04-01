@@ -198,4 +198,38 @@ public class OrderMapper {
         }
     }
 
+    public int getStatusIdByOrderId(int orderId) {
+        String sql = "SELECT status_id FROM orders WHERE order_id = ?";
+        try (Connection conn = connectionPool.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, orderId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("status_id");
+            } else {
+                throw new DatabaseException("No status found for order id: " + orderId);
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("Could not get status_id by order_id: " + e.getMessage());
+        }
+    }
+
+    public int getTotalPriceByOrderId(int orderId) {
+        String sql = "SELECT total_price FROM orders WHERE order_id = ?";
+        try (Connection conn = connectionPool.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, orderId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("total_price");
+            } else {
+                throw new DatabaseException("No order found for order id: " + orderId);
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("Could not get total_price by order_id: " + e.getMessage());
+        }
+    }
+
 }
