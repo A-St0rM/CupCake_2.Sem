@@ -39,4 +39,10 @@ public class OrderController {
             ctx.status(500).result("Error fetching orders with status: " + e.getMessage());
         }
     }
+
+    public void deleteOrder(Context ctx) throws DatabaseException {
+        int orderId = Integer.parseInt(ctx.pathParam("id"));
+        orderMapper.deleteOrderById(orderId);
+        ctx.redirect("/viewOrders");
+    }
 }
