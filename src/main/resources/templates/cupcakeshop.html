@@ -16,8 +16,9 @@
     </a>
 </header>
 
-<div class="purchase-history-link">
-    <a th:href="@{/purchase-history}" class="btn-view-purchases">Se dine køb</a>
+<div class="top-buttons">
+    <a th:href="@{/purchase-history}" class="btn-view-purchases">View your purchases</a>
+    <a th:href="@{/cart}" class="btn-view-cart">Basket</a>
 </div>
 
 <!-- Main Layout -->
@@ -60,11 +61,6 @@
 
         <button type="submit">Add to basket</button>
     </form>
-</div>
-
-<!-- Optional: Link to cart -->
-<div class="cart-link">
-    <p><a href="cart.html" th:href="@{/cart}">Kurv</a></p>
 </div>
 
 </body>
