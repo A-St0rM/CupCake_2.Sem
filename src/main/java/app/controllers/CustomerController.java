@@ -1,6 +1,8 @@
 package app.controllers;
 
 import app.DTO.CustomerDTO;
+import app.DTO.CustomerOrderDTO;
+import app.DTO.PurchaseOverviewDTO;
 import app.entities.Customer;
 import app.exceptions.DatabaseException;
 import app.persistence.ConnectionPool;
@@ -10,6 +12,7 @@ import io.javalin.http.Context;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public class CustomerController {
 
@@ -76,6 +79,29 @@ public class CustomerController {
             // Hvis customer IKKE findes, send tilbage til login siden med fejl besked
             System.err.println("Login fejl: " + e.getMessage());
             ctx.render("login.html");
+        }
+    }
+
+    public void getAllOrders(@NotNull Context ctx) {
+        try {
+            Integer customerId = ctx.sessionAttribute("currentUserId");
+
+            if (customerId == null) {
+                ctx.redirect("/login");
+                return;
+            }
+
+            List<PurchaseOverviewDTO> purchases = customerMapper.getPurchaseOverviewByCustomerId(customerId);
+            ctx.attribute("purchases", purchases);
+            ctx.render("purchase-history.html");
+
+            List<CustomerOrderDTO> orders = customerMapper.getPurchaseOverviewByCustomerId();
+
+            ctx.attribute("orders", orders);
+            ctx.render("admin/vieworders.html"); // sends the list to thymeleaf
+        } catch (DatabaseException e) {
+            ctx.attribute("message", "Kunne ikke hente ordrer");
+            ctx.render("error.html"); //TODO: add page
         }
     }
 }
