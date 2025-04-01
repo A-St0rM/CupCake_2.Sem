@@ -14,7 +14,7 @@
 </header>
 
 <div class="purchase-container">
-    <h2>Dine tidligere køb 🧁</h2>
+    <h2>Dine tidligere køb</h2>
 
     <div th:if="${purchases != null and !purchases.isEmpty()}">
         <table>
@@ -34,8 +34,8 @@
                 <td th:text="${p.bottomName}"></td>
                 <td th:text="${p.quantity}"></td>
                 <td th:text="${p.totalPrice} + ' kr'"></td>
-                <td th:text="${p.paid ? '✅' : '❌'}"></td>
-                <td th:text="${p.pickedUp ? '✅' : '❌'}"></td>
+                <td th:text="${p.paid ? 'Yes' : 'No'}"></td>
+                <td th:text="${p.pickedUp ? 'Yes' : 'No'}"></td>
             </tr>
             </tbody>
         </table>
