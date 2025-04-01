@@ -33,36 +33,25 @@ public class StatusMapper {
     }
 
     // Update status for payment
-    public boolean updatePaymentStatus(int statusId, boolean isPaid) throws DatabaseException {
-        String sql = "UPDATE status SET is_paid = ? WHERE status_id = ?";
-
-        try (
-                Connection conn = connectionPool.getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)
-        ) {
+    public void updatePaymentStatus(int orderId, boolean isPaid) throws DatabaseException {
+        String sql = "UPDATE status SET is_paid = ? WHERE status_id = (SELECT status_id FROM orders WHERE order_id = ?)";
+        try (Connection conn = connectionPool.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setBoolean(1, isPaid);
-            ps.setInt(2, statusId);
-
-            int affectedRows = ps.executeUpdate();
-            return affectedRows > 0; // Returns true if at least one row was updated
+            ps.setInt(2, orderId);
+            ps.executeUpdate();
         } catch (SQLException e) {
             throw new DatabaseException("Could not update payment status: " + e.getMessage());
         }
     }
 
-    // Update status for pickup
-    public boolean updatePickupStatus(int statusId, boolean isPickedUp) throws DatabaseException {
-        String sql = "UPDATE status SET is_picked_up = ? WHERE status_id = ?";
-
-        try (
-                Connection conn = connectionPool.getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)
-        ) {
+    public void updatePickupStatus(int orderId, boolean isPickedUp) throws DatabaseException {
+        String sql = "UPDATE status SET is_picked_up = ? WHERE status_id = (SELECT status_id FROM orders WHERE order_id = ?)";
+        try (Connection conn = connectionPool.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setBoolean(1, isPickedUp);
-            ps.setInt(2, statusId);
-
-            int affectedRows = ps.executeUpdate();
-            return affectedRows > 0; // Returns true if at least one row was updated
+            ps.setInt(2, orderId);
+            ps.executeUpdate();
         } catch (SQLException e) {
             throw new DatabaseException("Could not update pickup status: " + e.getMessage());
         }
