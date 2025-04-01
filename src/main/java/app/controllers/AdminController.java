@@ -29,21 +29,32 @@ public class AdminController {
         String password1 = ctx.formParam("password");
         String password2 = ctx.formParam("password2");
 
+        // Validerer emailen ved brug af en boolean som tjekker inputtet fra formen.
+        if (!isValidEmail(email)) {
+            ctx.attribute("message", "Invalid email format");
+            ctx.render("admin/createadmin.html");
+            return;
+        }
+
         if (password1.equals(password2)) {
             try {
                 adminMapper.createAdmin(email, password1);
-                ctx.attribute("message", "Du er hermed oprettet som admin med mailen: " + email);
-                ctx.render("adminIndex.html");
+                ctx.attribute("message", "Du har oprettet en admin med mailen: " + email);
+                ctx.render("admin/controlpanel.html");
 
             } catch (DatabaseException e) {
                 // Hvis brugernavnet allerede findes,så returneres denne besked
                 ctx.attribute("message", "Dit brugernavn findes allerede. Prøv igen eller log ind.");
-                ctx.render("createcustomer.html");
+                ctx.render("admin/createadmin.html");
             }
         } else {
             ctx.attribute("message", "Passwords do not match");
-            ctx.render("createcustomer.html");
+            ctx.render("admin/createadmin.html");
         }
+    }
+
+    private static boolean isValidEmail(String email) {
+        return email != null && email.matches("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}");
     }
 
     public void adminLogin(@NotNull Context ctx) {
@@ -56,13 +67,13 @@ public class AdminController {
             AdminDTO adminDTO = adminMapper.login(email, password);
             ctx.sessionAttribute("currentAdmin", adminDTO);
 
-            // Hvis customer findes i DB
-            ctx.render("adminindex.html");
+            // Hvis Admin findes i DB
+            ctx.render("admin/controlpanel.html");
 
         } catch (DatabaseException | SQLException e) {
             // Hvis admin IKKE findes, send tilbage til login siden med fejl besked
             ctx.attribute("message", e.getMessage());
-            ctx.render("login.html");
+            ctx.render("admin/adminlogin.html");
         }
     }
 }

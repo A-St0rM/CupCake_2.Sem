@@ -22,7 +22,7 @@ public class OrderController {
             List<CustomerOrderDTO> orders = orderMapper.getOrdersWithCustomerInfo();
 
             ctx.attribute("orders", orders);
-            ctx.render("orders.html"); // sends the list to thymeleaf
+            ctx.render("admin/vieworders.html"); // sends the list to thymeleaf
         } catch (DatabaseException e) {
             ctx.attribute("message", "Kunne ikke hente ordrer");
             ctx.render("error.html"); //TODO: add page

@@ -3,32 +3,32 @@
 <title>Cupcake Shop</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="../public/css/login.css" th:href="@{/css/login.css}" rel="stylesheet"/>
+<link href="../../public/css/adminlogin.css" th:href="@{/css/admin/adminlogin.css}" rel="stylesheet"/>
 </head>
 
 <body>
 
 <header>
-    <a href="index.html" th:href="@{/}">
-        <img src="../public/images/CupcakeShop_header.png" th:src="@{/images/CupcakeShop_header.png}" width="100%"/>
+    <a href="../index.html" th:href="@{/}">
+        <img src="../../public/images/CupcakeShop_header.png" th:src="@{/images/CupcakeShop_header.png}" width="100%"/>
     </a>
 </header>
 
 <nav>
     <ul>
-        <li style="float:right"><a href="index.html" th:href="@{/}">Front Page</a></li>
-        <li style="float:right"><a href="login.html" th:href="@{/login}">Log in</a></li>
+        <li style="float:right"><a href="../index.html" th:href="@{/public}">Front Page</a></li>
+        <li style="float:right"><a href="../login.html" th:href="@{/login}">Log in</a></li>
     </ul>
 </nav>
 
-
+<h1>Admin log in page</h1>
 <!--Husk når denne form skal styles, så skal login-form class'en bruges-->
 
 <div class="logIn-box">
     <div class="logIn-items">
         <h2>Log in</h2>
         <p th:if="${message}" style="color: red;">[[${message}]]</p>
-        <form action="/login" th:action="@{/login}" method="post" onsubmit="console.log('Form submitted!')">
+        <form action="/adminlogin" th:action="@{/adminLogin}" method="post" onsubmit="console.log('Form submitted!')">
             <label for="email">E-mail</label>:
             <input type="text" id="email" name="email" autofocus="autofocus"/><br/>
             <label for="password">Password</label>:
@@ -40,15 +40,15 @@
 
 <div th:if="${session.currentCustomer != null}">
     <span th:text="${session.currentCustomer.email}"></span>
-    <a href="index.html" th:href="@{/logout}">Logout</a>
+    <a href="../index.html" th:href="@{/logout}">Logout</a>
 </div>
 
 <!--    Denne nedenstående linje, viser på siden den attribut som kommer, når der sker fejl på siden-->
-    <p th:text="${message}"></p>
+<p th:text="${message}"></p>
 
-<p><a href="createcustomer.html" th:href="@{/createCustomer}">Create account</a></p>
 
-<p><a href="admin/adminlogin.html" th:href="@{/adminLogin}">Admin Login</a></p>
+<p><a href="../login.html" th:href="@{/login}">Customer Login</a></p>
+
 
 </body>
 </html>

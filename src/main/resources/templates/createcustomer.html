@@ -28,7 +28,7 @@
     <div class="createCustomer-Items">
         <h2>Create Account</h2>
         <p th:if="${message}" style="color: red;">[[${message}]]</p>
-        <form action="/createcustomer" th:action="@{/createcustomer}" method="post" onsubmit="console.log('Form submitted!')">
+        <form action="/createcustomer" th:action="@{/createCustomer}" method="post" onsubmit="console.log('Form submitted!')">
             <label for="email">E-mail</label>:
             <!-- Denne nedenstående form gør at den kræver en e-mail format -->
             <input
@@ -58,6 +58,8 @@
     <span th:text="${session.currentCustomer.email}"></span>
     <a href="index.html" th:href="@{/logout}">Logout</a>
 </div>
+
+<p><a href="/login.html" th:href="@{/login}">Already have an account?</a></p>
 
 </body>
 </html>
