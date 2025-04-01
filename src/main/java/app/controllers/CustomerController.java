@@ -1,6 +1,8 @@
 package app.controllers;
 
 import app.DTO.CustomerDTO;
+import app.DTO.CustomerOrderDTO;
+import app.DTO.PurchaseOverviewDTO;
 import app.entities.Customer;
 import app.exceptions.DatabaseException;
 import app.persistence.ConnectionPool;
@@ -10,6 +12,7 @@ import io.javalin.http.Context;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public class CustomerController {
 
@@ -76,6 +79,24 @@ public class CustomerController {
             // Hvis customer IKKE findes, send tilbage til login siden med fejl besked
             System.err.println("Login fejl: " + e.getMessage());
             ctx.render("login.html");
+        }
+    }
+
+    public void getAllOrders(@NotNull Context ctx) {
+        try {
+            Integer customerId = ctx.sessionAttribute("currentUserId");
+
+            if (customerId == null) {
+                ctx.redirect("/login");
+                return;
+            }
+
+            List<PurchaseOverviewDTO> purchases = customerMapper.getPurchaseOverviewByCustomerId(customerId);
+            ctx.attribute("purchases", purchases);
+            ctx.render("purchasehistory.html");
+        } catch (Exception e) {
+            e.printStackTrace();
+            ctx.status(500).result("Kunne ikke hente købsoversigt: " + e.getMessage());
         }
     }
 }

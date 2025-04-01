@@ -30,6 +30,7 @@ public class CupcakeService {
     }
 
     public void createAndSaveCupcake(int topId, int bottomId, int quantity, int customerId) {
+        //Beregner prisen til den enkelte cupcake
         int topPrice = cupcakeTopMapper.getPriceById(topId);
         int bottomPrice = cupcakeBottomMapper.getPriceById(bottomId);
         int totalPrice = topPrice + bottomPrice;
@@ -37,9 +38,18 @@ public class CupcakeService {
         int orderId;
         int orderlineId;
 
+        //Tjekker om kunden har en orderline som de tidligere var igang med
         try {
             orderId = orderMapper.getLatestOrderIdByCustomer(customerId);
+            boolean isPaid = statusMapper.isPaidStatusByOrderId(orderId);
+
+            // Hvis betalt. Opret ny order exception
+            if (isPaid) {
+                throw new DatabaseException("Latest order is already paid, create new order");
+            }
+
             orderlineId = orderlineMapper.getOrderlineIdByOrderId(orderId);
+
         } catch (DatabaseException e) {
             int statusId = statusMapper.createStatus();
             Order order = new Order(0, customerId, LocalDate.now(), 0, statusId);
