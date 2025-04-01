@@ -64,10 +64,11 @@ public class CustomerController {
             CustomerDTO customerDTO = customerMapper.login(email, password);
             ctx.sessionAttribute("currentCustomer", customerDTO);
 
+            ctx.sessionAttribute("currentUserId", customerDTO.getCustomerId());
 
             // Hvis customer findes i DB
             // TODO: Her vil der så sendes en attribut med en liste af alle tidligere ordre
-            ctx.render("cupcakeshop.html");
+            ctx.redirect("/cupcakeshop");
 
         } catch (DatabaseException | SQLException e) {
 

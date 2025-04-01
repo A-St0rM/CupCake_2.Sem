@@ -67,6 +67,21 @@ public class StatusMapper {
             throw new DatabaseException("Could not update pickup status: " + e.getMessage());
         }
     }
+
+    public boolean getPaymentStatus(int statusId) throws DatabaseException {
+        String sql = "SELECT is_paid FROM status WHERE status_id = ?";
+        try (Connection conn = connectionPool.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, statusId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getBoolean("is_paid");
+            }
+            throw new DatabaseException("Status not found");
+        } catch (SQLException e) {
+            throw new DatabaseException("Could not fetch payment status: " + e.getMessage());
+        }
+    }
 }
 
 

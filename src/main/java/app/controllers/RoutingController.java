@@ -57,12 +57,18 @@ public class RoutingController {
         app.post("/deleteCupcake", ctx -> cupcakeController.deleteCupcake(ctx));
         app.put("/updateCupcake", ctx -> cupcakeController.updateCupcake(ctx));
         app.get("/getAllCupcakes", ctx -> cupcakeController.getAllCupcakes(ctx));
+        app.get("/cupcakeshop", ctx -> cupcakeController.showOrderPage(ctx));
+
 
         //Routing for orderline
         app.post("/createOrderline", ctx -> orderlineController.createOrderline(ctx));
         app.put("/updateOrderlinePrice", ctx -> orderlineController.updateOrderlinePrice(ctx));
         app.post("/deleteCupcakeFromOrderline", ctx -> orderlineController.deleteCupcakeFromOrderline(ctx));
         app.get("/getAllOrderlines", ctx -> orderlineController.getAllOrderlines(ctx));
+        app.get("/cart", ctx -> orderlineController.showCart(ctx));
+        app.post("/purchase", ctx -> statusController.handlePurchase(ctx));
+        app.get("/confirmation", ctx -> ctx.render("confirmation.html"));
+
 
         // Routing for Status updates
         app.post("/status/updatePayment", ctx -> statusController.updatePaymentStatus(ctx));

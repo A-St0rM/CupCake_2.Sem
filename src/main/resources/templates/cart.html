@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Din kurv</title>
+    <link rel="stylesheet" href="/css/cart.css" th:href="@{/css/cart.css}" />
+</head>
+<body>
+<header>
+    <a th:href="@{/}">
+        <img id="banner" th:src="@{/images/CupcakeShop_header.png}" width="100%" />
+    </a>
+</header>
+
+<div class="cart-container">
+    <h2>🧁 Din kurv</h2>
+
+    <div th:if="${error}" class="cart-error">
+        <p th:text="${error}"></p>
+    </div>
+
+    <div th:if="${cupcakes != null and !cupcakes.isEmpty()}" class="cart-list">
+        <ul>
+            <li th:each="cupcake : ${cupcakes}" class="cart-item">
+                <div class="cupcake-info">
+                    <span th:text="'x' + ${cupcake.quantity} + ': '"></span>
+                    <span th:text="${cupcake.bottomName}"></span> +
+                    <span th:text="${cupcake.topName}"></span> =
+                    <span th:text="${cupcake.price} + ' kr'"></span>
+                </div>
+
+                <form th:action="@{/deleteCupcakeFromOrderline}" method="post" style="display:inline;">
+                    <input type="hidden" name="cupcakeId" th:value="${cupcake.cupcakeId}" />
+                    <button type="submit" class="delete-btn">Fjern</button>
+                </form>
+            </li>
+        </ul>
+    </div>
+
+    <div th:if="${cupcakes == null or cupcakes.isEmpty()}" class="cart-empty">
+        <p>Kurven er tom 😢</p>
+    </div>
+
+    <div class="cart-summary">
+        <p class="cart-total">Total: <span th:text="${totalPrice} + ' kr'"></span></p>
+        <p class="cart-balance">Din saldo: <span th:text="${balance} + ' kr'"></span></p>
+    </div>
+
+    <form th:action="@{/purchase}" method="post" class="buy-now-form">
+        <button type="submit" class="buy-now-button">Køb nu</button>
+    </form>
+
+    <div class="cart-back">
+        <a th:href="@{/cupcakeshop}" class="btn-back">Tilbage til shoppen</a>
+    </div>
+</div>
+</body>
+</html>

@@ -4,6 +4,7 @@ import app.DTO.CustomerDTO;
 import app.entities.Customer;
 import app.exceptions.DatabaseException;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -115,6 +116,38 @@ public class CustomerMapper {
         catch (SQLException e)
         {
             throw new DatabaseException("Fejl i opdatering af email, prøv igen", e.getMessage());
+        }
+    }
+
+    public BigDecimal getBalanceByCustomerId(int customerId) {
+        String sql = "SELECT balance FROM customers WHERE customer_id = ?";
+        try (Connection conn = connectionPool.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, customerId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getBigDecimal("balance");
+            } else {
+                throw new DatabaseException("Customer not found: " + customerId);
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("Could not get balance: " + e.getMessage());
+        }
+    }
+
+    public boolean updateCustomerBalance(int customerId, BigDecimal newBalance) {
+        String sql = "UPDATE customers SET balance = ? WHERE customer_id = ?";
+        try (Connection conn = connectionPool.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setBigDecimal(1, newBalance);
+            ps.setInt(2, customerId);
+            int rows = ps.executeUpdate();
+            return rows > 0;
+
+        } catch (SQLException e) {
+            throw new DatabaseException("Could not update customer balance: " + e.getMessage());
         }
     }
 

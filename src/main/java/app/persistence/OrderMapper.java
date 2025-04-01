@@ -19,23 +19,30 @@ public class OrderMapper {
         this.connectionPool = connectionPool;
     }
 
-    public void insertOrder(Order order) throws DatabaseException {
-        String sql = "INSERT INTO orders(order_id, customer_id, order_date, total_price, status_id) VALUES (?, ?, ?, ?, ?)";
+    public int insertOrder(Order order) throws DatabaseException {
+        String sql = "INSERT INTO orders (customer_id, order_date, total_price, status_id) " +
+                "VALUES (?, ?, ?, ?) RETURNING order_id";
 
         try (Connection conn = connectionPool.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setInt(1, order.getOrderId());
-            ps.setInt(2, order.getCustomerId());
-            ps.setDate(3, Date.valueOf(order.getOrderDate()));
-            ps.setDouble(4, order.getTotalPrice());
-            ps.setInt(5, order.getStatusId());
-            ps.executeUpdate();
+            ps.setInt(1, order.getCustomerId());
+            ps.setDate(2, Date.valueOf(order.getOrderDate()));
+            ps.setInt(3, order.getTotalPrice());
+            ps.setInt(4, order.getStatusId());
+
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("order_id");
+            } else {
+                throw new DatabaseException("Failed to insert order and retrieve ID.");
+            }
 
         } catch (SQLException e) {
             throw new DatabaseException("Could not insert new Order: " + e.getMessage());
         }
     }
+
 
     public List<Order> getAllOrders() throws DatabaseException {
         String sql = "SELECT * FROM orders";
@@ -52,7 +59,7 @@ public class OrderMapper {
                         rs.getInt("order_id"),
                         rs.getInt("customer_id"),
                         rs.getDate("order_date").toLocalDate(),
-                        rs.getDouble("total_price"),
+                        rs.getInt("total_price"),
                         rs.getInt("status_id")
                 );
                 orderList.add(order);
@@ -102,25 +109,18 @@ public class OrderMapper {
         }
     }
 
-    public boolean updateOrderById(int orderId) throws DatabaseException
-    {
+    public boolean updateOrderById(int orderId) throws DatabaseException {
         String query = "UPDATE orders SET total_price = (SELECT SUM(initial_price) FROM orderlines WHERE order_id = ?) WHERE order_id = ?";
 
         try (
                 Connection connection = connectionPool.getConnection();
                 PreparedStatement ps = connection.prepareStatement(query)
-        )
-        {
+        ) {
             ps.setInt(1, orderId);
             ps.setInt(2, orderId);
-
-
             int affectedRows = ps.executeUpdate();
-
-            return affectedRows > 0; // If at least one row was updated, return true
-        }
-        catch (SQLException e)
-        {
+            return affectedRows > 0;
+        } catch (SQLException e) {
             throw new DatabaseException("Could not update order: " + e.getMessage());
         }
     }
@@ -176,6 +176,60 @@ public class OrderMapper {
             throw new DatabaseException("Error getting orders with status: " + e.getMessage());
         }
         return ordersWithStatus;
+    }
+
+    public int getLatestOrderIdByCustomer(int customerId) {
+        String sql = "SELECT order_id FROM orders WHERE customer_id = ? ORDER BY order_date DESC, order_id DESC LIMIT 1";
+
+        try (Connection conn = connectionPool.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, customerId);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt("order_id");
+            } else {
+                throw new DatabaseException("No order found for customer: " + customerId);
+            }
+
+        } catch (SQLException e) {
+            throw new DatabaseException("Could not get latest order ID: " + e.getMessage());
+        }
+    }
+
+    public int getStatusIdByOrderId(int orderId) {
+        String sql = "SELECT status_id FROM orders WHERE order_id = ?";
+        try (Connection conn = connectionPool.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, orderId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("status_id");
+            } else {
+                throw new DatabaseException("No status found for order id: " + orderId);
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("Could not get status_id by order_id: " + e.getMessage());
+        }
+    }
+
+    public int getTotalPriceByOrderId(int orderId) {
+        String sql = "SELECT total_price FROM orders WHERE order_id = ?";
+        try (Connection conn = connectionPool.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, orderId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("total_price");
+            } else {
+                throw new DatabaseException("No order found for order id: " + orderId);
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("Could not get total_price by order_id: " + e.getMessage());
+        }
     }
 
 }

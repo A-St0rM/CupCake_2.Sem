@@ -18,19 +18,38 @@ public class OrderlineMapper {
         this.connectionPool = connectionPool;
     }
 
-    public void insertOrderline(Orderline orderline) throws DatabaseException {
-        String sql = "INSERT INTO orderlines (orderline_id, order_id, initial_price) VALUES (?, ?, ?)";
+    public int insertOrderline(Orderline orderline) throws DatabaseException {
+        String sql = "INSERT INTO orderlines (order_id, initial_price) VALUES (?, ?) RETURNING orderline_id";
 
         try (Connection conn = connectionPool.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setInt(1, orderline.getOrderlineId());
-            ps.setInt(2, orderline.getOrderId());
-            ps.setDouble(3, orderline.getInitialPrice());
-            ps.executeUpdate();
+            ps.setInt(1, orderline.getOrderId());
+            ps.setInt(2, orderline.getInitialPrice());
+
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("orderline_id");
+            } else {
+                throw new DatabaseException("Failed to insert orderline and retrieve ID.");
+            }
 
         } catch (SQLException e) {
             throw new DatabaseException("Could not insert new Orderline: " + e.getMessage());
+        }
+    }
+
+
+    public void insertCupcakeToOrderline(int cupcakeId, int orderlineId) {
+        String sql = "INSERT INTO cupcakes_orderlines (cupcake_id, orderline_id) VALUES (?, ?)";
+
+        try (Connection conn = connectionPool.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, cupcakeId);
+            ps.setInt(2, orderlineId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new DatabaseException("Could not insert cupcake into orderline: " + e.getMessage());
         }
     }
 
@@ -48,7 +67,7 @@ public class OrderlineMapper {
                 Orderline orderline = new Orderline(
                         rs.getInt("orderline_id"),
                         rs.getInt("order_id"),
-                        rs.getDouble("initial_price")
+                        rs.getInt("initial_price")
                 );
                 orderlineList.add(orderline);
             }
@@ -79,7 +98,7 @@ public class OrderlineMapper {
         }
     }
 
-    public double getOrderlinePriceById(int orderlineId) throws DatabaseException {
+    public int getOrderlinePriceById(int orderlineId) throws DatabaseException {
         String sql = "SELECT initial_price FROM orderlines WHERE orderline_id = ?";
 
         try (Connection connection = connectionPool.getConnection();
@@ -89,7 +108,7 @@ public class OrderlineMapper {
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                return rs.getDouble("initial_price");
+                return rs.getInt("initial_price");
             } else {
                 throw new DatabaseException("Orderline not found.");
             }
@@ -100,7 +119,7 @@ public class OrderlineMapper {
 
 
 
-    public boolean updateOrderlineById(int orderlineId, double newPrice) throws DatabaseException
+    public boolean updateOrderlineById(int orderlineId, int newPrice) throws DatabaseException
     {
         String query = "UPDATE orderlines SET initial_price = ? WHERE orderline_id = ?";
 
@@ -109,7 +128,7 @@ public class OrderlineMapper {
                 PreparedStatement ps = connection.prepareStatement(query)
         )
         {
-            ps.setDouble(1, newPrice);
+            ps.setInt(1, newPrice);
             ps.setInt(2, orderlineId);
 
 
@@ -146,6 +165,26 @@ public class OrderlineMapper {
         catch (SQLException e)
         {
             throw new DatabaseException("Error getting order ID: " + e.getMessage());
+        }
+    }
+
+    public int getOrderlineIdByOrderId(int orderId) {
+        String sql = "SELECT orderline_id FROM orderlines WHERE order_id = ? LIMIT 1";
+
+        try (Connection conn = connectionPool.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, orderId);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt("orderline_id");
+            } else {
+                throw new DatabaseException("No orderline found for order: " + orderId);
+            }
+
+        } catch (SQLException e) {
+            throw new DatabaseException("Could not get orderline ID: " + e.getMessage());
         }
     }
 }
