@@ -30,6 +30,18 @@ nav ul {
     flex-wrap: wrap;
 }
 
+nav ul li span {
+    display: block;
+    color: black;
+    padding: 0.8rem 1.5rem;
+    text-decoration: none;
+    font-size: 1rem;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    transition: background-color 0.3s, color 0.3s;
+    border-radius: 4px;
+}
+
 nav ul li a {
     display: block;
     background-color: black;
@@ -140,6 +152,28 @@ nav ul li a:hover {
     transform: translateY(-2px);
 }
 
+/* Knap på forsiden ændres til "order now!" når man er logget ind  */
+#makeorder {
+    display: inline-block;
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 1rem 2.5rem;
+    text-align: center;
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+/*effect */
+#makeorder:hover {
+    background-color: #555;
+    transform: translateY(-2px);
+}
 /*til telefon */
 
 @media (max-width: 768px) {
