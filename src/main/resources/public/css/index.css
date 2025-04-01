@@ -204,5 +204,12 @@ nav ul li a:hover {
         width: 90%;
         max-width: 400px;
     }
+
+    #makeorder {
+        padding: 0.9rem 2rem;
+        font-size: 1rem;
+        width: 90%;
+        max-width: 400px;
+    }
 }
 
