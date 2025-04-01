@@ -21,17 +21,16 @@
 <!--Her ligger al den overliggende navigation. th:href henviser til routingen-->
 <nav>
     <ul>
-        <li style="float:right"><a href="admin/controlpanel.html" th:href="@{/controlPanel}">Control Panel</a></li>
-
-        <!-- Move logout inside the list and only show if a user is logged in -->
-        <li id="logoutbutton" th:if="${session.currentAdmin != null}" style="float:right">
+        <li><a class="active-user" th:text="${session.currentAdmin.email}"></a></li>
+        <li><a href="admin/controlpanel.html" th:href="@{/controlPanel}">Control Panel</a></li>
+        <li id="logoutbutton" th:if="${session.currentAdmin != null}">
             <a href="index.html" th:href="@{/logout}">Logout</a>
         </li>
-        <li style="float:right"><p><span th:text="${session.currentAdmin.email}"></span></p></li>
     </ul>
 </nav>
 
 <h2>All Orders</h2>
+<div class="table-container">
 <table>
     <thead>
     <tr>
@@ -82,8 +81,7 @@
     </tr>
     </tbody>
 </table>
-
-
+</div>
 
 </body>
 </html>
