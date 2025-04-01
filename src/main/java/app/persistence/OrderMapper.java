@@ -126,28 +126,32 @@ public class OrderMapper {
     }
 
     public List<CustomerOrderDTO> getOrdersWithCustomerInfo() throws DatabaseException {
-        List<CustomerOrderDTO> orders = new ArrayList<>();
-
-        String sql = "SELECT o.order_id, c.email, o.total_price, o.order_date " +
+        String sql = "SELECT o.order_id, c.email, o.total_price, o.order_date, " +
+                "s.is_paid, s.is_picked_up " +
                 "FROM orders o " +
-                "JOIN customers c ON o.customer_id = c.customer_id";
+                "JOIN customers c ON o.customer_id = c.customer_id " +
+                "JOIN status s ON o.status_id = s.status_id";
 
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
 
+            List<CustomerOrderDTO> orders = new ArrayList<>();
             while (rs.next()) {
                 int orderId = rs.getInt("order_id");
                 String customerEmail = rs.getString("email");
                 double totalPrice = rs.getDouble("total_price");
                 LocalDate orderDate = rs.getDate("order_date").toLocalDate();
+                boolean isPaid = rs.getBoolean("is_paid");      // New
+                boolean isPickedUp = rs.getBoolean("is_picked_up"); // New
 
-                orders.add(new CustomerOrderDTO(orderId, customerEmail, totalPrice, orderDate));
+                orders.add(new CustomerOrderDTO(orderId, customerEmail, totalPrice,
+                        orderDate, isPaid, isPickedUp));
             }
+            return orders;
         } catch (SQLException e) {
             throw new DatabaseException("Error getting orders", e.getMessage());
         }
-        return orders;
     }
 
 

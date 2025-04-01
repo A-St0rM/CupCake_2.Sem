@@ -31,7 +31,30 @@
     </ul>
 </nav>
 
-<p>Here you can see all orders></p>
+<h2>All Orders</h2>
+<table>
+    <thead>
+    <tr>
+        <th>Order ID</th>
+        <th>Customer Email</th>
+        <th>Total Price</th>
+        <th>Order Date</th>
+        <th>Payment Status</th>    <!-- New column -->
+        <th>Pickup Status</th>     <!-- New column -->
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="order : ${orders}">
+        <td th:text="${order.orderId}"></td>
+        <td th:text="${order.customerEmail}"></td>
+        <td th:text="${'kr. ' + order.totalPrice}"></td>
+        <td th:text="${order.orderDate}"></td>
+        <td th:text="${order.paid ? 'Paid' : 'Unpaid'}"></td>     <!-- Status display -->
+        <td th:text="${order.pickedUp ? 'Picked Up' : 'Not Picked Up'}"></td>
+    </tr>
+    </tbody>
+</table>
+
 
 
 </body>
