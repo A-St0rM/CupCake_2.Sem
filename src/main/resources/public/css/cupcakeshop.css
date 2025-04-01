@@ -93,3 +93,21 @@ form p {
     text-align: center;
     margin-top: 2rem;
 }
+
+.purchase-history-link {
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.btn-view-purchases {
+    background-color: #222;
+    color: white;
+    padding: 0.7rem 1.2rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.btn-view-purchases:hover {
+    background-color: #444;
+}

@@ -93,15 +93,10 @@ public class CustomerController {
 
             List<PurchaseOverviewDTO> purchases = customerMapper.getPurchaseOverviewByCustomerId(customerId);
             ctx.attribute("purchases", purchases);
-            ctx.render("purchase-history.html");
-
-            List<CustomerOrderDTO> orders = customerMapper.getPurchaseOverviewByCustomerId();
-
-            ctx.attribute("orders", orders);
-            ctx.render("admin/vieworders.html"); // sends the list to thymeleaf
-        } catch (DatabaseException e) {
-            ctx.attribute("message", "Kunne ikke hente ordrer");
-            ctx.render("error.html"); //TODO: add page
+            ctx.render("purchasehistory.html");
+        } catch (Exception e) {
+            e.printStackTrace();
+            ctx.status(500).result("Kunne ikke hente købsoversigt: " + e.getMessage());
         }
     }
 }

@@ -1,0 +1,64 @@
+body {
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    background-color: #fff;
+}
+
+header img {
+    width: 100%;
+    display: block;
+}
+
+.purchase-container {
+    max-width: 900px;
+    margin: 3rem auto;
+    padding: 1rem;
+    text-align: center;
+}
+
+h2 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffe6e6;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+th, td {
+    padding: 1rem;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+}
+
+th {
+    background-color: #ffcccc;
+    font-weight: bold;
+}
+
+.no-purchases {
+    font-size: 1.2rem;
+    margin-top: 2rem;
+    color: #555;
+}
+
+.purchase-back {
+    margin-top: 2rem;
+}
+
+.btn-back {
+    background-color: #222;
+    color: white;
+    padding: 0.7rem 1.2rem;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.btn-back:hover {
+    background-color: #444;
+}

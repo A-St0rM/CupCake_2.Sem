@@ -77,5 +77,6 @@ public class RoutingController {
         //Routing for order
         app.get("/getAllOrders", ctx -> orderController.getAllOrders(ctx));
         app.get("/orders/status", ctx -> orderController.getOrdersWithStatus(ctx));
+        app.get("/purchase-history", ctx -> customerController.getAllOrders(ctx));
     }
 }

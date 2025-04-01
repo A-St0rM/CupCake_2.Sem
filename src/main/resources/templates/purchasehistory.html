@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Dine køb</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/purchasehistory.css}">
+</head>
+<body>
+
+<header>
+    <a th:href="@{/}">
+        <img src="/images/CupcakeShop_header.png" th:src="@{/images/CupcakeShop_header.png}" width="100%" />
+    </a>
+</header>
+
+<div class="purchase-container">
+    <h2>Dine tidligere køb 🧁</h2>
+
+    <div th:if="${purchases != null and !purchases.isEmpty()}">
+        <table>
+            <thead>
+            <tr>
+                <th>Top</th>
+                <th>Bund</th>
+                <th>Antal</th>
+                <th>Pris</th>
+                <th>Betalt</th>
+                <th>Afhentet</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="p : ${purchases}">
+                <td th:text="${p.topName}"></td>
+                <td th:text="${p.bottomName}"></td>
+                <td th:text="${p.quantity}"></td>
+                <td th:text="${p.totalPrice} + ' kr'"></td>
+                <td th:text="${p.paid ? '✅' : '❌'}"></td>
+                <td th:text="${p.pickedUp ? '✅' : '❌'}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:if="${purchases == null or purchases.isEmpty()}" class="no-purchases">
+        <p>Du har ikke foretaget nogen køb endnu.</p>
+    </div>
+
+    <div class="purchase-back">
+        <a th:href="@{/cupcakeshop}" class="btn-back">Tilbage til shoppen</a>
+    </div>
+</div>
+
+</body>
+</html>
