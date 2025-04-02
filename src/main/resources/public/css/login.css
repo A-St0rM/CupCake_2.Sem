@@ -1,6 +1,16 @@
-/* Generelle styles & Font import */
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400&family=Montserrat:wght@400&display=swap');
 
+/*  nulstilling */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 16px;
+}
 
 body {
     font-family: 'Inter', sans-serif;
@@ -12,17 +22,16 @@ body {
     min-height: 100vh;
 }
 
-/* --- Header Styles --- */
+/*  Header Styles  */
 header #banner {
     display: block;
     width: 100%;
     height: auto;
 }
 
-/* --- Navigation Styles --- */
+/*  Navigation Styles  */
 nav {
-    /* background-color: #fceeee; /* Din oprindelige nav farve */
-    background-color: #f8f8f8; /* Matcher index? Vælg én */
+    background-color: #f8f8f8;
     padding: 0.5rem 1rem;
     border-bottom: 1px solid #eee;
 }
@@ -53,7 +62,7 @@ nav ul li a:hover {
     color: #fff;
 }
 
-/* === START: Styles for Index-indhold (kopieret til login.css) === */
+/* Styles for Index-indhold (Baggrund) */
 .content-wrapper {
     max-width: 1200px;
     margin: 2rem auto;
@@ -62,8 +71,8 @@ nav ul li a:hover {
     flex-wrap: wrap;
     align-items: flex-start;
     gap: 2rem;
-    /* VIGTIGT: Sæt lavere z-index end overlay hvis nødvendigt,
-       men da det ikke er positioneret, burde det ligge bagved naturligt */
+    position: relative;
+    z-index: 1;
 }
 
 .text-group {
@@ -78,17 +87,17 @@ nav ul li a:hover {
     background: #fdd0d0;
     border-radius: 8px;
     padding: 1.5rem;
-    width: 100%; /* Tog fuld bredde af text-group */
+    width: 100%;
 }
 
 #rectangle h1 {
     font-size: clamp(2.2rem, 4vw + 1rem, 3.8rem);
     font-family: 'Inter', sans-serif;
     font-weight: 400;
-    color: #000000; /* Sørg for at H1 i baggrunden har den rigtige farve */
+    color: #000000;
     line-height: 1.2;
     text-align: center;
-    margin-bottom: 0; /* Fjernet fra forrige version */
+    margin-bottom: 0;
 }
 
 .text-group h2 {
@@ -103,23 +112,21 @@ nav ul li a:hover {
     font-size: 1rem;
     font-family: 'Inter', sans-serif;
     font-weight: 400;
-    /* color: #2c2c2c; /* Din farve fra index.css */
-    color: #666; /* Standard farve - vælg én */
+    color: #666;
     max-width: 60ch;
     margin-bottom: 0;
 }
 
 #cupcake1 {
     display: block;
-    /* max-width: 550px; /* Din index.css værdi */
-    max-width: 450px; /* Værdi fra forrige login-css - vælg én */
+    max-width: 450px;
     width: 100%;
     height: auto;
     border-radius: 8px;
     flex: 1;
     min-width: 250px;
 }
-/* færdig: Styles for Index-indhold */
+/*  SLUT: Styles for Index-indhold  */
 
 /*  gennemsigtig Effekt  */
 .page-overlay {
@@ -128,12 +135,12 @@ nav ul li a:hover {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(255, 255, 255, 0.75); /* Juster opacitet her */
+    background-color: rgba(255, 255, 255, 0.75);
     z-index: 5;
-    pointer-events: none; /* TILFØJ DENNE TILBAGE */
+    pointer-events: none;
 }
 
-/* Login Boks Styling  */
+/*  Login Boks Styling  */
 .logIn-box {
     position: fixed;
     top: 50%;
@@ -141,11 +148,11 @@ nav ul li a:hover {
     transform: translate(-50%, -50%);
     width: 90%;
     max-width: 420px;
-    background-color: #fdd0d0;
+    background-color: #fdd0d0; /* Lyserød for kunde-login */
     padding: 2rem 2.5rem;
     border-radius: 8px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
-    z-index: 10; /* Højeste z-index */
+    z-index: 10;
     text-align: center;
 }
 
@@ -157,7 +164,7 @@ nav ul li a:hover {
     line-height: 1.3;
 }
 
-/* --- Form Styling --- */
+/*  Form Styling  */
 .logIn-box form {
     display: flex;
     flex-direction: column;
@@ -199,7 +206,8 @@ nav ul li a:hover {
     margin-top: 1rem;
 }
 
-.button { /* Generel knap styling */
+/*  Knap Styling  */
+.button {
     padding: 0.8rem 1.5rem;
     border: none;
     border-radius: 4px;
@@ -210,14 +218,20 @@ nav ul li a:hover {
     text-decoration: none;
     text-align: center;
     transition: background-color 0.3s, transform 0.2s;
-    flex-grow: 1;
+    display: block; /* Gør alle knapper til block-level som udgangspunkt */
+    width: 100%; /* Får dem til at fylde bredden */
+    flex-grow: 1; /* Tillader dem at vokse i .form-actions */
 }
+.form-actions .button { /* Specifikt for knapper i form-actions */
+    width: auto; /* Lad flexbox styre bredden her */
+}
+
 
 .button:hover {
     transform: translateY(-2px);
 }
 
-.login-button { /* Specifik for Login knap */
+.login-button {
     background-color: black;
     color: white;
 }
@@ -225,7 +239,7 @@ nav ul li a:hover {
     background-color: #555;
 }
 
-.create-button { /* Specifik for Create User knap */
+.create-button {
     background-color: #555;
     color: white;
 }
@@ -233,7 +247,28 @@ nav ul li a:hover {
     background-color: #333;
 }
 
-/* --- Fejlmeddelelse Styling --- */
+/* start Styling for Cancel Knap  */
+.back-action {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+}
+
+.back-button {
+    background-color: #eee; /* Lys grå */
+    color: #333;
+    border: 1px solid #ccc;
+}
+
+.back-button:hover {
+    background-color: #ddd;
+    border-color: #bbb;
+    transform: translateY(-1px);
+}
+/*  SLUT: Styling for Cancel Knap  */
+
+
+/*  Fejlmeddelelse Styling  */
 .error-message-login {
     color: red;
     font-weight: bold;
@@ -241,15 +276,15 @@ nav ul li a:hover {
     font-size: 0.9rem;
 }
 
-/* --- Admin Login Link Styling --- */
+/*  Admin Login Link Styling  */
 .admin-login-link {
-    position: fixed; /* Holder den fast i bunden */
+    position: fixed;
     bottom: 1rem;
     left: 50%;
     transform: translateX(-50%);
-    z-index: 6; /* Over overlay, under login-boks */
+    z-index: 6;
     font-size: 0.9rem;
-    background-color: rgba(255, 255, 255, 0.8); /* Lidt baggrund for læsbarhed */
+    background-color: rgba(255, 255, 255, 0.8);
     padding: 0.2rem 0.5rem;
     border-radius: 4px;
 }
@@ -263,75 +298,49 @@ nav ul li a:hover {
 }
 
 
-/* --- Media Query for mindre skærme --- */
+/*  telefon  */
 @media (max-width: 768px) {
     nav ul {
-        justify-content: center; /* Centrer nav på mobil */
+        justify-content: center;
     }
 
-    /* Juster index-indhold på mobil hvis nødvendigt (allerede i index.css?) */
+    /* Baggrundsindhold på mobil */
     .content-wrapper {
-        flex-direction: column;
-        margin-top: 1rem;
-        gap: 1.5rem;
-        align-items: center;
-        /* VIGTIGT: Sørg for at dette ikke konflikter med overlay/login-boks */
-        /* Overvej at give main lavere z-index end overlay hvis der er problemer */
-        position: relative; /* Kan være nødvendigt for z-index */
-        z-index: 1; /* Lavere end overlay */
+        flex-direction: column; margin-top: 1rem; gap: 1.5rem; align-items: center; z-index: 1;
     }
+    .text-group { width: 100%; order: 1; gap: 1rem; align-items: center; text-align: center; }
+    #rectangle { padding: 1rem; }
+    #rectangle h1 { font-size: clamp(1.8rem, 6vw + 0.5rem, 2.5rem); }
+    .text-group h2 { font-size: clamp(1.3rem, 5vw + 0.3rem, 1.8rem); }
+    .text-group h3 { font-size: 0.95rem; max-width: none; }
+    #cupcake1 { max-width: 300px; order: -1; margin: 0 auto; }
 
-    /* Styles for H1, H2, H3, cupcake på mobil fra din index.css */
-    /* Sørg for at de relevante dele af din index.css media query er her */
-    .text-group { /* Fra index.css media query */
-        width: 100%;
-        order: 1; /* Placeres efter billede? Tjek din index.css */
-        gap: 1rem;
-        align-items: center;
-        text-align: center;
-    }
-    #rectangle {
-        padding: 1rem;
-    }
-    #rectangle h1 {
-        font-size: clamp(1.8rem, 6vw + 0.5rem, 2.5rem);
-    }
-    .text-group h2 {
-        font-size: clamp(1.3rem, 5vw + 0.3rem, 1.8rem);
-    }
-    .text-group h3 {
-        font-size: 0.95rem;
-        max-width: none;
-    }
-    #cupcake1 { /* Fra index.css media query */
-        max-width: 300px;
-        order: -1; /* Placeres øverst? Tjek din index.css */
-        margin: 0 auto;
-    }
-
-
-    /* Styles for selve login-delen på mobil */
+    /* Login Boks på mobil */
     .logIn-box {
         padding: 1.5rem;
         max-width: 95%;
-        /* Top/left/transform styrer stadig centrering */
     }
 
     .logIn-box h2 {
         font-size: 1.3rem;
     }
 
+    /* Knapper i boksen på mobil */
     .form-actions {
-        flex-direction: column;
+        flex-direction: column; /* Stack Login/Create User */
     }
-
+    /* .button har allerede width: 100% */
     .button {
-        width: 100%;
+        padding: 0.8rem 1rem; font-size: 0.95rem;
+    }
+    .back-action {
+        margin-top: 0.8rem;
+        padding-top: 0.8rem;
+        border-top: none; /* Fjern linje på mobil */
     }
 
     .admin-login-link {
         font-size: 0.8rem;
-        /* Evt. fjern baggrund på mobil */
         background-color: transparent;
     }
 }

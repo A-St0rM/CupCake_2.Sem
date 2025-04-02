@@ -1,7 +1,7 @@
-/* --- Generelle styles & Font import --- */
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400&family=Montserrat:wght@400&display=swap');
 
-/* Grundlæggende nulstilling */
+/* nulstilling */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -22,14 +22,14 @@ body {
     min-height: 100vh;
 }
 
-/* --- Header Styles (Kopieret fra login.css) --- */
+/*  Header Styles (samme som login.css)  */
 header #banner {
     display: block;
     width: 100%;
     height: auto;
 }
 
-/* --- Navigation Styles (Kopieret fra login.css) --- */
+/* ´ Navigation Styles  */
 nav {
     background-color: #f8f8f8;
     padding: 0.5rem 1rem;
@@ -62,7 +62,7 @@ nav ul li a:hover {
     color: #fff;
 }
 
-/* --- Styles for Index-indhold (Baggrund - Kopieret fra login.css) --- */
+/*  Styles for Index-indhold   */
 .content-wrapper {
     max-width: 1200px;
     margin: 2rem auto;
@@ -119,7 +119,7 @@ nav ul li a:hover {
 
 #cupcake1 {
     display: block;
-    max-width: 450px; /* Matcher login.css - juster hvis nødvendigt */
+    max-width: 450px;
     width: 100%;
     height: auto;
     border-radius: 8px;
@@ -127,27 +127,27 @@ nav ul li a:hover {
     min-width: 250px;
 }
 
-/* --- Overlay Effekt (Kopieret fra login.css) --- */
+/*  gennemsigtig Effekt   */
 .page-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(255, 255, 255, 0.75); /* Juster opacitet her */
+    background-color: rgba(255, 255, 255, 0.75); /* lav opacitet  */
     z-index: 5;
-    pointer-events: none; /* Baggrund kan ikke klikkes */
+    pointer-events: none; /* Baggrund kan ikke klikkes i */
 }
 
 /* --- Create Customer Boks Styling --- */
-.createCustomer-Box { /* Matcher din HTML klasse */
+.createCustomer-Box {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 90%;
-    max-width: 450px; /* Lidt bredere for flere felter? Juster efter behov */
-    background-color: #fdd0d0; /* Samme lyserøde, eller en anden farve? */
+    max-width: 450px;
+    background-color: #fdd0d0;
     padding: 2rem 2.5rem;
     border-radius: 8px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
@@ -198,9 +198,8 @@ nav ul li a:hover {
     font-size: 0.9rem;
 }
 
-/* Browserens indbyggede validerings-styling kan evt. overskrives her */
+/* Browserens indbyggede validerings-styling */
 .form-group input:invalid {
-    /* border-color: red; (Eksempel) */
 }
 
 
@@ -208,7 +207,7 @@ nav ul li a:hover {
     margin-top: 1rem;
 }
 
-.button { /* Generel knap styling (kopieret fra login.css) */
+.button { /* Generel knap styling  */
     padding: 0.8rem 1.5rem;
     border: none;
     border-radius: 4px;
@@ -227,7 +226,7 @@ nav ul li a:hover {
     transform: translateY(-2px);
 }
 
-.submit-button { /* Specifik for Create Account knap */
+.submit-button { /* for Create Account knap */
     background-color: black; /* Samme som login */
     color: white;
 }
@@ -254,7 +253,7 @@ nav ul li a:hover {
     border-top: 1px solid #e0e0e0;
 }
 
-.back-button { /* Style for Go Back knap (kopieret fra login.css) */
+.back-button { /* Style for Go Back knap  */
     background-color: #eee;
     color: #333;
     border: 1px solid #ccc;
@@ -296,7 +295,7 @@ nav ul li a:hover {
 }
 
 
-/* --- Media Query for mindre skærme (Kopieret og tilpasset fra login.css) --- */
+/* telefon styling */
 @media (max-width: 768px) {
     nav ul {
         justify-content: center; /* Centrer nav på mobil */
