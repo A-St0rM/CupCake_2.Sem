@@ -291,7 +291,7 @@ nav ul li a:hover {
         justify-content: center;
     }
 
-    /* Baggrundsindhold på mobil */
+    /* Baggrundsindhold på tlf */
     .content-wrapper {
         flex-direction: column; margin-top: 1rem; gap: 1.5rem; align-items: center; z-index: 1;
     }
