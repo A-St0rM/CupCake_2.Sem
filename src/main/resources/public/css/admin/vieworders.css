@@ -85,6 +85,7 @@ th {
 td {
     padding: 14px;
     border-bottom: 1px solid #eee;
+    text-align: center;
 }
 
 /* Style dropdowns to match admin buttons */

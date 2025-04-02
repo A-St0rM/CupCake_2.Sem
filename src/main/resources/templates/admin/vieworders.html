@@ -39,6 +39,7 @@
         <th>Total Price</th>
         <th>Order Date</th>
         <th>Pickup Status</th>
+        <th>Payment Status</th>
         <th>Actions</th>
     </tr>
     </thead>
@@ -48,6 +49,10 @@
         <td th:text="${order.customerEmail}"></td>
         <td th:text="${'kr. ' + order.totalPrice}"></td>
         <td th:text="${order.orderDate}"></td>
+
+        <td>
+            <span th:text="${order.paid ? 'Paid' : 'Unpaid'}"></span>
+        </td>
 
         <!-- Pickup Status Dropdown -->
         <td>

@@ -27,12 +27,15 @@ public class StatusController {
 
     public void updatePaymentStatus(Context ctx) {
         try {
-            int orderId = Integer.parseInt(ctx.formParam("orderId"));
+            int statusId = Integer.parseInt(ctx.formParam("statusId"));
             boolean isPaid = Boolean.parseBoolean(ctx.formParam("isPaid"));
 
-            // Update database via StatusMapper
-            statusMapper.updatePaymentStatus(orderId, isPaid);
-            ctx.redirect("/viewOrders");
+            boolean updated = statusMapper.updatePaymentStatus(statusId, isPaid);
+            if (updated) {
+                ctx.status(200).result("Payment status updated successfully.");
+            } else {
+                ctx.status(400).result("Failed to update payment status.");
+            }
         } catch (DatabaseException | NumberFormatException e) {
             ctx.status(500).result("Error updating payment status: " + e.getMessage());
         }
