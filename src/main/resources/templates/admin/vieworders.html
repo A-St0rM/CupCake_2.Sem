@@ -38,7 +38,6 @@
         <th>Customer Email</th>
         <th>Total Price</th>
         <th>Order Date</th>
-        <th>Payment Status</th>
         <th>Pickup Status</th>
         <th>Actions</th>
     </tr>
@@ -49,17 +48,6 @@
         <td th:text="${order.customerEmail}"></td>
         <td th:text="${'kr. ' + order.totalPrice}"></td>
         <td th:text="${order.orderDate}"></td>
-
-        <!-- Payment Status Dropdown -->
-        <td>
-            <form th:action="@{/status/updatePayment}" method="post">
-                <input type="hidden" name="orderId" th:value="${order.orderId}">
-                <select name="isPaid" onchange="this.form.submit()">
-                    <option value="true" th:selected="${order.paid}">Paid</option>
-                    <option value="false" th:selected="${!order.paid}">Unpaid</option>
-                </select>
-            </form>
-        </td>
 
         <!-- Pickup Status Dropdown -->
         <td>
