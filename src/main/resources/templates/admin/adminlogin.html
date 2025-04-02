@@ -1,16 +1,20 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<title>Cupcake Shop</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="../../public/css/adminlogin.css" th:href="@{/css/admin/adminlogin.css}" rel="stylesheet"/>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="da">
+<head>
+    <title>Cupcake Shop - Admin Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/css/admin/adminlogin.css}" rel="stylesheet"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&family=Montserrat:wght@400&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
 <header>
-    <a href="../index.html" th:href="@{/}">
-        <img src="../../public/images/CupcakeShop_header.png" th:src="@{/images/CupcakeShop_header.png}" width="100%"/>
+    <a th:href="@{/}">
+        <img id="banner" th:src="@{/images/CupcakeShop_header.png}" alt="Cupcake Shop Banner"/>
     </a>
 </header>
 
@@ -24,38 +28,51 @@
         </li>
         <li id="logoutbutton" th:if="${session.currentCustomer != null}">
             <a href="index.html" th:href="@{/logout}">Logout</a>
+
         </li>
     </ul>
 </nav>
 
-<h1>Admin log in page</h1>
-<!--Husk når denne form skal styles, så skal login-form class'en bruges-->
+<main class="content-wrapper">
+    <div class="text-group">
+        <div id="rectangle">
+            <h1>ORDER CUPCAKES TODAY </h1>
+        </div>
+        <h2>Olsker Cupcakes - The taste of Bornholm!</h2>
+        <h3>Olsker Cupcakes is not just a bakery – it’s a deep-ecological adventure from Bornholm...</h3>
+    </div>
+    <img id="cupcake1" th:src="@{/images/cupcakel.jpg}" alt="Lækker cupcake"/>
+</main>
 
-<div class="logIn-box">
-    <div class="logIn-items">
-        <h2>Log in</h2>
-        <p th:if="${message}" style="color: red;">[[${message}]]</p>
-        <form action="/adminlogin" th:action="@{/adminLogin}" method="post" onsubmit="console.log('Form submitted!')">
-            <label for="email">E-mail</label>:
-            <input type="text" id="email" name="email" autofocus="autofocus"/><br/>
-            <label for="password">Password</label>:
-            <input type="password" id="password" name="password"/><br/>
-            <input class="button" type="submit" value="Log in"/>
-        </form>
+<div class="page-overlay"></div>
+
+<div class="logIn-box admin-box"> <div class="logIn-items">
+    <h2>Admin Login</h2>
+    <p th:if="${message}" class="error-message-login">[[${message}]]</p>
+
+    <form th:action="@{/adminLogin}" method="post">
+        <div class="form-group">
+            <label for="email">Admin Email</label>
+            <input type="text" id="email" name="email" placeholder="Email" autofocus="autofocus"/>
+        </div>
+        <div class="form-group">
+            <label for="password">Admin Password</label>
+            <input type="password" id="password" name="password" placeholder="Password"/>
+        </div>
+        <div class="form-actions">
+            <input class="button login-button" type="submit" value="Login"/>
+        </div>
+    </form>
+
+    <div class="back-action">
+        <a class="button back-button" th:href="@{/}">Cancel</a>
     </div>
 </div>
-
-<div th:if="${session.currentCustomer != null}">
-    <span th:text="${session.currentCustomer.email}"></span>
-    <a href="../index.html" th:href="@{/logout}">Logout</a>
 </div>
 
-<!--    Denne nedenstående linje, viser på siden den attribut som kommer, når der sker fejl på siden-->
-<p th:text="${message}"></p>
-
-
-<p><a href="../login.html" th:href="@{/login}">Customer Login</a></p>
-
+<p class="customer-login-link">
+    <a th:href="@{/login}">Go to Customer Login</a>
+</p>
 
 </body>
 </html>
