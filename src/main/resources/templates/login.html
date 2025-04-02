@@ -20,10 +20,14 @@
 
 <nav>
     <ul>
-        <li><a th:href="@{/}">Front Page</a></li>
-        <li><a th:href="@{/login}">Log in</a></li>
-        <li th:if="${session.currentCustomer != null}">
-            <a th:href="@{/logout}">Logout</a>
+        <li id="activeuser" th:if="${session.currentCustomer != null}">
+            <span th:text="${session.currentCustomer.email}"></span>
+        <li id="homepagebutton"><a href="index.html" th:href="@{/}">Front page</a></li>
+        <li id="loginbutton" th:if="${session.currentCustomer == null}">
+            <a href="login.html" th:href="@{/login}">Log in</a>
+        </li>
+        <li id="logoutbutton" th:if="${session.currentCustomer != null}">
+            <a href="index.html" th:href="@{/logout}">Logout</a>
         </li>
     </ul>
 </nav>

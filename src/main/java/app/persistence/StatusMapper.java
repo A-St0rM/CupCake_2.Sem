@@ -82,6 +82,30 @@ public class StatusMapper {
             throw new DatabaseException("Could not fetch payment status: " + e.getMessage());
         }
     }
+
+    public boolean isPaidStatusByOrderId(int orderId) throws DatabaseException {
+        String sql = """
+        SELECT s.is_paid
+        FROM orders o
+        JOIN status s ON o.status_id = s.status_id
+        WHERE o.order_id = ?
+    """;
+
+        try (Connection conn = connectionPool.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, orderId);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getBoolean("is_paid");
+            } else {
+                throw new DatabaseException("No status found for order ID: " + orderId);
+            }
+
+        } catch (SQLException e) {
+            throw new DatabaseException("Error checking paid status for order: " + e.getMessage());
+        }
+    }
 }
 
 

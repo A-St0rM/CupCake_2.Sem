@@ -9,14 +9,33 @@
 
 <body>
 
-<!-- Header -->
+
 <header>
     <a href="index.html" th:href="@{/}">
         <img id="banner" src="../public/images/CupcakeShop_header.png" th:src="@{/images/CupcakeShop_header.png}" width="100%"/>
     </a>
 </header>
 
-<!-- Main Layout -->
+<nav>
+    <ul>
+        <li id="activeuser" th:if="${session.currentCustomer != null}">
+            <span th:text="${session.currentCustomer.email}"></span>
+        <li id="homepagebutton"><a href="index.html" th:href="@{/}">Front page</a></li>
+        <li id="loginbutton" th:if="${session.currentCustomer == null}">
+            <a href="login.html" th:href="@{/login}">Log in</a>
+        </li>
+        <li id="logoutbutton" th:if="${session.currentCustomer != null}">
+            <a href="index.html" th:href="@{/logout}">Logout</a>
+        </li>
+    </ul>
+</nav>
+
+<div class="top-buttons">
+    <a th:href="@{/purchase-history}" class="btn-view-purchases">View your purchases</a>
+    <a th:href="@{/cart}" class="btn-view-cart">Basket</a>
+</div>
+
+
 <div class="container">
     <!-- Left side: Order text -->
     <div class="order-instructions">
@@ -56,11 +75,6 @@
 
         <button type="submit">Add to basket</button>
     </form>
-</div>
-
-<!-- Optional: Link to cart -->
-<div class="cart-link">
-    <p><a href="cart.html" th:href="@{/cart}">Kurv</a></p>
 </div>
 
 </body>

@@ -1,6 +1,7 @@
 package app.persistence;
 
 import app.DTO.CustomerDTO;
+import app.DTO.PurchaseOverviewDTO;
 import app.entities.Customer;
 import app.exceptions.DatabaseException;
 
@@ -9,6 +10,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CustomerMapper {
     private final ConnectionPool connectionPool;
@@ -95,6 +98,48 @@ public class CustomerMapper {
             throw new DatabaseException("Fejl ved sletning af bruger", e.getMessage());
         }
     }
+
+    public List<PurchaseOverviewDTO> getPurchaseOverviewByCustomerId(int customerId) {
+        List<PurchaseOverviewDTO> overviewList = new ArrayList<>();
+
+        String sql = """
+            SELECT b.bottom_name, t.top_name, c.quantity, (c.cupcake_price * c.quantity) AS total_price,
+                   s.is_paid, s.is_picked_up
+            FROM customers cu
+            JOIN orders o ON cu.customer_id = o.customer_id
+            JOIN status s ON o.status_id = s.status_id
+            JOIN orderlines ol ON o.order_id = ol.order_id
+            JOIN cupcakes_orderlines co ON ol.orderline_id = co.orderline_id
+            JOIN cupcakes c ON co.cupcake_id = c.cupcake_id
+            JOIN cupcake_tops t ON c.cupcake_top_id = t.cupcake_top_id
+            JOIN cupcake_bottoms b ON c.cupcake_bottom_id = b.cupcake_bottom_id
+            WHERE cu.customer_id = ?
+            ORDER BY o.order_date DESC;
+            """;
+
+        try (Connection conn = connectionPool.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, customerId);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                PurchaseOverviewDTO dto = new PurchaseOverviewDTO(
+                        rs.getString("bottom_name"),
+                        rs.getString("top_name"),
+                        rs.getInt("quantity"),
+                        rs.getInt("total_price"),
+                        rs.getBoolean("is_paid"),
+                        rs.getBoolean("is_picked_up")
+                );
+                overviewList.add(dto);
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("Could not get purchase overview: " + e.getMessage());
+        }
+
+        return overviewList;
+    }
+
 
     public void updateCustomerById(int customerId, String email) throws DatabaseException
     {

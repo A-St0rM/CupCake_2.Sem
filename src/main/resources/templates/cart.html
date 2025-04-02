@@ -12,8 +12,22 @@
     </a>
 </header>
 
+<nav>
+    <ul>
+        <li id="activeuser" th:if="${session.currentCustomer != null}">
+            <span th:text="${session.currentCustomer.email}"></span>
+        <li id="homepagebutton"><a href="index.html" th:href="@{/}">Front page</a></li>
+        <li id="loginbutton" th:if="${session.currentCustomer == null}">
+            <a href="login.html" th:href="@{/login}">Log in</a>
+        </li>
+        <li id="logoutbutton" th:if="${session.currentCustomer != null}">
+            <a href="index.html" th:href="@{/logout}">Logout</a>
+        </li>
+    </ul>
+</nav>
+
 <div class="cart-container">
-    <h2>🧁 Din kurv</h2>
+    <h2>Din kurv</h2>
 
     <div th:if="${error}" class="cart-error">
         <p th:text="${error}"></p>
@@ -38,7 +52,7 @@
     </div>
 
     <div th:if="${cupcakes == null or cupcakes.isEmpty()}" class="cart-empty">
-        <p>Kurven er tom 😢</p>
+        <p>Kurven er tom</p>
     </div>
 
     <div class="cart-summary">

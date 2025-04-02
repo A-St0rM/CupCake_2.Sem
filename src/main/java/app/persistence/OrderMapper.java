@@ -150,6 +150,7 @@ public class OrderMapper {
         return orders;
     }
 
+
     public List<OrderStatusDTO> getOrdersWithStatus() throws DatabaseException {
         List<OrderStatusDTO> ordersWithStatus = new ArrayList<>();
 
