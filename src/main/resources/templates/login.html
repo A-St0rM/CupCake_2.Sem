@@ -1,54 +1,68 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<title>Cupcake Shop</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="../public/css/login.css" th:href="@{/css/login.css}" rel="stylesheet"/>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="da">
+<head>
+    <title>Cupcake Shop - Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../public/css/login.css" th:href="@{/css/login.css}" rel="stylesheet"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&family=Montserrat:wght@400&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
 <header>
     <a href="index.html" th:href="@{/}">
-        <img src="../public/images/CupcakeShop_header.png" th:src="@{/images/CupcakeShop_header.png}" width="100%"/>
+        <img id="banner" src="../public/images/CupcakeShop_header.png" th:src="@{/images/CupcakeShop_header.png}" alt="Cupcake Shop Banner"/>
     </a>
 </header>
 
 <nav>
     <ul>
-        <li style="float:right"><a href="index.html" th:href="@{/}">Front Page</a></li>
-        <li style="float:right"><a href="login.html" th:href="@{/login}">Log in</a></li>
+        <li><a href="index.html" th:href="@{/}">Front Page</a></li>
+        <li><a href="login.html" th:href="@{/login}">Log in</a></li>
+        <li th:if="${session.currentCustomer != null}">
+            <a href="index.html" th:href="@{/logout}">Logout</a>
+        </li>
     </ul>
 </nav>
 
-
-<!--Husk når denne form skal styles, så skal login-form class'en bruges-->
+<main class="content-wrapper">
+    <div class="text-group">
+        <div id="rectangle">
+            <h1>ORDER CUPCAKES TODAY</h1>
+        </div>
+        <h2>Olsker Cupcakes - The taste of Bornholm!</h2>
+        <h3>Olsker Cupcakes is not just a bakery – it’s a deep-ecological adventure from Bornholm. With the finest ingredients and a passion for craftsmanship, we create cupcakes that not only taste heavenly but also tell a story. Perfection baked into every bite – natural, sustainable, and irresistible!</h3>
+    </div>
+    <img id="cupcake1" src="../public/images/cupcake1.jpg" th:src="@{/images/cupcake1.jpg}" alt="Lækker cupcake"/>
+</main>
+<div class="page-overlay"></div>
 
 <div class="logIn-box">
     <div class="logIn-items">
-        <h2>Log in</h2>
-        <p th:if="${message}" style="color: red;">[[${message}]]</p>
-        <form action="/login" th:action="@{/login}" method="post" onsubmit="console.log('Form submitted!')">
-            <label for="email">E-mail</label>:
-            <input type="text" id="email" name="email" autofocus="autofocus"/><br/>
-            <label for="password">Password</label>:
-            <input type="password" id="password" name="password"/><br/>
-            <input class="button" type="submit" value="Log in"/>
+        <h2>Login or create user for <br> Olsker Cupcakes </h2>
+        <p th:if="${message}" class="error-message-login">[[${message}]]</p>
+
+        <form action="/login" th:action="@{/login}" method="post">
+            <div class="form-group">
+                <label for="email">Type your email below</label>
+                <input type="text" id="email" name="email" placeholder="Email" autofocus="autofocus"/>
+            </div>
+            <div class="form-group">
+                <label for="password">Type your password below</label>
+                <input type="password" id="password" name="password" placeholder="Password"/>
+            </div>
+            <div class="form-actions">
+                <input class="button login-button" type="submit" value="Login"/>
+                <a class="button create-button" href="createcustomer.html" th:href="@{/createCustomer}">Create user</a>
+            </div>
         </form>
     </div>
 </div>
 
-<div th:if="${session.currentCustomer != null}">
-    <span th:text="${session.currentCustomer.email}"></span>
-    <a href="index.html" th:href="@{/logout}">Logout</a>
-</div>
-
-<!--    Denne nedenstående linje, viser på siden den attribut som kommer, når der sker fejl på siden-->
-    <p th:text="${message}"></p>
-
-<p><a href="createcustomer.html" th:href="@{/createCustomer}">Create account</a></p>
-
-<p><a href="admin/adminlogin.html" th:href="@{/adminLogin}">Admin Login</a></p>
+<p class="admin-login-link"><a href="admin/adminlogin.html" th:href="@{/adminLogin}">Admin Login</a></p>
 
 </body>
 </html>
