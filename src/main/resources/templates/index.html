@@ -20,8 +20,12 @@
 
 <nav>
     <ul>
+        <li id="activeuser" th:if="${session.currentCustomer != null}">
+            <span th:text="${session.currentCustomer.email}"></span>
         <li id="homepagebutton"><a href="index.html" th:href="@{/}">Front page</a></li>
-        <li id="loginbutton"><a href="login.html" th:href="@{/login}">Log in</a></li>
+        <li id="loginbutton" th:if="${session.currentCustomer == null}">
+            <a href="login.html" th:href="@{/login}">Log in</a>
+        </li>
         <li id="logoutbutton" th:if="${session.currentCustomer != null}">
             <a href="index.html" th:href="@{/logout}">Logout</a>
         </li>
@@ -43,7 +47,10 @@
 </main>
 
 <div class="cta-container">
-    <a id="makefirstorder" href="login.html" th:href="@{/login}">Make your first order!</a>
+    <a id="makefirstorder" th:if="${session.currentCustomer == null}"
+        href="login.html" th:href="@{/login}">Make your first order!</a>
+    <a id="makeorder" th:if="${session.currentCustomer != null}"
+       href="cupcakeshop.html" th:href="@{/cupcakeshop}">Make your order!</a>
 </div>
 
 </body>

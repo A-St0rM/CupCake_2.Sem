@@ -16,6 +16,20 @@
     </a>
 </header>
 
+<nav>
+    <ul>
+        <li id="activeuser" th:if="${session.currentCustomer != null}">
+            <span th:text="${session.currentCustomer.email}"></span>
+        <li id="homepagebutton"><a href="index.html" th:href="@{/}">Front page</a></li>
+        <li id="loginbutton" th:if="${session.currentCustomer == null}">
+            <a href="login.html" th:href="@{/login}">Log in</a>
+        </li>
+        <li id="logoutbutton" th:if="${session.currentCustomer != null}">
+            <a href="index.html" th:href="@{/logout}">Logout</a>
+        </li>
+    </ul>
+</nav>
+
 <div class="top-buttons">
     <a th:href="@{/purchase-history}" class="btn-view-purchases">View your purchases</a>
     <a th:href="@{/cart}" class="btn-view-cart">Basket</a>
