@@ -43,15 +43,12 @@ public class StatusController {
 
     public void updatePickupStatus(Context ctx) {
         try {
-            int statusId = Integer.parseInt(ctx.formParam("statusId"));
+            int orderId = Integer.parseInt(ctx.formParam("orderId"));
             boolean isPickedUp = Boolean.parseBoolean(ctx.formParam("isPickedUp"));
 
-            boolean updated = statusMapper.updatePickupStatus(statusId, isPickedUp);
-            if (updated) {
-                ctx.status(200).result("Pickup status updated successfully.");
-            } else {
-                ctx.status(400).result("Failed to update pickup status.");
-            }
+            // Update database via StatusMapper
+            statusMapper.updatePickupStatus(orderId, isPickedUp);
+            ctx.redirect("/viewOrders");
         } catch (DatabaseException | NumberFormatException e) {
             ctx.status(500).result("Error updating pickup status: " + e.getMessage());
         }

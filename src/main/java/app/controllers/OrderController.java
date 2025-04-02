@@ -22,10 +22,11 @@ public class OrderController {
             List<CustomerOrderDTO> orders = orderMapper.getOrdersWithCustomerInfo();
 
             ctx.attribute("orders", orders);
-            ctx.render("admin/vieworders.html"); // sends the list to thymeleaf
+            ctx.render("admin/vieworders.html");
         } catch (DatabaseException e) {
+            System.out.println("ERROR: " + e.getMessage()); // Log the error
             ctx.attribute("message", "Kunne ikke hente ordrer");
-            ctx.render("error.html"); //TODO: add page
+            ctx.render("error.html");
         }
     }
 
@@ -37,5 +38,11 @@ public class OrderController {
         } catch (DatabaseException e) {
             ctx.status(500).result("Error fetching orders with status: " + e.getMessage());
         }
+    }
+
+    public void deleteOrder(Context ctx) throws DatabaseException {
+        int orderId = Integer.parseInt(ctx.pathParam("id"));
+        orderMapper.deleteOrderById(orderId);
+        ctx.redirect("/viewOrders");
     }
 }

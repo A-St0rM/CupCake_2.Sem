@@ -45,8 +45,8 @@ public class RoutingController {
 
         // Routing for Admin
         app.get("/controlPanel", ctx -> ctx.render("admin/controlpanel.html"));
-        app.get("/viewOrders", ctx -> ctx.render("admin/vieworders.html"));
-        app.post("viewOrders", ctx -> orderController.getAllOrders(ctx));
+        app.get("/viewOrders", ctx -> orderController.getAllOrders(ctx));
+        app.post("/deleteOrder/{id}", ctx -> orderController.deleteOrder(ctx));
         app.get("/adminLogin", ctx -> ctx.render("admin/adminlogin.html"));
         app.post("adminLogin", ctx -> adminController.adminLogin(ctx));
         app.get("/createAdmin", ctx -> ctx.render("admin/createadmin.html"));
