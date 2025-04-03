@@ -12,14 +12,17 @@ import io.javalin.http.Context;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public class AdminController {
 
     private final AdminMapper adminMapper;
+    private final CustomerMapper customerMapper;
 
     // Constructor injection
-    public AdminController(AdminMapper adminMapper) {
+    public AdminController(AdminMapper adminMapper, CustomerMapper customerMapper) {
         this.adminMapper = adminMapper;
+        this.customerMapper = customerMapper;
     }
 
 
@@ -75,6 +78,12 @@ public class AdminController {
             ctx.attribute("message", e.getMessage());
             ctx.render("admin/adminlogin.html");
         }
+    }
+
+    public void showInsertBalancePage(Context ctx) {
+        List<CustomerDTO> allCustomers = customerMapper.getAllCustomers(); // You must implement this
+        ctx.attribute("allCustomers", allCustomers);
+        ctx.render("admin/addbalance.html");
     }
 }
 

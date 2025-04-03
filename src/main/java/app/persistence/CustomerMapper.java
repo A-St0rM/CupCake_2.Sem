@@ -196,5 +196,29 @@ public class CustomerMapper {
         }
     }
 
+    public List<CustomerDTO> getAllCustomers() {
+        List<CustomerDTO> customers = new ArrayList<>();
+
+        String sql = "SELECT customer_id, email, balance FROM customers ORDER BY email ASC";
+
+        try (Connection conn = connectionPool.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                int id = rs.getInt("customer_id");
+                String email = rs.getString("email");
+                double balance = rs.getDouble("balance");
+
+                customers.add(new CustomerDTO(id, email, balance));
+            }
+
+        } catch (SQLException e) {
+            throw new DatabaseException("Could not fetch customers: " + e.getMessage());
+        }
+
+        return customers;
+    }
+
 }
 
