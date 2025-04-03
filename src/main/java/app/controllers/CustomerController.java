@@ -20,7 +20,7 @@ public class CustomerController {
 
     private final CustomerMapper customerMapper;
 
-    public CustomerController( CustomerMapper customerMapper) {
+    public CustomerController(CustomerMapper customerMapper) {
         this.customerMapper = customerMapper;
     }
 
