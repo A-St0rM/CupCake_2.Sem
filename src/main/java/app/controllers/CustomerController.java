@@ -40,7 +40,7 @@ public class CustomerController {
             try {
                 customerMapper.createCustomer(email, password1);
                 ctx.attribute("message", "Du er hermed oprettet som kunde med mailen: " + email);
-                ctx.render("index.html");
+                ctx.render("login.html");
 
             } catch (DatabaseException e) {
                 // Hvis brugernavnet allerede findes, så returneres denne besked
