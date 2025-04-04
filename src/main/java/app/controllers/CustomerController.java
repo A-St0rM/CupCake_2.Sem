@@ -3,6 +3,7 @@ package app.controllers;
 import app.DTO.CustomerDTO;
 import app.DTO.CustomerOrderDTO;
 import app.DTO.PurchaseOverviewDTO;
+import app.entities.Cupcake;
 import app.entities.Customer;
 import app.exceptions.DatabaseException;
 import app.persistence.ConnectionPool;
@@ -11,6 +12,7 @@ import io.javalin.Javalin;
 import io.javalin.http.Context;
 import org.jetbrains.annotations.NotNull;
 
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -18,7 +20,7 @@ public class CustomerController {
 
     private final CustomerMapper customerMapper;
 
-    public CustomerController( CustomerMapper customerMapper) {
+    public CustomerController(CustomerMapper customerMapper) {
         this.customerMapper = customerMapper;
     }
 
@@ -81,6 +83,43 @@ public class CustomerController {
             ctx.render("login.html");
         }
     }
+
+    public void insertNewBalance(Context ctx) {
+        try {
+            // Hent kunde-id og beløb fra formularen
+            String customerIdStr = ctx.formParam("customerId");
+            String amountStr = ctx.formParam("amount");
+
+            if (customerIdStr == null || amountStr == null) {
+                ctx.status(400).result("Mangler kunde eller beløb");
+                return;
+            }
+
+            int customerId = Integer.parseInt(customerIdStr);
+            BigDecimal amount = new BigDecimal(amountStr);
+
+            // Hent nuværende saldo for den valgte kunde
+            BigDecimal currentBalance = customerMapper.getBalanceByCustomerId(customerId);
+
+            // Beregn og opdater saldo
+            BigDecimal newBalance = currentBalance.add(amount);
+            boolean updated = customerMapper.updateCustomerBalance(customerId, newBalance);
+
+            if (updated) {
+                ctx.attribute("message", "The amount has been deposited into the customer's account. ✔️");
+                List<CustomerDTO> allCustomers = customerMapper.getAllCustomers();
+                ctx.attribute("allCustomers", allCustomers);
+                ctx.render("admin/addbalance.html");
+            } else {
+                ctx.status(400).result("Saldo blev ikke opdateret");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            ctx.status(500).result("Fejl ved indsættelse af penge: " + e.getMessage());
+        }
+    }
+
 
     public void getAllOrders(@NotNull Context ctx) {
         try {

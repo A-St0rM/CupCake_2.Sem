@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Insert Saldo</title>
+  <link href="/css/admin/controlpanel.css" th:href="@{/css/admin/controlpanel.css}" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header>
+  <a th:href="@{/controlPanel}">
+    <img id="banner" src="/images/CupcakeShop_header.png" th:src="@{/images/CupcakeShop_header.png}" />
+  </a>
+</header>
+
+<nav>
+  <ul>
+    <li><a class="active-user" th:text="${session.currentAdmin.email}"></a></li>
+    <li><a th:href="@{/controlPanel}">Control Panel</a></li>
+    <li><a th:href="@{/logout}">Logout</a></li>
+  </ul>
+</nav>
+
+<h2 class="admin-title">Deposit amount into customer account</h2>
+
+<div th:if="${message}" class="success-message">
+  <p th:text="${message}"></p>
+</div>
+<div class="balance-form">
+  <form method="post" th:action="@{/admin/addbalance}">
+    <label for="customerId">Select customer:</label>
+    <select name="customerId" id="customerId" required>
+      <option disabled selected>-- Vælg en kunde --</option>
+      <option th:each="customer : ${allCustomers}"
+              th:value="${customer.customerId}"
+              th:text="${customer.email + ' (' + customer.balance + ' kr)'}">
+      </option>
+    </select>
+
+    <label for="amount">Amount:</label>
+    <input type="number" name="amount" id="amount" step="0.01" min="0" required placeholder="Fx 100.00" />
+
+    <button class="admin-button" type="submit">Insert amount</button>
+  </form>
+</div>
+
+</body>
+</html>

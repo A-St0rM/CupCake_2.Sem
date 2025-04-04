@@ -27,7 +27,7 @@
 </nav>
 
 <div class="cart-container">
-    <h2>Din kurv</h2>
+    <h2>Your basket</h2>
 
     <div th:if="${error}" class="cart-error">
         <p th:text="${error}"></p>
@@ -52,20 +52,20 @@
     </div>
 
     <div th:if="${cupcakes == null or cupcakes.isEmpty()}" class="cart-empty">
-        <p>Kurven er tom</p>
+        <p>The basket is empty</p>
     </div>
 
     <div class="cart-summary">
         <p class="cart-total">Total: <span th:text="${totalPrice} + ' kr'"></span></p>
-        <p class="cart-balance">Din saldo: <span th:text="${balance} + ' kr'"></span></p>
+        <p class="cart-balance">Your balance: <span th:text="${balance} + ' kr'"></span></p>
     </div>
 
     <form th:action="@{/purchase}" method="post" class="buy-now-form">
-        <button type="submit" class="buy-now-button">Køb nu</button>
+        <button type="submit" class="buy-now-button">Buy now</button>
     </form>
 
     <div class="cart-back">
-        <a th:href="@{/cupcakeshop}" class="btn-back">Tilbage til shoppen</a>
+        <a th:href="@{/cupcakeshop}" class="btn-back">Back to the shop</a>
     </div>
 </div>
 </body>

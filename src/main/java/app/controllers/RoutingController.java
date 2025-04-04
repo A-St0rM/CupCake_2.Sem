@@ -51,6 +51,13 @@ public class RoutingController {
         app.post("adminLogin", ctx -> adminController.adminLogin(ctx));
         app.get("/createAdmin", ctx -> ctx.render("admin/createadmin.html"));
         app.post("createAdmin", ctx -> adminController.createAdmin(ctx));
+        // VIS FORMULAREN (GET)
+        app.get("/admin/addbalance", ctx -> adminController.showInsertBalancePage(ctx));
+
+        // HÅNDTER FORM SUBMIT (POST)
+        app.post("/admin/addbalance", ctx -> customerController.insertNewBalance(ctx));
+
+
 
         //Routing for cupcake
         app.post("/addCupcake", ctx -> cupcakeController.addCupcake(ctx));
