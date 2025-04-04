@@ -83,7 +83,7 @@ public class AdminController {
     public void showInsertBalancePage(Context ctx) {
         List<CustomerDTO> allCustomers = customerMapper.getAllCustomers(); // You must implement this
         ctx.attribute("allCustomers", allCustomers);
-        ctx.render("admin/addbalance.html");
+        ctx.render("/admin/addbalance.html");
     }
 }
 

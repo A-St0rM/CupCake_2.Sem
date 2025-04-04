@@ -106,7 +106,10 @@ public class CustomerController {
             boolean updated = customerMapper.updateCustomerBalance(customerId, newBalance);
 
             if (updated) {
-                ctx.redirect("/addbalance?success=true");
+                ctx.attribute("message", "The amount has been deposited into the customer's account. ✔️");
+                List<CustomerDTO> allCustomers = customerMapper.getAllCustomers();
+                ctx.attribute("allCustomers", allCustomers);
+                ctx.render("admin/addbalance.html");
             } else {
                 ctx.status(400).result("Saldo blev ikke opdateret");
             }

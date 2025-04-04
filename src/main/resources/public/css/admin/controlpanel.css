@@ -109,3 +109,71 @@ nav ul li .active-user:hover {
 .admin-button:hover {
     background-color: #eee;
 }
+
+.balance-form {
+    width: 100%;
+    max-width: 400px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #fff5f5;
+    border: 1px solid #fdd;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    box-sizing: border-box;
+}
+
+.balance-form label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+    margin-top: 1.2rem;
+    text-align: left;
+    color: #333;
+}
+
+.balance-form select,
+.balance-form input[type="number"] {
+    width: 100%;
+    padding: 0.7rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+    background-color: #fff;
+    margin-top: 0.2rem;
+    transition: border 0.3s;
+}
+
+.balance-form select:focus,
+.balance-form input:focus {
+    border-color: #ffb6c1;
+    outline: none;
+}
+
+.balance-form .admin-button {
+    margin-top: 1.8rem;
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    background-color: #ffe6e6;
+    color: #222;
+    border: 1px solid #f8bcbc;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.balance-form .admin-button:hover {
+    background-color: #fdd;
+}
+
+.success-message {
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    color: #155724;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+    text-align: center;
+}
+

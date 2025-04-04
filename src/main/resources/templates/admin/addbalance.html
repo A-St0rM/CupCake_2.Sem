@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Indsæt saldo</title>
+  <title>Insert Saldo</title>
   <link href="/css/admin/controlpanel.css" th:href="@{/css/admin/controlpanel.css}" rel="stylesheet">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,23 +24,26 @@
   </ul>
 </nav>
 
-<h2 class="admin-title">Indsæt beløb på kundekonto</h2>
+<h2 class="admin-title">Deposit amount into customer account</h2>
 
-<div class="button-container">
-  <form method="post" th:action="@{/admin/insert-balance}">
-    <label for="customerId">Vælg kunde:</label>
+<div th:if="${message}" class="success-message">
+  <p th:text="${message}"></p>
+</div>
+<div class="balance-form">
+  <form method="post" th:action="@{/admin/addbalance}">
+    <label for="customerId">Select customer:</label>
     <select name="customerId" id="customerId" required>
       <option disabled selected>-- Vælg en kunde --</option>
       <option th:each="customer : ${allCustomers}"
               th:value="${customer.customerId}"
-              th:text="${customer.email}">
+              th:text="${customer.email + ' (' + customer.balance + ' kr)'}">
       </option>
     </select>
 
-    <label for="amount">Beløb:</label>
+    <label for="amount">Amount:</label>
     <input type="number" name="amount" id="amount" step="0.01" min="0" required placeholder="Fx 100.00" />
 
-    <button class="admin-button" type="submit">Indsæt beløb</button>
+    <button class="admin-button" type="submit">Insert amount</button>
   </form>
 </div>
 
