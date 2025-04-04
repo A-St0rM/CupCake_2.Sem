@@ -3,14 +3,15 @@ package app.controllers;
 import app.DTO.CupcakeDTO;
 import app.entities.Cupcake;
 import app.entities.Customer;
+import app.entities.Order;
 import app.entities.Orderline;
 import app.exceptions.DatabaseException;
-import app.persistence.CustomerMapper;
-import app.persistence.OrderlineMapper;
+import app.persistence.*;
 import app.service.OrderlineService;
 import io.javalin.http.Context;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -19,11 +20,18 @@ public class OrderlineController {
     private final OrderlineService orderlineService;
     private final OrderlineMapper orderlineMapper;
     private final CustomerMapper customerMapper;
+    private final StatusMapper statusMapper;
+    private final OrderMapper orderMapper;
+    private final CupcakeMapper cupcakeMapper;
 
-    public OrderlineController(OrderlineService orderlineService, OrderlineMapper orderlineMapper, CustomerMapper customerMapper){
+    public OrderlineController(OrderlineService orderlineService, OrderlineMapper orderlineMapper, CustomerMapper customerMapper, StatusMapper statusMapper, OrderMapper orderMapper, CupcakeMapper cupcakeMapper){
         this.orderlineService = orderlineService;
         this.orderlineMapper = orderlineMapper;
         this.customerMapper = customerMapper;
+        this.statusMapper = statusMapper;
+        this.orderMapper = orderMapper;
+        this.cupcakeMapper = cupcakeMapper;
+
     }
 
     public void createOrderline(Context ctx) {
@@ -104,24 +112,41 @@ public class OrderlineController {
                 return;
             }
 
-            int orderId = orderlineService.getLatestOrderId(customerId);
-            int statusId = orderlineService.getStatusIdByOrderId(orderId);
-            boolean isPaid = orderlineService.isOrderPaid(statusId);
+            int orderId;
+            int orderlineId;
 
-            if (isPaid) {
-                ctx.attribute("cupcakes", List.of()); // Tom liste
-                ctx.attribute("totalPrice", 0);
-                ctx.attribute("balance", orderlineService.getCustomerBalance(customerId));
-                ctx.render("cart.html");
-                return;
+            try {
+                orderId = orderMapper.getLatestOrderIdByCustomer(customerId);
+                boolean isPaid = statusMapper.isPaidStatusByOrderId(orderId);
+
+                if (isPaid) {
+                    throw new DatabaseException("No active unpaid order");
+                }
+
+                orderlineId = orderlineMapper.getOrderlineIdByOrderId(orderId);
+
+            } catch (DatabaseException e) {
+                // Opret en tom ordre og tom orderline
+                int statusId = statusMapper.createStatus();
+                Order newOrder = new Order(0, customerId, LocalDate.now(), 0, statusId);
+                orderId = orderMapper.insertOrder(newOrder);
+
+                Orderline newOrderline = new Orderline(orderId, 0);
+                orderlineId = orderlineMapper.insertOrderline(newOrderline);
             }
 
-            List<CupcakeDTO> cupcakes = orderlineService.getCupcakesInCart(customerId);
-            int total = cupcakes.stream().mapToInt(c -> c.getPrice() * c.getQuantity()).sum();
+            // Hent cupcakes i kurven (kan være tom liste)
+            List<CupcakeDTO> cupcakes = cupcakeMapper.getCupcakesByOrderlineId(orderlineId);
+
+            int totalPrice = cupcakes.stream()
+                    .mapToInt(c -> c.getPrice() * c.getQuantity())
+                    .sum();
+
+            BigDecimal balance = customerMapper.getBalanceByCustomerId(customerId);
 
             ctx.attribute("cupcakes", cupcakes);
-            ctx.attribute("totalPrice", total);
-            ctx.attribute("balance", orderlineService.getCustomerBalance(customerId));
+            ctx.attribute("totalPrice", totalPrice);
+            ctx.attribute("balance", balance);
             ctx.render("cart.html");
 
         } catch (Exception e) {
