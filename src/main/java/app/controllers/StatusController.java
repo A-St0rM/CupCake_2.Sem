@@ -77,7 +77,7 @@ public class StatusController {
                 ctx.attribute("cupcakes", cupcakes);
                 ctx.attribute("totalPrice", totalPrice);
                 ctx.attribute("balance", balance);
-                ctx.attribute("error", "Du har ikke nok penge til at gennemføre købet 💸");
+                ctx.attribute("error", "You don't have enough money to complete the purchase");
 
                 ctx.render("cart.html");
                 return;
