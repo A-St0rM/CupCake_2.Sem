@@ -91,7 +91,6 @@
     </dependencies>
 
     <build>
-
         <finalName>app</finalName>
 
         <plugins>
@@ -137,5 +136,6 @@
             </plugin>
         </plugins>
     </build>
+
 
 </project>
